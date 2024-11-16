@@ -4,7 +4,10 @@
 #![cfg_attr(test, reexport_test_harness_main = "test_main")]
 #![cfg_attr(test, test_runner(agb::test_runner::test_runner))]
 
+#[allow(dead_code)]
+mod dungeon;
+
 #[agb::entry]
-fn main(mut gba: agb::Gba) -> ! {
-    agb::no_game(gba);
+fn main(mut _gba: agb::Gba) -> ! {
+    loop {}
 }
