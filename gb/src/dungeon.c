@@ -1,100 +1,79 @@
 #include "dungeon.h"
-#include "bool.h"
+#include <stdint.h>
+#include <stdbool.h>
 #include <stdlib.h>
-#include <rand.h>
-#include <math.h>
 
-const int MAP_WIDTH = 79;
-const int MAP_HEIGHT = 43;
+bool room_has_door(Dungeon* dungeon, int room, int direction);
+int get_neighbor_room_index(Dungeon* dungeon, int current_room, int direction);
+int get_opposite_direction_bit(int direction);
+unsigned int get_random_int(unsigned int min, unsigned int max);
+void generate_room(Dungeon* d, unsigned int cell_index_queue, int* cells_queue, unsigned int* queue_size);
+int neighbors = BIT_DOOR_NORTH | BIT_DOOR_EAST | BIT_DOOR_SOUTH | BIT_DOOR_WEST;
 
-Tile Tile_empty(void) {
-    Tile t;
-    t.blocked = false;
-    t.block_sight = false;
-    t.explored = false;
-    return t;
+void init_dungeon(Dungeon* d, const int width, const int height) {
+    d->width = width;
+    d->height = height;
+    d->grid = (uint8_t*)calloc(width * height, sizeof(uint8_t));
 }
 
-Tile Tile_wall(void) {
-    Tile t;
-    t.blocked = true;
-    t.block_sight = true;
-    t.explored = false;
-    return t;
-}
+void generate_dungeon(Dungeon* d) {
+    unsigned int i, entrance, generated_cells_number;
 
-int pcg_choose(void* v, size_t el_size) {
-    if (!v) {
-        return -1;
-    } else {
-        double size = (double)sizeof(v) / (double)el_size;
-        unsigned int num_digits = (unsigned int)round(log10(size));
-        unsigned int modulo = (unsigned int)pow(10.0, (double)num_digits);
-        unsigned int index_option = (unsigned int)(rand() % modulo);
+    int dungeon_area = d->width * d->height;
+    int* generated_cells = (int*)calloc(dungeon_area, sizeof(int));
+    generated_cells_number = 0;
 
-        while ((size - 1.0) < (double)index_option) {
-            index_option = (unsigned int)(rand() % modulo);
+    for (i = 0; (generated_cells_number < dungeon_area) && ((i == 0) || (i < generated_cells_number)); i++) {
+        if ((i == 0) && (generated_cells_number == 0)) {
+            entrance = get_random_int(0, dungeon_area);
+            generated_cells[0] = entrance;
+            d->grid[entrance] = BIT_ENTRANCE | BIT_USED_ROOM;
+            d->entrance = entrance;
+            generated_cells_number = 1;
         }
 
-        return (int)index_option;
-    }
-}
+        generate_room(d, i, generated_cells, &generated_cells_number);
 
-Map make_map(void) {
-    int num_room_tries = 100;
-    int extra_connector_chance = 25;
-    int winding_percent = 10;
-    int current_region = -1;
-    int map_width = MAP_WIDTH;
-    int map_height = MAP_HEIGHT;
-    UWORD seed = 0xef68;
-    initarand(seed);
+        if (!(d->grid[generated_cells[i]] & BIT_USED_ROOM)) {
+            d->grid[generated_cells[i]] |= BIT_USED_ROOM;
+        }
 
-    if ((map_width % 2) == 0) {
-        map_width -= 1;
-    }
-
-    if ((map_height % 2) == 0) {
-        map_height -= 1;
-    }
-
-    Map map = (Map)calloc(MAP_WIDTH, sizeof(Tile*));
-
-    for (int i = 0; i < MAP_WIDTH; i++) {
-        map[i] = (Tile*)calloc(map_height, sizeof(Tile));
-
-        for (int j = 0; j < map_height; j++) {
-            map[i][j] = Tile_wall();
+        if ((i == (generated_cells_number - 1)) && (generated_cells_number < (dungeon_area / 4 * 3))) {
+            i = -1;
         }
     }
-
-    int** regions = (int**)calloc(MAP_WIDTH, sizeof(int*));
-
-    for (int i = 0; i < MAP_WIDTH; i++) {
-        regions[i] = (int*)calloc(map_height, sizeof(int));
-
-        for (int j = 0; j < map_height; j++) {
-            regions[i][j] = 0;
-        }
-    }
+    
+    free(generated_cells);
 }
 
-void Map_free(Map map) {
-    int map_width = MAP_WIDTH;
-    int map_height = MAP_HEIGHT;
+void generate_room(Dungeon* d, unsigned int cell_index_queue, int* cells_queue, unsigned int* queue_size) {
+    int potential_doors = 0;
+    potential_doors = get_random_int(0, neighbors);
+    unsigned int cell_index = cells_queue[cell_index_queue];
 
-    if ((map_width % 2) == 0) {
-        map_width -= 1;
+    int door, opposite_door;
+
+    for (door = 1; door <= neighbors; dor <<= 1) {
+        if (((door & neighbors) != door) || (d->grid[cell_index] & door)) {
+            continue;
+        }
+
+        int neighbor_room = get_neighbor_room_index(d, cell_index, door);
+
+        if ((!~neighbor_room) || (d->grid[neighbor_room] & BIT_USED_ROOM)) {
+            continue;
+        }
+
+        opposite_door = get_opposite_direction_bit(door);
+
+        if ((door & potential_doors) == door) {
+            d->grid[cell_index] |= door;
+            d->grid[neighbor_room] |= opposite_door;
+        }
+
+        if (d->grid[neighbor_room] == opposite_door) {
+            cells_queue[*queue_size] = neighbor_room;
+            (*queue_size) += 1;
+        }
     }
-
-    if ((map_height % 2) == 0) {
-        map_height -= 1;
-    }
-
-    for (int i = 0; i < MAP_WIDTH; i++) {
-        free(map[i]);
-        map[i] = NULL;
-    }
-
-    free(map);
 }

@@ -1,5 +1,5 @@
 #include <gb/gb.h>
-#include "bool.h"
+#include <stdbool.h>
 #include "simple_sprite.h"
 #include "dungeon.h"
 

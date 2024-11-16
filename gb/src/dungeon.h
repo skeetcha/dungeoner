@@ -1,20 +1,33 @@
 #ifndef DUNGEON_H
 #define DUNGEON_H
 
-#include "bool.h"
+#include <stdint.h>
 
-typedef struct _tile {
-    bool blocked;
-    bool block_sight;
-    bool explored;
-} Tile;
+#define BIT_USED_ROOM   0x01
+#define BIT_ENTRANCE    0x02
+#define BIT_DOOR_NORTH  0x04
+#define BIT_DOOR_EAST   0x08
+#define BIT_DOOR_SOUTH  0x10
+#define BIT_DOOR_WEST   0x20
+#define BIT_STAIR_BELOW 0x40
+#define BIT_STAIR_UP    0x80
 
-Tile Tile_empty(void);
-Tile Tile_wall(void);
+#define IS_USED(room) ((room & BIT_USED_ROOM) == BIT_USED_ROOM)
+#define IS_ENTRANCE(room) ((room & BIT_ENTRANCE) == BIT_ENTRANCE)
+#define HAS_NORTH_DOOR(room) ((room & BIT_DOOR_NORTH) == BIT_DOOR_NORTH)
+#define HAS_EAST_DOOR(room) ((room & BIT_DOOR_EAST) == BIT_DOOR_EAST)
+#define HAS_WEST_DOOR(room) ((room & BIT_DOOR_WEST) == BIT_DOOR_WEST)
 
-typedef Tile** Map;
+typedef struct _dungeon {
+    uint8_t* grid;
+    int entrance;
+    int width;
+    int height;
+} Dungeon;
 
-Map make_map(void);
-void map_free(Map map);
+void init_dungeon(Dungeon* d, const int width, const int height);
+void generate_dungeon(Dungeon* d);
+void display_dungeon(Dungeon* d, int options);
+void free_dungeon(Dungeon* d);
 
 #endif
