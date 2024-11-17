@@ -17,6 +17,7 @@
 #define HAS_NORTH_DOOR(room) ((room & BIT_DOOR_NORTH) == BIT_DOOR_NORTH)
 #define HAS_EAST_DOOR(room) ((room & BIT_DOOR_EAST) == BIT_DOOR_EAST)
 #define HAS_WEST_DOOR(room) ((room & BIT_DOOR_WEST) == BIT_DOOR_WEST)
+#define HAS_SOUTH_DOOR(room) ((room & BIT_DOOR_SOUTH) == BIT_DOOR_SOUTH)
 
 typedef struct _dungeon {
     uint8_t* grid;

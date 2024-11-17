@@ -23,12 +23,21 @@
 #define dungeon_room_width 20
 #define dungeon_room_height 18
 
-#define dungeon_north_door_index 30
-#define dungeon_west_door_index 162
-#define dungeon_south_door_index 309
-#define dungeon_east_door_index 176
+//#define dungeon_north_door_index 30
+#define dungeon_north_door_index_x 10
+#define dungeon_north_door_index_y 1
+//#define dungeon_west_door_index 162
+#define dungeon_west_door_index_x 2
+#define dungeon_west_door_index_y 8
+//#define dungeon_south_door_index 309
+#define dungeon_south_door_index_x 9
+#define dungeon_south_door_index_y 15
+//#define dungeon_east_door_index 176
+#define dungeon_east_door_index_x 16
+#define dungeon_east_door_index_y 8
 
 extern const unsigned char dungeon_room[];
+extern const unsigned char door[];
 
 #endif
 
