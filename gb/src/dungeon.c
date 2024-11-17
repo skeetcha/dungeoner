@@ -3,11 +3,11 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <rand.h>
+#include "utils.h"
 
 bool room_has_door(Dungeon* dungeon, int room, int direction);
 int get_neighbor_room_index(Dungeon* dungeon, int current_room, int direction);
 int get_opposite_direction_bit(int direction);
-unsigned int get_random_int(unsigned int min, unsigned int max);
 void generate_room(Dungeon* d, unsigned int cell_index_queue, int* cells_queue, unsigned int* queue_size);
 int neighbors = BIT_DOOR_NORTH | BIT_DOOR_EAST | BIT_DOOR_SOUTH | BIT_DOOR_WEST;
 
@@ -26,7 +26,7 @@ void generate_dungeon(Dungeon* d) {
 
     for (i = 0; (generated_cells_number < dungeon_area) && ((i == 0) || (i < generated_cells_number)); i++) {
         if ((i == 0) && (generated_cells_number == 0)) {
-            entrance = get_random_int(0, dungeon_area);
+            entrance = rand_range(0, dungeon_area);
             generated_cells[0] = entrance;
             d->grid[entrance] = BIT_ENTRANCE | BIT_USED_ROOM;
             d->entrance = entrance;
@@ -49,7 +49,7 @@ void generate_dungeon(Dungeon* d) {
 
 void generate_room(Dungeon* d, unsigned int cell_index_queue, int* cells_queue, unsigned int* queue_size) {
     int potential_doors = 0;
-    potential_doors = get_random_int(0, neighbors);
+    potential_doors = rand_range(0, neighbors);
     unsigned int cell_index = cells_queue[cell_index_queue];
 
     int door, opposite_door;
@@ -77,10 +77,6 @@ void generate_room(Dungeon* d, unsigned int cell_index_queue, int* cells_queue, 
             (*queue_size) += 1;
         }
     }
-}
-
-unsigned int get_random_int(unsigned int min, unsigned int max) {
-    return rand() % (max - min) + min;
 }
 
 bool room_has_door(Dungeon* dungeon, int room, int direction) {
