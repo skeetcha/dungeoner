@@ -3,7 +3,7 @@ LCC = $(GBDK_HOME)bin/lcc
 ifdef GBC
 	LCCFLAGS += -Wa-l -Wm-yC
 else
-	LCCFLAGS += -Wm-yc
+	#LCCFLAGS += -Wm-yc
 endif
 
 ifdef GBDK_DEBUG
