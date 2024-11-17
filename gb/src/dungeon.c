@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <rand.h>
 
 bool room_has_door(Dungeon* dungeon, int room, int direction);
 int get_neighbor_room_index(Dungeon* dungeon, int current_room, int direction);
@@ -39,7 +40,7 @@ void generate_dungeon(Dungeon* d) {
         }
 
         if ((i == (generated_cells_number - 1)) && (generated_cells_number < (dungeon_area / 4 * 3))) {
-            i = -1;
+            break;
         }
     }
     
@@ -53,7 +54,7 @@ void generate_room(Dungeon* d, unsigned int cell_index_queue, int* cells_queue, 
 
     int door, opposite_door;
 
-    for (door = 1; door <= neighbors; dor <<= 1) {
+    for (door = 1; door <= neighbors; door <<= 1) {
         if (((door & neighbors) != door) || (d->grid[cell_index] & door)) {
             continue;
         }
@@ -76,4 +77,72 @@ void generate_room(Dungeon* d, unsigned int cell_index_queue, int* cells_queue, 
             (*queue_size) += 1;
         }
     }
+}
+
+unsigned int get_random_int(unsigned int min, unsigned int max) {
+    return rand() % (max - min) + min;
+}
+
+bool room_has_door(Dungeon* dungeon, int room, int direction) {
+    int needed_bit = direction;
+    return (dungeon->grid[room] & needed_bit) == needed_bit;
+}
+
+int get_opposite_direction_bit(int direction) {
+    int opposite_direction = -1;
+
+    switch (direction) {
+        case BIT_DOOR_NORTH:
+            opposite_direction = BIT_DOOR_SOUTH;
+            break;
+        case BIT_DOOR_WEST:
+            opposite_direction = BIT_DOOR_EAST;
+            break;
+        case BIT_DOOR_SOUTH:
+            opposite_direction = BIT_DOOR_NORTH;
+            break;
+        case BIT_DOOR_EAST:
+            opposite_direction = BIT_DOOR_WEST;
+            break;
+    }
+
+    return opposite_direction;
+}
+
+int get_neighbor_room_index(Dungeon* dungeon, int current_room, int direction) {
+    int neighbor_room, width, height;
+    width = dungeon->width;
+    height = dungeon->height;
+
+    switch (direction) {
+        case BIT_DOOR_NORTH:
+            neighbor_room = current_room - width;
+            break;
+        case BIT_DOOR_EAST:
+            neighbor_room = current_room + 1;
+            break;
+        case BIT_DOOR_SOUTH:
+            neighbor_room = current_room + width;
+            break;
+        case BIT_DOOR_WEST:
+            neighbor_room = current_room - 1;
+            break;
+        default:
+            neighbor_room = -1;
+    }
+
+    if (
+        ((direction == BIT_DOOR_NORTH) && (neighbor_room >= 0))
+        || ((direction == BIT_DOOR_SOUTH) && (neighbor_room < (width * height)))
+        || ((direction == BIT_DOOR_EAST) && ((neighbor_room % width) > 0))
+        || ((direction == BIT_DOOR_WEST) && ((neighbor_room % width) < (width - 1)))
+    ) {
+        return neighbor_room;
+    }
+
+    return -1;
+}
+
+void free_dungeon(Dungeon* d) {
+    free(d->grid);
 }

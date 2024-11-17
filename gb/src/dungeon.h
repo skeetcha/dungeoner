@@ -27,7 +27,6 @@ typedef struct _dungeon {
 
 void init_dungeon(Dungeon* d, const int width, const int height);
 void generate_dungeon(Dungeon* d);
-void display_dungeon(Dungeon* d, int options);
 void free_dungeon(Dungeon* d);
 
 #endif
