@@ -5,7 +5,7 @@
 
 void main(void) {
     set_bkg_data(0, 14, dungeon_tiles);
-    set_bkg_tiles(0, 0, 21, 21, dungeon_room);
+    set_bkg_tiles(0, 0, dungeon_room_width, dungeon_room_height, dungeon_room);
 
     SHOW_BKG;
     DISPLAY_ON;

@@ -24,7 +24,7 @@ ASMSOURCES = $(wildcard src/*.s)
 all: build
 
 run: build
-	mgba-qt -8 $(BINS)
+	mgba-qt -5 $(BINS)
 
 build: $(BINS)
 

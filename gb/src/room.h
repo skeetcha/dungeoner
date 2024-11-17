@@ -20,9 +20,8 @@
 #ifndef __room_h_INCLUDE
 #define __room_h_INCLUDE
 
-#define dungeon_roomWidth 21
-#define dungeon_roomHeight 21
-#define dungeon_roomBank 0
+#define dungeon_room_width 20
+#define dungeon_room_height 18
 
 extern const unsigned char dungeon_room[];
 
