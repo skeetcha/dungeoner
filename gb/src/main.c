@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <rand.h>
+#include "metasprite.h"
+#include "../res/rogue.h"
 
 void set_door(int direction) {
     switch (direction) {
@@ -31,6 +33,7 @@ bool run = true;
 void main(void) {
     SHOW_BKG;
     DISPLAY_ON;
+    SHOW_SPRITES;
 
     UWORD seed;
 
@@ -68,6 +71,9 @@ void main(void) {
     if (HAS_SOUTH_DOOR(room)) {
         set_door(BIT_DOOR_SOUTH);
     }
+
+    set_sprite_data(0, 4*1, rogue_tiles);
+    move_metasprite_ex(metasprite, 0, 0, 0, 80, 80);
 
     while (run) {
         joypad_current = joypad();

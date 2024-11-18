@@ -1,0 +1,63 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    _DIV_REG                                                        ******** GX
+    _LCDC_REG                                                       ******** GX
+    ___current_base_prop                                            ******** GX
+    ___current_base_tile                                            ******** GX
+    ___current_metasprite                                           ******** GX
+    ___move_metasprite                                              ******** GX
+  0 ___str_1                                                        00000196 R
+  0 ___str_3                                                        000001A7 R
+  0 ___str_4                                                        000001B8 R
+  0 ___str_5                                                        000001BB R
+  7 __xinit__joypad_current                                         00000000 R
+  7 __xinit__joypad_last                                            00000002 R
+  7 __xinit__run                                                    00000004 R
+    _display_off                                                    ******** GX
+    _door                                                           ******** GX
+    _dungeon_room                                                   ******** GX
+    _dungeon_tiles                                                  ******** GX
+    _free_dungeon                                                   ******** GX
+    _generate_dungeon                                               ******** GX
+    _init_dungeon                                                   ******** GX
+    _initarand                                                      ******** GX
+    _joypad                                                         ******** GX
+  2 _joypad_current                                                 00000000 GR
+  2 _joypad_last                                                    00000002 GR
+  0 _main                                                           00000061 GR
+    _metasprite                                                     ******** GX
+    _printf                                                         ******** GX
+    _puts                                                           ******** GX
+    _rogue_tiles                                                    ******** GX
+  2 _run                                                            00000004 GR
+    _set_bkg_data                                                   ******** GX
+    _set_bkg_tiles                                                  ******** GX
+  0 _set_door                                                       00000000 GR
+    _set_sprite_data                                                ******** GX
+    _vsync                                                          ******** GX
+    _waitpad                                                        ******** GX
+    _waitpadup                                                      ******** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size      1C8   flags    0
+   1 _DATA                                      size        0   flags    0
+   2 _INITIALIZED                               size        5   flags    0
+   3 _DABS                                      size        0   flags    8
+   4 _HOME                                      size        0   flags    0
+   5 _GSINIT                                    size        0   flags    0
+   6 _GSFINAL                                   size        0   flags    0
+   7 _INITIALIZER                               size        5   flags    0
+   8 _CABS                                      size        0   flags    8
+

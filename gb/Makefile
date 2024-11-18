@@ -12,24 +12,50 @@ endif
 
 PROJECTNAME = dungeoner
 
+SRCDIR = src
+OBJDIR = obj
+RESDIR = res
+
 ifdef GBC
-	BINS = $(PROJECTNAME).gbc
+	BINS = $(OBJDIR)/$(PROJECTNAME).gbc
 else
-	BINS = $(PROJECTNAME).gb
+	BINS = $(OBJDIR)/$(PROJECTNAME).gb
 endif
 
-CSOURCES = $(wildcard src/*.c)
-ASMSOURCES = $(wildcard src/*.s)
+CSOURCES = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.c))) $(foreach dir,$(RESDIR),$(notdir $(wildcard $(dir)/*.c)))
+ASMSOURCES = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.s))) $(foreach dir,$(RESDIR),$(notdir $(wildcard $(dir)/*.s)))
+OBJS = $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
 
-all: build
+all: prepare $(BINS)
 
-run: build
-	mgba-qt -5 $(BINS)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(LCC) $(LCCFLAGS) -c -o $@ $<
 
-build: $(BINS)
+$(OBJDIR)/%.o: $(RESDIR)/%.c
+	$(LCC) $(LCCFLAGS) -c -o $@ $<
 
-$(BINS): $(CSOURCES) $(ASMSOURCES)
-	$(LCC) $(LCCFLAGS) -o $@ $(CSOURCES) $(ASMSOURCES)
+$(OBJDIR)/%.o: $(SRC)/%.s
+	$(LCC) $(LCCFLAGS) -c -o $@ $<
+
+$(OBJDIR)/%.o: $(RESDIR)/%.s
+	$(LCC) $(LCCFLAGS) -c -o $@ $<
+
+$(BINS): $(OBJS)
+	$(LCC) $(LCCFLAGS) -o $(BINS) $(OBJS)
+
+prepare: $(SRCDIR) $(OBJDIR) $(RESDIR) $(BINDIR)
+
+$(SRCDIR):
+	mkdir -p $@
+
+$(OBJDIR):
+	mkdir -p $@
+
+$(RESDIR):
+	mkdir -p $@
+
+$(BINDIR):
+	mkdir -p $@
 
 clean:
-	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm *.noi *.rst *.gba *.gbc
+	rm -f $(OBJDIR)/*.*
