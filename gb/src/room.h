@@ -24,7 +24,7 @@
 #define dungeon_room_height 18
 
 //#define dungeon_north_door_index 30
-#define dungeon_north_door_index_x 10
+#define dungeon_north_door_index_x 9
 #define dungeon_north_door_index_y 1
 //#define dungeon_west_door_index 162
 #define dungeon_west_door_index_x 2

@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <rand.h>
-#include <time.h>
 
 void set_door(int direction) {
     switch (direction) {
@@ -30,9 +29,22 @@ unsigned int joypad_last = 0;
 bool run = true;
 
 void main(void) {
-    clock_t time_val = clock();
-    time_t conv_time_val = time(&time_val);
-    initarand(conv_time_val);
+    SHOW_BKG;
+    DISPLAY_ON;
+
+    UWORD seed;
+
+    printf("Push any key (1)\n");
+    waitpad(0xff);
+    waitpadup();
+    seed = DIV_REG;
+    printf("Push any key (2)\n");
+    waitpad(0xff);
+    waitpadup();
+    seed |= (UWORD)DIV_REG << 8;
+    printf("%u", seed);
+    initarand(seed);
+
     set_bkg_data(0, 14, dungeon_tiles);
     set_bkg_tiles(0, 0, dungeon_room_width, dungeon_room_height, dungeon_room);
 
@@ -56,9 +68,6 @@ void main(void) {
     if (HAS_SOUTH_DOOR(room)) {
         set_door(BIT_DOOR_SOUTH);
     }
-
-    SHOW_BKG;
-    DISPLAY_ON;
 
     while (run) {
         joypad_current = joypad();
