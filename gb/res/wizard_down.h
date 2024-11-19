@@ -7,11 +7,11 @@
 #include <gbdk/metasprites.h>
 
 #define wizard_down_TILE_ORIGIN 0
-#define wizard_down_TILE_W 16
-#define wizard_down_TILE_H 16
+#define wizard_down_TILE_W 8
+#define wizard_down_TILE_H 8
 #define wizard_down_WIDTH 16
 #define wizard_down_HEIGHT 16
-#define wizard_down_TILE_COUNT 12
+#define wizard_down_TILE_COUNT 10
 #define wizard_down_PALETTE_COUNT 1
 #define wizard_down_COLORS_PER_PALETTE 4
 #define wizard_down_TOTAL_COLORS 4
@@ -24,6 +24,6 @@ extern const metasprite_t* const wizard_down_metasprites[3];
 BANKREF_EXTERN(wizard_down)
 
 extern const palette_color_t wizard_down_palettes[4];
-extern const uint8_t wizard_down_tiles[192];
+extern const uint8_t wizard_down_tiles[160];
 
 #endif

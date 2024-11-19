@@ -7,11 +7,11 @@
 #include <gbdk/metasprites.h>
 
 #define cleric_left_TILE_ORIGIN 0
-#define cleric_left_TILE_W 16
-#define cleric_left_TILE_H 16
+#define cleric_left_TILE_W 8
+#define cleric_left_TILE_H 8
 #define cleric_left_WIDTH 16
 #define cleric_left_HEIGHT 16
-#define cleric_left_TILE_COUNT 12
+#define cleric_left_TILE_COUNT 10
 #define cleric_left_PALETTE_COUNT 1
 #define cleric_left_COLORS_PER_PALETTE 4
 #define cleric_left_TOTAL_COLORS 4
@@ -24,6 +24,6 @@ extern const metasprite_t* const cleric_left_metasprites[3];
 BANKREF_EXTERN(cleric_left)
 
 extern const palette_color_t cleric_left_palettes[4];
-extern const uint8_t cleric_left_tiles[192];
+extern const uint8_t cleric_left_tiles[160];
 
 #endif
