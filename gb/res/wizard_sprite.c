@@ -4,14 +4,14 @@
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
 
-BANKREF(wizard)
+BANKREF(wizard_sprite)
 
-const palette_color_t wizard_palettes[4] = {
+const palette_color_t wizard_sprite_palettes[4] = {
 	RGB8(255,255,255), RGB8(252,224,168), RGB8(248, 56,  0), RGB8(  8,  8,  8)
 	
 };
 
-const uint8_t wizard_tiles[576] = {
+const uint8_t wizard_sprite_tiles[576] = {
 	0x00,0x00,0x01,0x01,
 	0x06,0x07,0x08,0x0f,
 	0x08,0x0f,0x0b,0x0f,
@@ -167,19 +167,51 @@ const uint8_t wizard_tiles[576] = {
 	
 };
 
-const metasprite_t wizard_metasprite0[] = {
-	METASPR_ITEM(-24, -24, 0, S_PAL(0)),
-	METASPR_ITEM(0, 16, 4, S_PAL(0)),
-	METASPR_ITEM(0, 16, 8, S_PAL(0)),
-	METASPR_ITEM(16, -32, 12, S_PAL(0)),
-	METASPR_ITEM(0, 16, 16, S_PAL(0)),
-	METASPR_ITEM(0, 16, 20, S_PAL(0)),
-	METASPR_ITEM(16, -32, 24, S_PAL(0)),
-	METASPR_ITEM(0, 16, 28, S_PAL(0)),
-	METASPR_ITEM(0, 16, 32, S_PAL(0)),
+const metasprite_t wizard_sprite_metasprite0[] = {
+	METASPR_ITEM(-8, -8, 0, S_PAL(0)),
 	METASPR_TERM
 };
 
-const metasprite_t* const wizard_metasprites[1] = {
-	wizard_metasprite0
+const metasprite_t wizard_sprite_metasprite1[] = {
+	METASPR_ITEM(-8, -8, 4, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t wizard_sprite_metasprite2[] = {
+	METASPR_ITEM(-8, -8, 8, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t wizard_sprite_metasprite3[] = {
+	METASPR_ITEM(-8, -8, 12, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t wizard_sprite_metasprite4[] = {
+	METASPR_ITEM(-8, -8, 16, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t wizard_sprite_metasprite5[] = {
+	METASPR_ITEM(-8, -8, 20, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t wizard_sprite_metasprite6[] = {
+	METASPR_ITEM(-8, -8, 24, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t wizard_sprite_metasprite7[] = {
+	METASPR_ITEM(-8, -8, 28, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t wizard_sprite_metasprite8[] = {
+	METASPR_ITEM(-8, -8, 32, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t* const wizard_sprite_metasprites[9] = {
+	wizard_sprite_metasprite0, wizard_sprite_metasprite1, wizard_sprite_metasprite2, wizard_sprite_metasprite3, wizard_sprite_metasprite4, wizard_sprite_metasprite5, wizard_sprite_metasprite6, wizard_sprite_metasprite7, wizard_sprite_metasprite8
 };

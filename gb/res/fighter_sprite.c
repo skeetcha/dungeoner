@@ -4,14 +4,14 @@
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
 
-BANKREF(fighter)
+BANKREF(fighter_sprite)
 
-const palette_color_t fighter_palettes[4] = {
+const palette_color_t fighter_sprite_palettes[4] = {
 	RGB8(255,255,255), RGB8(227, 92,  6), RGB8(  0,169,  0), RGB8(  0,  0,  0)
 	
 };
 
-const uint8_t fighter_tiles[576] = {
+const uint8_t fighter_sprite_tiles[576] = {
 	0x00,0x00,0x01,0x01,
 	0x67,0x67,0x79,0x5f,
 	0x3f,0x2f,0x1f,0x18,
@@ -167,19 +167,51 @@ const uint8_t fighter_tiles[576] = {
 	
 };
 
-const metasprite_t fighter_metasprite0[] = {
-	METASPR_ITEM(-24, -24, 0, S_PAL(0)),
-	METASPR_ITEM(0, 16, 4, S_PAL(0)),
-	METASPR_ITEM(0, 16, 8, S_PAL(0)),
-	METASPR_ITEM(16, -32, 12, S_PAL(0)),
-	METASPR_ITEM(0, 16, 16, S_PAL(0)),
-	METASPR_ITEM(0, 16, 20, S_PAL(0)),
-	METASPR_ITEM(16, -32, 24, S_PAL(0)),
-	METASPR_ITEM(0, 16, 28, S_PAL(0)),
-	METASPR_ITEM(0, 16, 32, S_PAL(0)),
+const metasprite_t fighter_sprite_metasprite0[] = {
+	METASPR_ITEM(-8, -8, 0, S_PAL(0)),
 	METASPR_TERM
 };
 
-const metasprite_t* const fighter_metasprites[1] = {
-	fighter_metasprite0
+const metasprite_t fighter_sprite_metasprite1[] = {
+	METASPR_ITEM(-8, -8, 4, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t fighter_sprite_metasprite2[] = {
+	METASPR_ITEM(-8, -8, 8, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t fighter_sprite_metasprite3[] = {
+	METASPR_ITEM(-8, -8, 12, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t fighter_sprite_metasprite4[] = {
+	METASPR_ITEM(-8, -8, 16, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t fighter_sprite_metasprite5[] = {
+	METASPR_ITEM(-8, -8, 20, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t fighter_sprite_metasprite6[] = {
+	METASPR_ITEM(-8, -8, 24, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t fighter_sprite_metasprite7[] = {
+	METASPR_ITEM(-8, -8, 28, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t fighter_sprite_metasprite8[] = {
+	METASPR_ITEM(-8, -8, 32, S_PAL(0)),
+	METASPR_TERM
+};
+
+const metasprite_t* const fighter_sprite_metasprites[9] = {
+	fighter_sprite_metasprite0, fighter_sprite_metasprite1, fighter_sprite_metasprite2, fighter_sprite_metasprite3, fighter_sprite_metasprite4, fighter_sprite_metasprite5, fighter_sprite_metasprite6, fighter_sprite_metasprite7, fighter_sprite_metasprite8
 };
