@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <rand.h>
-#include "../res/sprite_loader.h"
+#include "metasprite.h"
 #include "../res/rogue.h"
 
 void set_door(int direction) {
@@ -72,7 +72,8 @@ void main(void) {
         set_door(BIT_DOOR_SOUTH);
     }
 
-    load_sprites();
+    set_sprite_data(0, 4*1, rogue_tiles);
+    move_metasprite_ex(metasprite, 0, 0, 0, 80, 80);
 
     while (run) {
         joypad_current = joypad();

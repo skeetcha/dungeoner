@@ -10,13 +10,13 @@
                                      10 ;--------------------------------------------------------
                                      11 	.globl _main
                                      12 	.globl _set_door
-                                     13 	.globl _load_sprites
-                                     14 	.globl _initarand
-                                     15 	.globl _puts
-                                     16 	.globl _printf
-                                     17 	.globl _free_dungeon
-                                     18 	.globl _generate_dungeon
-                                     19 	.globl _init_dungeon
+                                     13 	.globl _initarand
+                                     14 	.globl _puts
+                                     15 	.globl _printf
+                                     16 	.globl _free_dungeon
+                                     17 	.globl _generate_dungeon
+                                     18 	.globl _init_dungeon
+                                     19 	.globl _set_sprite_data
                                      20 	.globl _set_bkg_tiles
                                      21 	.globl _set_bkg_data
                                      22 	.globl _display_off
@@ -159,7 +159,7 @@
     00000071 F6 02            [ 8]  159 	or	a, #0x02
     00000073 E0r00            [12]  160 	ldh	(_LCDC_REG + 0), a
                                     161 ;src/main.c:40: printf("Push any key (1)\n");
-    00000075 11r70r01         [12]  162 	ld	de, #___str_1
+    00000075 11r96r01         [12]  162 	ld	de, #___str_1
     00000078 CDr00r00         [24]  163 	call	_puts
                                     164 ;src/main.c:41: waitpad(0xff);
     0000007B 3E FF            [ 8]  165 	ld	a, #0xff
@@ -172,7 +172,7 @@
     00000086 06 00            [ 8]  172 	ld	b, #0x00
                                     173 ;src/main.c:44: printf("Push any key (2)\n");
     00000088 C5               [16]  174 	push	bc
-    00000089 11r81r01         [12]  175 	ld	de, #___str_3
+    00000089 11rA7r01         [12]  175 	ld	de, #___str_3
     0000008C CDr00r00         [24]  176 	call	_puts
     0000008F C1               [12]  177 	pop	bc
                                     178 ;src/main.c:45: waitpad(0xff);
@@ -186,7 +186,7 @@
                                     186 ;src/main.c:48: printf("%u", seed);
     0000009B C5               [16]  187 	push	bc
     0000009C C5               [16]  188 	push	bc
-    0000009D 11r92r01         [12]  189 	ld	de, #___str_4
+    0000009D 11rB8r01         [12]  189 	ld	de, #___str_4
     000000A0 D5               [16]  190 	push	de
     000000A1 CDr00r00         [24]  191 	call	_printf
     000000A4 E8 04            [16]  192 	add	sp, #4
@@ -279,80 +279,105 @@
     0000011D 11 10 00         [12]  279 	ld	de, #0x0010
     00000120 CDr00r00         [24]  280 	call	_set_door
     00000123                        281 00108$:
-                                    282 ;src/main.c:75: load_sprites();
-    00000123 CDr00r00         [24]  283 	call	_load_sprites
-                                    284 ;src/main.c:77: while (run) {
-    00000126                        285 00111$:
-    00000126 21r04r00         [12]  286 	ld	hl, #_run
-    00000129 CB 46            [12]  287 	bit	0, (hl)
-    0000012B 28 26            [12]  288 	jr	Z, 00113$
-                                    289 ;src/main.c:78: joypad_current = joypad();
-    0000012D CDr00r00         [24]  290 	call	_joypad
-    00000130 21r00r00         [12]  291 	ld	hl, #_joypad_current
-    00000133 22               [ 8]  292 	ld	(hl+), a
-    00000134 36 00            [12]  293 	ld	(hl), #0x00
-                                    294 ;src/main.c:80: if (joypad_current & J_SELECT) {
-    00000136 E5               [16]  295 	push	hl
-    00000137 2B               [ 8]  296 	dec	hl
-    00000138 CB 76            [12]  297 	bit	6, (hl)
-    0000013A E1               [12]  298 	pop	hl
-    0000013B 28 05            [12]  299 	jr	Z, 00110$
-                                    300 ;src/main.c:81: run = false;
-    0000013D 21r04r00         [12]  301 	ld	hl, #_run
-    00000140 36 00            [12]  302 	ld	(hl), #0x00
-    00000142                        303 00110$:
-                                    304 ;src/main.c:84: vsync();
-    00000142 CDr00r00         [24]  305 	call	_vsync
-                                    306 ;src/main.c:85: joypad_last = joypad_current;
-    00000145 FAr00r00         [16]  307 	ld	a, (#_joypad_current)
-    00000148 EAr02r00         [16]  308 	ld	(#_joypad_last),a
-    0000014B FAr01r00         [16]  309 	ld	a, (#_joypad_current + 1)
-    0000014E EAr03r00         [16]  310 	ld	(#_joypad_last + 1),a
-    00000151 18 D3            [12]  311 	jr	00111$
-    00000153                        312 00113$:
-                                    313 ;src/main.c:88: HIDE_BKG;
-    00000153 F0r00            [12]  314 	ldh	a, (_LCDC_REG + 0)
-    00000155 E6 FE            [ 8]  315 	and	a, #0xfe
-    00000157 E0r00            [12]  316 	ldh	(_LCDC_REG + 0), a
-                                    317 ;src/main.c:89: DISPLAY_OFF;
-    00000159 CDr00r00         [24]  318 	call	_display_off
-                                    319 ;src/main.c:90: free_dungeon(&dungeon);
-    0000015C 21 00 00         [12]  320 	ld	hl, #0
-    0000015F 39               [ 8]  321 	add	hl, sp
-    00000160 5D               [ 4]  322 	ld	e, l
-    00000161 54               [ 4]  323 	ld	d, h
-    00000162 CDr00r00         [24]  324 	call	_free_dungeon
-                                    325 ;src/main.c:91: printf("Game closed.");
-    00000165 11r95r01         [12]  326 	ld	de, #___str_5
-    00000168 D5               [16]  327 	push	de
-    00000169 CDr00r00         [24]  328 	call	_printf
-    0000016C E1               [12]  329 	pop	hl
-                                    330 ;src/main.c:92: }
-    0000016D E8 08            [16]  331 	add	sp, #8
-    0000016F C9               [16]  332 	ret
-    00000170                        333 ___str_1:
-    00000170 50 75 73 68 20 61 6E   334 	.ascii "Push any key (1)"
+                                    282 ;src/main.c:75: set_sprite_data(0, 4*1, rogue_tiles);
+    00000123 11r00r00         [12]  283 	ld	de, #_rogue_tiles
+    00000126 D5               [16]  284 	push	de
+    00000127 3E 04            [ 8]  285 	ld	a, #0x04
+    00000129 F5               [16]  286 	push	af
+    0000012A 33               [ 8]  287 	inc	sp
+    0000012B AF               [ 4]  288 	xor	a, a
+    0000012C F5               [16]  289 	push	af
+    0000012D 33               [ 8]  290 	inc	sp
+    0000012E CDr00r00         [24]  291 	call	_set_sprite_data
+    00000131 E8 04            [16]  292 	add	sp, #4
+                                    293 ;src/main.c:76: move_metasprite_ex(metasprite, 0, 0, 0, 80, 80);
+                                    294 ;/home/cass-forest/Documents/gbdk/include/gb/metasprites.h:160: __current_metasprite = metasprite;
+    00000133 21r00r00         [12]  295 	ld	hl, #___current_metasprite
+    00000136 36r00            [12]  296 	ld	(hl), #<(_metasprite)
+    00000138 23               [ 8]  297 	inc	hl
+    00000139 36s00            [12]  298 	ld	(hl), #>(_metasprite)
+                                    299 ;/home/cass-forest/Documents/gbdk/include/gb/metasprites.h:161: __current_base_tile = base_tile;
+    0000013B 21r00r00         [12]  300 	ld	hl, #___current_base_tile
+    0000013E 36 00            [12]  301 	ld	(hl), #0x00
+                                    302 ;/home/cass-forest/Documents/gbdk/include/gb/metasprites.h:162: __current_base_prop = base_prop;
+    00000140 21r00r00         [12]  303 	ld	hl, #___current_base_prop
+    00000143 36 00            [12]  304 	ld	(hl), #0x00
+                                    305 ;/home/cass-forest/Documents/gbdk/include/gb/metasprites.h:163: return __move_metasprite(base_sprite, (y << 8) | (uint8_t)x);
+    00000145 11 50 50         [12]  306 	ld	de, #0x5050
+    00000148 AF               [ 4]  307 	xor	a, a
+    00000149 CDr00r00         [24]  308 	call	___move_metasprite
+                                    309 ;src/main.c:78: while (run) {
+    0000014C                        310 00111$:
+    0000014C 21r04r00         [12]  311 	ld	hl, #_run
+    0000014F CB 46            [12]  312 	bit	0, (hl)
+    00000151 28 26            [12]  313 	jr	Z, 00113$
+                                    314 ;src/main.c:79: joypad_current = joypad();
+    00000153 CDr00r00         [24]  315 	call	_joypad
+    00000156 21r00r00         [12]  316 	ld	hl, #_joypad_current
+    00000159 22               [ 8]  317 	ld	(hl+), a
+    0000015A 36 00            [12]  318 	ld	(hl), #0x00
+                                    319 ;src/main.c:81: if (joypad_current & J_SELECT) {
+    0000015C E5               [16]  320 	push	hl
+    0000015D 2B               [ 8]  321 	dec	hl
+    0000015E CB 76            [12]  322 	bit	6, (hl)
+    00000160 E1               [12]  323 	pop	hl
+    00000161 28 05            [12]  324 	jr	Z, 00110$
+                                    325 ;src/main.c:82: run = false;
+    00000163 21r04r00         [12]  326 	ld	hl, #_run
+    00000166 36 00            [12]  327 	ld	(hl), #0x00
+    00000168                        328 00110$:
+                                    329 ;src/main.c:85: vsync();
+    00000168 CDr00r00         [24]  330 	call	_vsync
+                                    331 ;src/main.c:86: joypad_last = joypad_current;
+    0000016B FAr00r00         [16]  332 	ld	a, (#_joypad_current)
+    0000016E EAr02r00         [16]  333 	ld	(#_joypad_last),a
+    00000171 FAr01r00         [16]  334 	ld	a, (#_joypad_current + 1)
+    00000174 EAr03r00         [16]  335 	ld	(#_joypad_last + 1),a
+    00000177 18 D3            [12]  336 	jr	00111$
+    00000179                        337 00113$:
+                                    338 ;src/main.c:89: HIDE_BKG;
+    00000179 F0r00            [12]  339 	ldh	a, (_LCDC_REG + 0)
+    0000017B E6 FE            [ 8]  340 	and	a, #0xfe
+    0000017D E0r00            [12]  341 	ldh	(_LCDC_REG + 0), a
+                                    342 ;src/main.c:90: DISPLAY_OFF;
+    0000017F CDr00r00         [24]  343 	call	_display_off
+                                    344 ;src/main.c:91: free_dungeon(&dungeon);
+    00000182 21 00 00         [12]  345 	ld	hl, #0
+    00000185 39               [ 8]  346 	add	hl, sp
+    00000186 5D               [ 4]  347 	ld	e, l
+    00000187 54               [ 4]  348 	ld	d, h
+    00000188 CDr00r00         [24]  349 	call	_free_dungeon
+                                    350 ;src/main.c:92: printf("Game closed.");
+    0000018B 11rBBr01         [12]  351 	ld	de, #___str_5
+    0000018E D5               [16]  352 	push	de
+    0000018F CDr00r00         [24]  353 	call	_printf
+    00000192 E1               [12]  354 	pop	hl
+                                    355 ;src/main.c:93: }
+    00000193 E8 08            [16]  356 	add	sp, #8
+    00000195 C9               [16]  357 	ret
+    00000196                        358 ___str_1:
+    00000196 50 75 73 68 20 61 6E   359 	.ascii "Push any key (1)"
              79 20 6B 65 79 20 28
              31 29
-    00000180 00                     335 	.db 0x00
-    00000181                        336 ___str_3:
-    00000181 50 75 73 68 20 61 6E   337 	.ascii "Push any key (2)"
+    000001A6 00                     360 	.db 0x00
+    000001A7                        361 ___str_3:
+    000001A7 50 75 73 68 20 61 6E   362 	.ascii "Push any key (2)"
              79 20 6B 65 79 20 28
              32 29
-    00000191 00                     338 	.db 0x00
-    00000192                        339 ___str_4:
-    00000192 25 75                  340 	.ascii "%u"
-    00000194 00                     341 	.db 0x00
-    00000195                        342 ___str_5:
-    00000195 47 61 6D 65 20 63 6C   343 	.ascii "Game closed."
+    000001B7 00                     363 	.db 0x00
+    000001B8                        364 ___str_4:
+    000001B8 25 75                  365 	.ascii "%u"
+    000001BA 00                     366 	.db 0x00
+    000001BB                        367 ___str_5:
+    000001BB 47 61 6D 65 20 63 6C   368 	.ascii "Game closed."
              6F 73 65 64 2E
-    000001A1 00                     344 	.db 0x00
-                                    345 	.area _CODE
-                                    346 	.area _INITIALIZER
-    00000000                        347 __xinit__joypad_current:
-    00000000 00 00                  348 	.dw #0x0000
-    00000002                        349 __xinit__joypad_last:
-    00000002 00 00                  350 	.dw #0x0000
-    00000004                        351 __xinit__run:
-    00000004 01                     352 	.db #0x01	;  1
-                                    353 	.area _CABS (ABS)
+    000001C7 00                     369 	.db 0x00
+                                    370 	.area _CODE
+                                    371 	.area _INITIALIZER
+    00000000                        372 __xinit__joypad_current:
+    00000000 00 00                  373 	.dw #0x0000
+    00000002                        374 __xinit__joypad_last:
+    00000002 00 00                  375 	.dw #0x0000
+    00000004                        376 __xinit__run:
+    00000004 01                     377 	.db #0x01	;  1
+                                    378 	.area _CABS (ABS)

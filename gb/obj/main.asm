@@ -10,13 +10,13 @@
 ;--------------------------------------------------------
 	.globl _main
 	.globl _set_door
-	.globl _load_sprites
 	.globl _initarand
 	.globl _puts
 	.globl _printf
 	.globl _free_dungeon
 	.globl _generate_dungeon
 	.globl _init_dungeon
+	.globl _set_sprite_data
 	.globl _set_bkg_tiles
 	.globl _set_bkg_data
 	.globl _display_off
@@ -279,55 +279,80 @@ _main::
 	ld	de, #0x0010
 	call	_set_door
 00108$:
-;src/main.c:75: load_sprites();
-	call	_load_sprites
-;src/main.c:77: while (run) {
+;src/main.c:75: set_sprite_data(0, 4*1, rogue_tiles);
+	ld	de, #_rogue_tiles
+	push	de
+	ld	a, #0x04
+	push	af
+	inc	sp
+	xor	a, a
+	push	af
+	inc	sp
+	call	_set_sprite_data
+	add	sp, #4
+;src/main.c:76: move_metasprite_ex(metasprite, 0, 0, 0, 80, 80);
+;/home/cass-forest/Documents/gbdk/include/gb/metasprites.h:160: __current_metasprite = metasprite;
+	ld	hl, #___current_metasprite
+	ld	(hl), #<(_metasprite)
+	inc	hl
+	ld	(hl), #>(_metasprite)
+;/home/cass-forest/Documents/gbdk/include/gb/metasprites.h:161: __current_base_tile = base_tile;
+	ld	hl, #___current_base_tile
+	ld	(hl), #0x00
+;/home/cass-forest/Documents/gbdk/include/gb/metasprites.h:162: __current_base_prop = base_prop;
+	ld	hl, #___current_base_prop
+	ld	(hl), #0x00
+;/home/cass-forest/Documents/gbdk/include/gb/metasprites.h:163: return __move_metasprite(base_sprite, (y << 8) | (uint8_t)x);
+	ld	de, #0x5050
+	xor	a, a
+	call	___move_metasprite
+;src/main.c:78: while (run) {
 00111$:
 	ld	hl, #_run
 	bit	0, (hl)
 	jr	Z, 00113$
-;src/main.c:78: joypad_current = joypad();
+;src/main.c:79: joypad_current = joypad();
 	call	_joypad
 	ld	hl, #_joypad_current
 	ld	(hl+), a
 	ld	(hl), #0x00
-;src/main.c:80: if (joypad_current & J_SELECT) {
+;src/main.c:81: if (joypad_current & J_SELECT) {
 	push	hl
 	dec	hl
 	bit	6, (hl)
 	pop	hl
 	jr	Z, 00110$
-;src/main.c:81: run = false;
+;src/main.c:82: run = false;
 	ld	hl, #_run
 	ld	(hl), #0x00
 00110$:
-;src/main.c:84: vsync();
+;src/main.c:85: vsync();
 	call	_vsync
-;src/main.c:85: joypad_last = joypad_current;
+;src/main.c:86: joypad_last = joypad_current;
 	ld	a, (#_joypad_current)
 	ld	(#_joypad_last),a
 	ld	a, (#_joypad_current + 1)
 	ld	(#_joypad_last + 1),a
 	jr	00111$
 00113$:
-;src/main.c:88: HIDE_BKG;
+;src/main.c:89: HIDE_BKG;
 	ldh	a, (_LCDC_REG + 0)
 	and	a, #0xfe
 	ldh	(_LCDC_REG + 0), a
-;src/main.c:89: DISPLAY_OFF;
+;src/main.c:90: DISPLAY_OFF;
 	call	_display_off
-;src/main.c:90: free_dungeon(&dungeon);
+;src/main.c:91: free_dungeon(&dungeon);
 	ld	hl, #0
 	add	hl, sp
 	ld	e, l
 	ld	d, h
 	call	_free_dungeon
-;src/main.c:91: printf("Game closed.");
+;src/main.c:92: printf("Game closed.");
 	ld	de, #___str_5
 	push	de
 	call	_printf
 	pop	hl
-;src/main.c:92: }
+;src/main.c:93: }
 	add	sp, #8
 	ret
 ___str_1:
