@@ -8,14 +8,23 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
+	.globl _ms_fighterTLE8
 	.globl _fighterTLE8
+	.globl _ms_fighterTLE7
 	.globl _fighterTLE7
+	.globl _ms_fighterTLE6
 	.globl _fighterTLE6
+	.globl _ms_fighterTLE5
 	.globl _fighterTLE5
+	.globl _ms_fighterTLE4
 	.globl _fighterTLE4
+	.globl _ms_fighterTLE3
 	.globl _fighterTLE3
+	.globl _ms_fighterTLE2
 	.globl _fighterTLE2
+	.globl _ms_fighterTLE1
 	.globl _fighterTLE1
+	.globl _ms_fighterTLE0
 	.globl _fighterTLE0
 ;--------------------------------------------------------
 ; special function registers
@@ -114,6 +123,27 @@ _fighterTLE0:
 	.db #0xa0	; 160
 	.db #0xc0	; 192
 	.db #0xc0	; 192
+_ms_fighterTLE0:
+	.db #0xf8	; -8
+	.db #0xf8	; -8
+	.db #0x24	; 36
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x26	; 38
+	.db #0x00	; 0
+	.db #0x08	;  8
+	.db #0xf8	; -8
+	.db #0x25	; 37
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x27	; 39
+	.db #0x00	; 0
+	.db #0x80	; -128
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
 _fighterTLE1:
 	.db #0x01	; 1
 	.db #0x01	; 1
@@ -179,6 +209,27 @@ _fighterTLE1:
 	.db #0xf0	; 240
 	.db #0xf0	; 240
 	.db #0x90	; 144
+_ms_fighterTLE1:
+	.db #0xf8	; -8
+	.db #0xf8	; -8
+	.db #0x28	; 40
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x2a	; 42
+	.db #0x00	; 0
+	.db #0x08	;  8
+	.db #0xf8	; -8
+	.db #0x29	; 41
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x2b	; 43
+	.db #0x00	; 0
+	.db #0x80	; -128
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
 _fighterTLE2:
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -244,6 +295,27 @@ _fighterTLE2:
 	.db #0xf0	; 240
 	.db #0xf0	; 240
 	.db #0x90	; 144
+_ms_fighterTLE2:
+	.db #0xf8	; -8
+	.db #0xf8	; -8
+	.db #0x2c	; 44
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x2e	; 46
+	.db #0x00	; 0
+	.db #0x08	;  8
+	.db #0xf8	; -8
+	.db #0x2d	; 45
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x2f	; 47
+	.db #0x00	; 0
+	.db #0x80	; -128
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
 _fighterTLE3:
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -309,6 +381,27 @@ _fighterTLE3:
 	.db #0xf0	; 240
 	.db #0xf0	; 240
 	.db #0x90	; 144
+_ms_fighterTLE3:
+	.db #0xf8	; -8
+	.db #0xf8	; -8
+	.db #0x30	; 48	'0'
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x32	; 50	'2'
+	.db #0x00	; 0
+	.db #0x08	;  8
+	.db #0xf8	; -8
+	.db #0x31	; 49	'1'
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x33	; 51	'3'
+	.db #0x00	; 0
+	.db #0x80	; -128
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
 _fighterTLE4:
 	.db #0x03	; 3
 	.db #0x03	; 3
@@ -374,6 +467,27 @@ _fighterTLE4:
 	.db #0xc0	; 192
 	.db #0xc0	; 192
 	.db #0x40	; 64
+_ms_fighterTLE4:
+	.db #0xf8	; -8
+	.db #0xf8	; -8
+	.db #0x34	; 52	'4'
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x36	; 54	'6'
+	.db #0x00	; 0
+	.db #0x08	;  8
+	.db #0xf8	; -8
+	.db #0x35	; 53	'5'
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x37	; 55	'7'
+	.db #0x00	; 0
+	.db #0x80	; -128
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
 _fighterTLE5:
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -439,6 +553,27 @@ _fighterTLE5:
 	.db #0xf0	; 240
 	.db #0xf0	; 240
 	.db #0x90	; 144
+_ms_fighterTLE5:
+	.db #0xf8	; -8
+	.db #0xf8	; -8
+	.db #0x38	; 56	'8'
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x3a	; 58
+	.db #0x00	; 0
+	.db #0x08	;  8
+	.db #0xf8	; -8
+	.db #0x39	; 57	'9'
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x3b	; 59
+	.db #0x00	; 0
+	.db #0x80	; -128
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
 _fighterTLE6:
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -504,6 +639,27 @@ _fighterTLE6:
 	.db #0xf0	; 240
 	.db #0xf0	; 240
 	.db #0x90	; 144
+_ms_fighterTLE6:
+	.db #0xf8	; -8
+	.db #0xf8	; -8
+	.db #0x3c	; 60
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x3e	; 62
+	.db #0x00	; 0
+	.db #0x08	;  8
+	.db #0xf8	; -8
+	.db #0x3d	; 61
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x3f	; 63
+	.db #0x00	; 0
+	.db #0x80	; -128
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
 _fighterTLE7:
 	.db #0x01	; 1
 	.db #0x01	; 1
@@ -569,6 +725,27 @@ _fighterTLE7:
 	.db #0xf0	; 240
 	.db #0xf0	; 240
 	.db #0x90	; 144
+_ms_fighterTLE7:
+	.db #0xf8	; -8
+	.db #0xf8	; -8
+	.db #0x40	; 64
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x42	; 66	'B'
+	.db #0x00	; 0
+	.db #0x08	;  8
+	.db #0xf8	; -8
+	.db #0x41	; 65	'A'
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x43	; 67	'C'
+	.db #0x00	; 0
+	.db #0x80	; -128
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
 _fighterTLE8:
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -634,5 +811,26 @@ _fighterTLE8:
 	.db #0xa0	; 160
 	.db #0xc0	; 192
 	.db #0xc0	; 192
+_ms_fighterTLE8:
+	.db #0xf8	; -8
+	.db #0xf8	; -8
+	.db #0x44	; 68	'D'
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x46	; 70	'F'
+	.db #0x00	; 0
+	.db #0x08	;  8
+	.db #0xf8	; -8
+	.db #0x45	; 69	'E'
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x47	; 71	'G'
+	.db #0x00	; 0
+	.db #0x80	; -128
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
 	.area _INITIALIZER
 	.area _CABS (ABS)
