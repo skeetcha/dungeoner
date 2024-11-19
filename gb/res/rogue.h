@@ -25,17 +25,28 @@
 #ifndef ___git_dungeoner_gb_res_rogue_h_INCLUDE
 #define ___git_dungeoner_gb_res_rogue_h_INCLUDE
 
+#include <gb/metasprites.h>
+
 /* Bank of tiles. */
 #define rogueBank 0
 extern const unsigned char rogueTLE0[];
+extern const metasprite_t ms_rogueTLE0[];
 extern const unsigned char rogueTLE1[];
+extern const metasprite_t ms_rogueTLE1[];
 extern const unsigned char rogueTLE2[];
+extern const metasprite_t ms_rogueTLE2[];
 extern const unsigned char rogueTLE3[];
+extern const metasprite_t ms_rogueTLE3[];
 extern const unsigned char rogueTLE4[];
+extern const metasprite_t ms_rogueTLE4[];
 extern const unsigned char rogueTLE5[];
+extern const metasprite_t ms_rogueTLE5[];
 extern const unsigned char rogueTLE6[];
+extern const metasprite_t ms_rogueTLE6[];
 extern const unsigned char rogueTLE7[];
+extern const metasprite_t ms_rogueTLE7[];
 extern const unsigned char rogueTLE8[];
+extern const metasprite_t ms_rogueTLE8[];
 
 #endif
 

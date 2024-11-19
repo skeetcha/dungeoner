@@ -7,7 +7,24 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
-  0 _rogue_tiles                                                    00000000 GR
+  0 _ms_rogueTLE0                                                   00000040 GR
+  0 _ms_rogueTLE1                                                   00000094 GR
+  0 _ms_rogueTLE2                                                   000000E8 GR
+  0 _ms_rogueTLE3                                                   0000013C GR
+  0 _ms_rogueTLE4                                                   00000190 GR
+  0 _ms_rogueTLE5                                                   000001E4 GR
+  0 _ms_rogueTLE6                                                   00000238 GR
+  0 _ms_rogueTLE7                                                   0000028C GR
+  0 _ms_rogueTLE8                                                   000002E0 GR
+  0 _rogueTLE0                                                      00000000 GR
+  0 _rogueTLE1                                                      00000054 GR
+  0 _rogueTLE2                                                      000000A8 GR
+  0 _rogueTLE3                                                      000000FC GR
+  0 _rogueTLE4                                                      00000150 GR
+  0 _rogueTLE5                                                      000001A4 GR
+  0 _rogueTLE6                                                      000001F8 GR
+  0 _rogueTLE7                                                      0000024C GR
+  0 _rogueTLE8                                                      000002A0 GR
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
@@ -15,7 +32,7 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size       40   flags    0
+   0 _CODE                                      size      2F4   flags    0
    1 _DATA                                      size        0   flags    0
    2 _INITIALIZED                               size        0   flags    0
    3 _DABS                                      size        0   flags    8

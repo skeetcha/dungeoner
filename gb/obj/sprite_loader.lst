@@ -1,0 +1,125 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.4.1 #14650 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module sprite_loader
+                                      6 	.optsdcc -msm83
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _load_rogue_sprites
+                                     12 	.globl _set_sprite_data
+                                     13 	.globl _load_sprites
+                                     14 ;--------------------------------------------------------
+                                     15 ; special function registers
+                                     16 ;--------------------------------------------------------
+                                     17 ;--------------------------------------------------------
+                                     18 ; ram data
+                                     19 ;--------------------------------------------------------
+                                     20 	.area _DATA
+                                     21 ;--------------------------------------------------------
+                                     22 ; ram data
+                                     23 ;--------------------------------------------------------
+                                     24 	.area _INITIALIZED
+                                     25 ;--------------------------------------------------------
+                                     26 ; absolute external ram data
+                                     27 ;--------------------------------------------------------
+                                     28 	.area _DABS (ABS)
+                                     29 ;--------------------------------------------------------
+                                     30 ; global & static initialisations
+                                     31 ;--------------------------------------------------------
+                                     32 	.area _HOME
+                                     33 	.area _GSINIT
+                                     34 	.area _GSFINAL
+                                     35 	.area _GSINIT
+                                     36 ;--------------------------------------------------------
+                                     37 ; Home
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _HOME
+                                     40 	.area _HOME
+                                     41 ;--------------------------------------------------------
+                                     42 ; code
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _CODE
+                                     45 ;res/sprite_loader.c:5: void load_rogue_sprites(void) {
+                                     46 ;	---------------------------------
+                                     47 ; Function load_rogue_sprites
+                                     48 ; ---------------------------------
+    00000000                         49 _load_rogue_sprites::
+                                     50 ;res/sprite_loader.c:7: set_sprite_data(offset, offset + 4, rogueTLE0);
+    00000000 11r00r00         [12]   51 	ld	de, #_rogueTLE0
+    00000003 D5               [16]   52 	push	de
+    00000004 21 00 04         [12]   53 	ld	hl, #0x400
+    00000007 E5               [16]   54 	push	hl
+    00000008 CDr00r00         [24]   55 	call	_set_sprite_data
+    0000000B E8 04            [16]   56 	add	sp, #4
+                                     57 ;res/sprite_loader.c:9: set_sprite_data(offset, offset + 4, rogueTLE1);
+    0000000D 11r00r00         [12]   58 	ld	de, #_rogueTLE1
+    00000010 D5               [16]   59 	push	de
+    00000011 21 04 08         [12]   60 	ld	hl, #0x804
+    00000014 E5               [16]   61 	push	hl
+    00000015 CDr00r00         [24]   62 	call	_set_sprite_data
+    00000018 E8 04            [16]   63 	add	sp, #4
+                                     64 ;res/sprite_loader.c:11: set_sprite_data(offset, offset + 4, rogueTLE2);
+    0000001A 11r00r00         [12]   65 	ld	de, #_rogueTLE2
+    0000001D D5               [16]   66 	push	de
+    0000001E 21 08 0C         [12]   67 	ld	hl, #0xc08
+    00000021 E5               [16]   68 	push	hl
+    00000022 CDr00r00         [24]   69 	call	_set_sprite_data
+    00000025 E8 04            [16]   70 	add	sp, #4
+                                     71 ;res/sprite_loader.c:13: set_sprite_data(offset, offset + 4, rogueTLE3);
+    00000027 11r00r00         [12]   72 	ld	de, #_rogueTLE3
+    0000002A D5               [16]   73 	push	de
+    0000002B 21 0C 10         [12]   74 	ld	hl, #0x100c
+    0000002E E5               [16]   75 	push	hl
+    0000002F CDr00r00         [24]   76 	call	_set_sprite_data
+    00000032 E8 04            [16]   77 	add	sp, #4
+                                     78 ;res/sprite_loader.c:15: set_sprite_data(offset, offset + 4, rogueTLE4);
+    00000034 11r00r00         [12]   79 	ld	de, #_rogueTLE4
+    00000037 D5               [16]   80 	push	de
+    00000038 21 10 14         [12]   81 	ld	hl, #0x1410
+    0000003B E5               [16]   82 	push	hl
+    0000003C CDr00r00         [24]   83 	call	_set_sprite_data
+    0000003F E8 04            [16]   84 	add	sp, #4
+                                     85 ;res/sprite_loader.c:17: set_sprite_data(offset, offset + 4, rogueTLE5);
+    00000041 11r00r00         [12]   86 	ld	de, #_rogueTLE5
+    00000044 D5               [16]   87 	push	de
+    00000045 21 14 18         [12]   88 	ld	hl, #0x1814
+    00000048 E5               [16]   89 	push	hl
+    00000049 CDr00r00         [24]   90 	call	_set_sprite_data
+    0000004C E8 04            [16]   91 	add	sp, #4
+                                     92 ;res/sprite_loader.c:19: set_sprite_data(offset, offset + 4, rogueTLE6);
+    0000004E 11r00r00         [12]   93 	ld	de, #_rogueTLE6
+    00000051 D5               [16]   94 	push	de
+    00000052 21 18 1C         [12]   95 	ld	hl, #0x1c18
+    00000055 E5               [16]   96 	push	hl
+    00000056 CDr00r00         [24]   97 	call	_set_sprite_data
+    00000059 E8 04            [16]   98 	add	sp, #4
+                                     99 ;res/sprite_loader.c:21: set_sprite_data(offset, offset + 4, rogueTLE7);
+    0000005B 11r00r00         [12]  100 	ld	de, #_rogueTLE7
+    0000005E D5               [16]  101 	push	de
+    0000005F 21 1C 20         [12]  102 	ld	hl, #0x201c
+    00000062 E5               [16]  103 	push	hl
+    00000063 CDr00r00         [24]  104 	call	_set_sprite_data
+    00000066 E8 04            [16]  105 	add	sp, #4
+                                    106 ;res/sprite_loader.c:23: set_sprite_data(offset, offset + 4, rogueTLE8);
+    00000068 11r00r00         [12]  107 	ld	de, #_rogueTLE8
+    0000006B D5               [16]  108 	push	de
+    0000006C 21 20 24         [12]  109 	ld	hl, #0x2420
+    0000006F E5               [16]  110 	push	hl
+    00000070 CDr00r00         [24]  111 	call	_set_sprite_data
+    00000073 E8 04            [16]  112 	add	sp, #4
+                                    113 ;res/sprite_loader.c:24: }
+    00000075 C9               [16]  114 	ret
+                                    115 ;res/sprite_loader.c:26: void load_sprites(void) {
+                                    116 ;	---------------------------------
+                                    117 ; Function load_sprites
+                                    118 ; ---------------------------------
+    00000076                        119 _load_sprites::
+                                    120 ;res/sprite_loader.c:27: load_rogue_sprites();
+                                    121 ;res/sprite_loader.c:28: }
+    00000076 C3r00r00         [16]  122 	jp	_load_rogue_sprites
+                                    123 	.area _CODE
+                                    124 	.area _INITIALIZER
+                                    125 	.area _CABS (ABS)
