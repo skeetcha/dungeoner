@@ -60,7 +60,7 @@ $(BINDIR):
 clean:
 	rm -f $(OBJDIR)/*.*
 
-run_gbg: $(BINS)
+run_bgb: $(BINS)
 	wine $(BGB) $(BINS)
 
 run_mgba: $(BINS)
