@@ -59,3 +59,6 @@ $(BINDIR):
 
 clean:
 	rm -f $(OBJDIR)/*.*
+
+run: $(BINS)
+	wine $(BGB) $(BINS)
