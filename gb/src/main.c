@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <rand.h>
-#include "rogue.h"
+#include "fighter.h"
 #include <gb/metasprites.h>
 
 void set_door(int direction) {
@@ -33,11 +33,11 @@ uint8_t three_frame_counter = 0;
 uint8_t three_frame_real_value = 0;
 
 void update_frame_counter(void) {
-    three_frame_counter += 3;
+    three_frame_counter += 2;
     three_frame_real_value = three_frame_counter >> 4;
 
-    // Stop & reset if the value is over 3
-    if (three_frame_real_value >= 3) {
+    // Stop & reset if the value is over 4
+    if (three_frame_real_value >= 4) {
         three_frame_real_value = 0;
         three_frame_counter = 0;
     }
@@ -85,14 +85,14 @@ void main(void) {
         set_door(BIT_DOOR_SOUTH);
     }
 
-    setup_rogue();
+    setup_fighter();
 
     while (run) {
         joypad_current = joypad();
 
         update_frame_counter();
         uint8_t last_sprite = 0;
-        last_sprite += update_rogue();
+        last_sprite += update_fighter();
 
         if (joypad_current & J_SELECT) {
             run = false;
