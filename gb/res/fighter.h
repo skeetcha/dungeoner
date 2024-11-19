@@ -25,28 +25,17 @@
 #ifndef ___git_dungeoner_gb_res_fighter_h_INCLUDE
 #define ___git_dungeoner_gb_res_fighter_h_INCLUDE
 
-#include <gb/metasprites.h>
-
 /* Bank of tiles. */
 #define fighterBank 0
 extern const unsigned char fighterTLE0[];
-extern const metasprite_t ms_fighterTLE0[];
 extern const unsigned char fighterTLE1[];
-extern const metasprite_t ms_fighterTLE1[];
 extern const unsigned char fighterTLE2[];
-extern const metasprite_t ms_fighterTLE2[];
 extern const unsigned char fighterTLE3[];
-extern const metasprite_t ms_fighterTLE3[];
 extern const unsigned char fighterTLE4[];
-extern const metasprite_t ms_fighterTLE4[];
 extern const unsigned char fighterTLE5[];
-extern const metasprite_t ms_fighterTLE5[];
 extern const unsigned char fighterTLE6[];
-extern const metasprite_t ms_fighterTLE6[];
 extern const unsigned char fighterTLE7[];
-extern const metasprite_t ms_fighterTLE7[];
 extern const unsigned char fighterTLE8[];
-extern const metasprite_t ms_fighterTLE8[];
 
 #endif
 

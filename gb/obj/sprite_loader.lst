@@ -8,191 +8,118 @@
                                       8 ;--------------------------------------------------------
                                       9 ; Public variables in this module
                                      10 ;--------------------------------------------------------
-                                     11 	.globl _load_fighter_sprites
-                                     12 	.globl _load_rogue_sprites
-                                     13 	.globl _set_sprite_data
-                                     14 	.globl _load_sprites
-                                     15 ;--------------------------------------------------------
-                                     16 ; special function registers
+                                     11 	.globl _load_rogue_sprites
+                                     12 	.globl _set_sprite_data
+                                     13 	.globl _load_sprites
+                                     14 ;--------------------------------------------------------
+                                     15 ; special function registers
+                                     16 ;--------------------------------------------------------
                                      17 ;--------------------------------------------------------
-                                     18 ;--------------------------------------------------------
-                                     19 ; ram data
-                                     20 ;--------------------------------------------------------
-                                     21 	.area _DATA
-                                     22 ;--------------------------------------------------------
-                                     23 ; ram data
-                                     24 ;--------------------------------------------------------
-                                     25 	.area _INITIALIZED
-                                     26 ;--------------------------------------------------------
-                                     27 ; absolute external ram data
-                                     28 ;--------------------------------------------------------
-                                     29 	.area _DABS (ABS)
-                                     30 ;--------------------------------------------------------
-                                     31 ; global & static initialisations
-                                     32 ;--------------------------------------------------------
-                                     33 	.area _HOME
-                                     34 	.area _GSINIT
-                                     35 	.area _GSFINAL
-                                     36 	.area _GSINIT
-                                     37 ;--------------------------------------------------------
-                                     38 ; Home
-                                     39 ;--------------------------------------------------------
+                                     18 ; ram data
+                                     19 ;--------------------------------------------------------
+                                     20 	.area _DATA
+                                     21 ;--------------------------------------------------------
+                                     22 ; ram data
+                                     23 ;--------------------------------------------------------
+                                     24 	.area _INITIALIZED
+                                     25 ;--------------------------------------------------------
+                                     26 ; absolute external ram data
+                                     27 ;--------------------------------------------------------
+                                     28 	.area _DABS (ABS)
+                                     29 ;--------------------------------------------------------
+                                     30 ; global & static initialisations
+                                     31 ;--------------------------------------------------------
+                                     32 	.area _HOME
+                                     33 	.area _GSINIT
+                                     34 	.area _GSFINAL
+                                     35 	.area _GSINIT
+                                     36 ;--------------------------------------------------------
+                                     37 ; Home
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _HOME
                                      40 	.area _HOME
-                                     41 	.area _HOME
-                                     42 ;--------------------------------------------------------
-                                     43 ; code
-                                     44 ;--------------------------------------------------------
-                                     45 	.area _CODE
-                                     46 ;res/sprite_loader.c:6: void load_rogue_sprites(void) {
-                                     47 ;	---------------------------------
-                                     48 ; Function load_rogue_sprites
-                                     49 ; ---------------------------------
-    00000000                         50 _load_rogue_sprites::
-                                     51 ;res/sprite_loader.c:8: set_sprite_data(offset, offset + 4, rogueTLE0); // [0,4)
-    00000000 11r00r00         [12]   52 	ld	de, #_rogueTLE0
-    00000003 D5               [16]   53 	push	de
-    00000004 21 00 04         [12]   54 	ld	hl, #0x400
-    00000007 E5               [16]   55 	push	hl
-    00000008 CDr00r00         [24]   56 	call	_set_sprite_data
-    0000000B E8 04            [16]   57 	add	sp, #4
-                                     58 ;res/sprite_loader.c:10: set_sprite_data(offset, offset + 4, rogueTLE1); // [4,8)
-    0000000D 11r00r00         [12]   59 	ld	de, #_rogueTLE1
-    00000010 D5               [16]   60 	push	de
-    00000011 21 04 08         [12]   61 	ld	hl, #0x804
-    00000014 E5               [16]   62 	push	hl
-    00000015 CDr00r00         [24]   63 	call	_set_sprite_data
-    00000018 E8 04            [16]   64 	add	sp, #4
-                                     65 ;res/sprite_loader.c:12: set_sprite_data(offset, offset + 4, rogueTLE2); // [8,12)
-    0000001A 11r00r00         [12]   66 	ld	de, #_rogueTLE2
-    0000001D D5               [16]   67 	push	de
-    0000001E 21 08 0C         [12]   68 	ld	hl, #0xc08
-    00000021 E5               [16]   69 	push	hl
-    00000022 CDr00r00         [24]   70 	call	_set_sprite_data
-    00000025 E8 04            [16]   71 	add	sp, #4
-                                     72 ;res/sprite_loader.c:14: set_sprite_data(offset, offset + 4, rogueTLE3); // [12,16)
-    00000027 11r00r00         [12]   73 	ld	de, #_rogueTLE3
-    0000002A D5               [16]   74 	push	de
-    0000002B 21 0C 10         [12]   75 	ld	hl, #0x100c
-    0000002E E5               [16]   76 	push	hl
-    0000002F CDr00r00         [24]   77 	call	_set_sprite_data
-    00000032 E8 04            [16]   78 	add	sp, #4
-                                     79 ;res/sprite_loader.c:16: set_sprite_data(offset, offset + 4, rogueTLE4); // [16,20)
-    00000034 11r00r00         [12]   80 	ld	de, #_rogueTLE4
-    00000037 D5               [16]   81 	push	de
-    00000038 21 10 14         [12]   82 	ld	hl, #0x1410
-    0000003B E5               [16]   83 	push	hl
-    0000003C CDr00r00         [24]   84 	call	_set_sprite_data
-    0000003F E8 04            [16]   85 	add	sp, #4
-                                     86 ;res/sprite_loader.c:18: set_sprite_data(offset, offset + 4, rogueTLE5); // [20,24)
-    00000041 11r00r00         [12]   87 	ld	de, #_rogueTLE5
-    00000044 D5               [16]   88 	push	de
-    00000045 21 14 18         [12]   89 	ld	hl, #0x1814
-    00000048 E5               [16]   90 	push	hl
-    00000049 CDr00r00         [24]   91 	call	_set_sprite_data
-    0000004C E8 04            [16]   92 	add	sp, #4
-                                     93 ;res/sprite_loader.c:20: set_sprite_data(offset, offset + 4, rogueTLE6); // [24,28)
-    0000004E 11r00r00         [12]   94 	ld	de, #_rogueTLE6
-    00000051 D5               [16]   95 	push	de
-    00000052 21 18 1C         [12]   96 	ld	hl, #0x1c18
-    00000055 E5               [16]   97 	push	hl
-    00000056 CDr00r00         [24]   98 	call	_set_sprite_data
-    00000059 E8 04            [16]   99 	add	sp, #4
-                                    100 ;res/sprite_loader.c:22: set_sprite_data(offset, offset + 4, rogueTLE7); // [28,32)
-    0000005B 11r00r00         [12]  101 	ld	de, #_rogueTLE7
-    0000005E D5               [16]  102 	push	de
-    0000005F 21 1C 20         [12]  103 	ld	hl, #0x201c
-    00000062 E5               [16]  104 	push	hl
-    00000063 CDr00r00         [24]  105 	call	_set_sprite_data
-    00000066 E8 04            [16]  106 	add	sp, #4
-                                    107 ;res/sprite_loader.c:24: set_sprite_data(offset, offset + 4, rogueTLE8); // [32,36)
-    00000068 11r00r00         [12]  108 	ld	de, #_rogueTLE8
-    0000006B D5               [16]  109 	push	de
-    0000006C 21 20 24         [12]  110 	ld	hl, #0x2420
-    0000006F E5               [16]  111 	push	hl
-    00000070 CDr00r00         [24]  112 	call	_set_sprite_data
-    00000073 E8 04            [16]  113 	add	sp, #4
-                                    114 ;res/sprite_loader.c:25: }
-    00000075 C9               [16]  115 	ret
-                                    116 ;res/sprite_loader.c:27: void load_fighter_sprites(void) {
-                                    117 ;	---------------------------------
-                                    118 ; Function load_fighter_sprites
-                                    119 ; ---------------------------------
-    00000076                        120 _load_fighter_sprites::
-                                    121 ;res/sprite_loader.c:29: set_sprite_data(offset, offset + 4, fighterTLE0); // [36,40)
-    00000076 11r00r00         [12]  122 	ld	de, #_fighterTLE0
-    00000079 D5               [16]  123 	push	de
-    0000007A 21 24 28         [12]  124 	ld	hl, #0x2824
-    0000007D E5               [16]  125 	push	hl
-    0000007E CDr00r00         [24]  126 	call	_set_sprite_data
-    00000081 E8 04            [16]  127 	add	sp, #4
-                                    128 ;res/sprite_loader.c:31: set_sprite_data(offset, offset + 4, fighterTLE1); // [40,44)
-    00000083 11r00r00         [12]  129 	ld	de, #_fighterTLE1
-    00000086 D5               [16]  130 	push	de
-    00000087 21 28 2C         [12]  131 	ld	hl, #0x2c28
-    0000008A E5               [16]  132 	push	hl
-    0000008B CDr00r00         [24]  133 	call	_set_sprite_data
-    0000008E E8 04            [16]  134 	add	sp, #4
-                                    135 ;res/sprite_loader.c:33: set_sprite_data(offset, offset + 4, fighterTLE2); // [44,48)
-    00000090 11r00r00         [12]  136 	ld	de, #_fighterTLE2
-    00000093 D5               [16]  137 	push	de
-    00000094 21 2C 30         [12]  138 	ld	hl, #0x302c
-    00000097 E5               [16]  139 	push	hl
-    00000098 CDr00r00         [24]  140 	call	_set_sprite_data
-    0000009B E8 04            [16]  141 	add	sp, #4
-                                    142 ;res/sprite_loader.c:35: set_sprite_data(offset, offset + 4, fighterTLE3); // [48,52)
-    0000009D 11r00r00         [12]  143 	ld	de, #_fighterTLE3
-    000000A0 D5               [16]  144 	push	de
-    000000A1 21 30 34         [12]  145 	ld	hl, #0x3430
-    000000A4 E5               [16]  146 	push	hl
-    000000A5 CDr00r00         [24]  147 	call	_set_sprite_data
-    000000A8 E8 04            [16]  148 	add	sp, #4
-                                    149 ;res/sprite_loader.c:37: set_sprite_data(offset, offset + 4, fighterTLE4); // [52,56)
-    000000AA 11r00r00         [12]  150 	ld	de, #_fighterTLE4
-    000000AD D5               [16]  151 	push	de
-    000000AE 21 34 38         [12]  152 	ld	hl, #0x3834
-    000000B1 E5               [16]  153 	push	hl
-    000000B2 CDr00r00         [24]  154 	call	_set_sprite_data
-    000000B5 E8 04            [16]  155 	add	sp, #4
-                                    156 ;res/sprite_loader.c:39: set_sprite_data(offset, offset + 4, fighterTLE5); // [56,60)
-    000000B7 11r00r00         [12]  157 	ld	de, #_fighterTLE5
-    000000BA D5               [16]  158 	push	de
-    000000BB 21 38 3C         [12]  159 	ld	hl, #0x3c38
-    000000BE E5               [16]  160 	push	hl
-    000000BF CDr00r00         [24]  161 	call	_set_sprite_data
-    000000C2 E8 04            [16]  162 	add	sp, #4
-                                    163 ;res/sprite_loader.c:41: set_sprite_data(offset, offset + 4, fighterTLE6); // [60,64)
-    000000C4 11r00r00         [12]  164 	ld	de, #_fighterTLE6
-    000000C7 D5               [16]  165 	push	de
-    000000C8 21 3C 40         [12]  166 	ld	hl, #0x403c
-    000000CB E5               [16]  167 	push	hl
-    000000CC CDr00r00         [24]  168 	call	_set_sprite_data
-    000000CF E8 04            [16]  169 	add	sp, #4
-                                    170 ;res/sprite_loader.c:43: set_sprite_data(offset, offset + 4, fighterTLE7); // [64,68)
-    000000D1 11r00r00         [12]  171 	ld	de, #_fighterTLE7
-    000000D4 D5               [16]  172 	push	de
-    000000D5 21 40 44         [12]  173 	ld	hl, #0x4440
-    000000D8 E5               [16]  174 	push	hl
-    000000D9 CDr00r00         [24]  175 	call	_set_sprite_data
-    000000DC E8 04            [16]  176 	add	sp, #4
-                                    177 ;res/sprite_loader.c:45: set_sprite_data(offset, offset + 4, fighterTLE8); // [68,72)
-    000000DE 11r00r00         [12]  178 	ld	de, #_fighterTLE8
-    000000E1 D5               [16]  179 	push	de
-    000000E2 21 44 48         [12]  180 	ld	hl, #0x4844
-    000000E5 E5               [16]  181 	push	hl
-    000000E6 CDr00r00         [24]  182 	call	_set_sprite_data
-    000000E9 E8 04            [16]  183 	add	sp, #4
-                                    184 ;res/sprite_loader.c:46: }
-    000000EB C9               [16]  185 	ret
-                                    186 ;res/sprite_loader.c:48: void load_sprites(void) {
-                                    187 ;	---------------------------------
-                                    188 ; Function load_sprites
-                                    189 ; ---------------------------------
-    000000EC                        190 _load_sprites::
-                                    191 ;res/sprite_loader.c:49: load_rogue_sprites();
-    000000EC CDr00r00         [24]  192 	call	_load_rogue_sprites
-                                    193 ;res/sprite_loader.c:50: load_fighter_sprites();
-                                    194 ;res/sprite_loader.c:51: }
-    000000EF C3r76r00         [16]  195 	jp	_load_fighter_sprites
-                                    196 	.area _CODE
-                                    197 	.area _INITIALIZER
-                                    198 	.area _CABS (ABS)
+                                     41 ;--------------------------------------------------------
+                                     42 ; code
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _CODE
+                                     45 ;res/sprite_loader.c:5: void load_rogue_sprites(void) {
+                                     46 ;	---------------------------------
+                                     47 ; Function load_rogue_sprites
+                                     48 ; ---------------------------------
+    00000000                         49 _load_rogue_sprites::
+                                     50 ;res/sprite_loader.c:7: set_sprite_data(offset, offset + 4, rogueTLE0);
+    00000000 11r00r00         [12]   51 	ld	de, #_rogueTLE0
+    00000003 D5               [16]   52 	push	de
+    00000004 21 00 04         [12]   53 	ld	hl, #0x400
+    00000007 E5               [16]   54 	push	hl
+    00000008 CDr00r00         [24]   55 	call	_set_sprite_data
+    0000000B E8 04            [16]   56 	add	sp, #4
+                                     57 ;res/sprite_loader.c:9: set_sprite_data(offset, offset + 4, rogueTLE1);
+    0000000D 11r00r00         [12]   58 	ld	de, #_rogueTLE1
+    00000010 D5               [16]   59 	push	de
+    00000011 21 04 08         [12]   60 	ld	hl, #0x804
+    00000014 E5               [16]   61 	push	hl
+    00000015 CDr00r00         [24]   62 	call	_set_sprite_data
+    00000018 E8 04            [16]   63 	add	sp, #4
+                                     64 ;res/sprite_loader.c:11: set_sprite_data(offset, offset + 4, rogueTLE2);
+    0000001A 11r00r00         [12]   65 	ld	de, #_rogueTLE2
+    0000001D D5               [16]   66 	push	de
+    0000001E 21 08 0C         [12]   67 	ld	hl, #0xc08
+    00000021 E5               [16]   68 	push	hl
+    00000022 CDr00r00         [24]   69 	call	_set_sprite_data
+    00000025 E8 04            [16]   70 	add	sp, #4
+                                     71 ;res/sprite_loader.c:13: set_sprite_data(offset, offset + 4, rogueTLE3);
+    00000027 11r00r00         [12]   72 	ld	de, #_rogueTLE3
+    0000002A D5               [16]   73 	push	de
+    0000002B 21 0C 10         [12]   74 	ld	hl, #0x100c
+    0000002E E5               [16]   75 	push	hl
+    0000002F CDr00r00         [24]   76 	call	_set_sprite_data
+    00000032 E8 04            [16]   77 	add	sp, #4
+                                     78 ;res/sprite_loader.c:15: set_sprite_data(offset, offset + 4, rogueTLE4);
+    00000034 11r00r00         [12]   79 	ld	de, #_rogueTLE4
+    00000037 D5               [16]   80 	push	de
+    00000038 21 10 14         [12]   81 	ld	hl, #0x1410
+    0000003B E5               [16]   82 	push	hl
+    0000003C CDr00r00         [24]   83 	call	_set_sprite_data
+    0000003F E8 04            [16]   84 	add	sp, #4
+                                     85 ;res/sprite_loader.c:17: set_sprite_data(offset, offset + 4, rogueTLE5);
+    00000041 11r00r00         [12]   86 	ld	de, #_rogueTLE5
+    00000044 D5               [16]   87 	push	de
+    00000045 21 14 18         [12]   88 	ld	hl, #0x1814
+    00000048 E5               [16]   89 	push	hl
+    00000049 CDr00r00         [24]   90 	call	_set_sprite_data
+    0000004C E8 04            [16]   91 	add	sp, #4
+                                     92 ;res/sprite_loader.c:19: set_sprite_data(offset, offset + 4, rogueTLE6);
+    0000004E 11r00r00         [12]   93 	ld	de, #_rogueTLE6
+    00000051 D5               [16]   94 	push	de
+    00000052 21 18 1C         [12]   95 	ld	hl, #0x1c18
+    00000055 E5               [16]   96 	push	hl
+    00000056 CDr00r00         [24]   97 	call	_set_sprite_data
+    00000059 E8 04            [16]   98 	add	sp, #4
+                                     99 ;res/sprite_loader.c:21: set_sprite_data(offset, offset + 4, rogueTLE7);
+    0000005B 11r00r00         [12]  100 	ld	de, #_rogueTLE7
+    0000005E D5               [16]  101 	push	de
+    0000005F 21 1C 20         [12]  102 	ld	hl, #0x201c
+    00000062 E5               [16]  103 	push	hl
+    00000063 CDr00r00         [24]  104 	call	_set_sprite_data
+    00000066 E8 04            [16]  105 	add	sp, #4
+                                    106 ;res/sprite_loader.c:23: set_sprite_data(offset, offset + 4, rogueTLE8);
+    00000068 11r00r00         [12]  107 	ld	de, #_rogueTLE8
+    0000006B D5               [16]  108 	push	de
+    0000006C 21 20 24         [12]  109 	ld	hl, #0x2420
+    0000006F E5               [16]  110 	push	hl
+    00000070 CDr00r00         [24]  111 	call	_set_sprite_data
+    00000073 E8 04            [16]  112 	add	sp, #4
+                                    113 ;res/sprite_loader.c:24: }
+    00000075 C9               [16]  114 	ret
+                                    115 ;res/sprite_loader.c:26: void load_sprites(void) {
+                                    116 ;	---------------------------------
+                                    117 ; Function load_sprites
+                                    118 ; ---------------------------------
+    00000076                        119 _load_sprites::
+                                    120 ;res/sprite_loader.c:27: load_rogue_sprites();
+                                    121 ;res/sprite_loader.c:28: }
+    00000076 C3r00r00         [16]  122 	jp	_load_rogue_sprites
+                                    123 	.area _CODE
+                                    124 	.area _INITIALIZER
+                                    125 	.area _CABS (ABS)

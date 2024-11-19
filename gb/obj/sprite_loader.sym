@@ -7,18 +7,8 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
-    _fighterTLE0                                                    ******** GX
-    _fighterTLE1                                                    ******** GX
-    _fighterTLE2                                                    ******** GX
-    _fighterTLE3                                                    ******** GX
-    _fighterTLE4                                                    ******** GX
-    _fighterTLE5                                                    ******** GX
-    _fighterTLE6                                                    ******** GX
-    _fighterTLE7                                                    ******** GX
-    _fighterTLE8                                                    ******** GX
-  0 _load_fighter_sprites                                           00000076 GR
   0 _load_rogue_sprites                                             00000000 GR
-  0 _load_sprites                                                   000000EC GR
+  0 _load_sprites                                                   00000076 GR
     _rogueTLE0                                                      ******** GX
     _rogueTLE1                                                      ******** GX
     _rogueTLE2                                                      ******** GX
@@ -36,7 +26,7 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size       F2   flags    0
+   0 _CODE                                      size       79   flags    0
    1 _DATA                                      size        0   flags    0
    2 _INITIALIZED                               size        0   flags    0
    3 _DABS                                      size        0   flags    8
