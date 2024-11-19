@@ -26,16 +26,16 @@
 #define ___git_dungeoner_gb_res_rogue_h_INCLUDE
 
 /* Bank of tiles. */
-#define rogue_tilesBank 0
-extern const unsigned char rogue_tilesTLE0[];
-extern const unsigned char rogue_tilesTLE1[];
-extern const unsigned char rogue_tilesTLE2[];
-extern const unsigned char rogue_tilesTLE3[];
-extern const unsigned char rogue_tilesTLE4[];
-extern const unsigned char rogue_tilesTLE5[];
-extern const unsigned char rogue_tilesTLE6[];
-extern const unsigned char rogue_tilesTLE7[];
-extern const unsigned char rogue_tilesTLE8[];
+#define rogueBank 0
+extern const unsigned char rogueTLE0[];
+extern const unsigned char rogueTLE1[];
+extern const unsigned char rogueTLE2[];
+extern const unsigned char rogueTLE3[];
+extern const unsigned char rogueTLE4[];
+extern const unsigned char rogueTLE5[];
+extern const unsigned char rogueTLE6[];
+extern const unsigned char rogueTLE7[];
+extern const unsigned char rogueTLE8[];
 
 #endif
 
