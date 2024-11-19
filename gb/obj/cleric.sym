@@ -7,15 +7,13 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
-  0 _clericTLE0                                                     00000000 GR
-  0 _clericTLE1                                                     00000040 GR
-  0 _clericTLE2                                                     00000080 GR
-  0 _clericTLE3                                                     000000C0 GR
-  0 _clericTLE4                                                     00000100 GR
-  0 _clericTLE5                                                     00000140 GR
-  0 _clericTLE6                                                     00000180 GR
-  0 _clericTLE7                                                     000001C0 GR
-  0 _clericTLE8                                                     00000200 GR
+    ___bank_cleric                                              =   00000000 G
+  0 ___func_cleric                                                  00000000 GR
+  0 _cleric_metasprite0                                             00000248 GR
+  0 _cleric_metasprites                                             00000270 GR
+  0 _cleric_palettes                                                00000000 GR
+  0 _cleric_tiles                                                   00000008 GR
+    b___func_cleric                                             =   00000000 L
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
@@ -23,7 +21,7 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      240   flags    0
+   0 _CODE                                      size      272   flags    0
    1 _DATA                                      size        0   flags    0
    2 _INITIALIZED                               size        0   flags    0
    3 _DABS                                      size        0   flags    8
