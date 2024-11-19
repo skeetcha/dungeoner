@@ -60,5 +60,8 @@ $(BINDIR):
 clean:
 	rm -f $(OBJDIR)/*.*
 
-run: $(BINS)
+run_gbg: $(BINS)
 	wine $(BGB) $(BINS)
+
+run_mgba: $(BINS)
+	mgba-qt -6 $(BINS)
