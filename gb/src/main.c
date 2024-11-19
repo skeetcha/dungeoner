@@ -8,6 +8,8 @@
 #include <rand.h>
 #include "fighter.h"
 #include <gb/metasprites.h>
+#include "rogue.h"
+#include <gbdk/emu_debug.h>
 
 void set_door(int direction) {
     switch (direction) {
@@ -86,6 +88,7 @@ void main(void) {
     }
 
     setup_fighter();
+    setup_rogue();
 
     while (run) {
         joypad_current = joypad();
@@ -93,6 +96,7 @@ void main(void) {
         update_frame_counter();
         uint8_t last_sprite = 0;
         last_sprite += update_fighter();
+        last_sprite += update_rogue(last_sprite);
 
         if (joypad_current & J_SELECT) {
             run = false;

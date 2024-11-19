@@ -65,3 +65,6 @@ run_bgb: $(BINS)
 
 run_mgba: $(BINS)
 	mgba-qt -6 $(BINS)
+
+run_emulicious: $(BINS)
+	emulicious

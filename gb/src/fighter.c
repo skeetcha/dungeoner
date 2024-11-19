@@ -7,9 +7,9 @@
 #include <gb/gb.h>
 #include <stdio.h>
 
-#define fighter_SPEED 4
+#define FIGHTER_SPEED 4
 
-uint8_t fighter_direction = 0;
+uint8_t fighter_direction = 0, fighter_last_direction = 0;
 uint16_t fighter_x, fighter_y;
 
 uint8_t flip_fighter = false;
@@ -36,34 +36,34 @@ void setup_fighter(void) {
 uint8_t update_fighter(void) {
     // Save our last direction
     // So we can keep track of directional changes
-    uint8_t fighter_last_direction = fighter_direction;
+    fighter_last_direction = fighter_direction;
     uint8_t fighter_moving = false;
     fighter_direction = fighter_direction;
 
     // check if the right joypad button is pressed
     if (joypad_current & J_RIGHT) {
-        fighter_x += fighter_SPEED;
+        fighter_x += FIGHTER_SPEED;
         fighter_direction = J_RIGHT;
         fighter_moving = true;
     }
 
     // check if the left joypad button is pressed
     if (joypad_current & J_LEFT) {
-        fighter_x -= fighter_SPEED;
+        fighter_x -= FIGHTER_SPEED;
         fighter_direction = J_LEFT;
         fighter_moving = true;
     }
 
     // check if the down joypad button is pressed
     if (joypad_current & J_DOWN) {
-        fighter_y += fighter_SPEED;
+        fighter_y += FIGHTER_SPEED;
         fighter_direction = J_DOWN;
         fighter_moving = true;
     }
 
     // check if the up joypad button is pressed
     if (joypad_current & J_UP) {
-        fighter_y -= fighter_SPEED;
+        fighter_y -= FIGHTER_SPEED;
         fighter_direction = J_UP;
         fighter_moving = true;
     }

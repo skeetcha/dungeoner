@@ -1,6 +1,7 @@
 #include "utils.h"
 #include <stdbool.h>
 #include <rand.h>
+#include <stdint.h>
 
 RollResult roll(unsigned int die_amount, unsigned int die_type, int bonus) {
     unsigned int sum = 0;
@@ -32,4 +33,12 @@ RollResult roll(unsigned int die_amount, unsigned int die_type, int bonus) {
 
 unsigned int rand_range(unsigned int min, unsigned int max) {
     return rand() % (max - min) + min;
+}
+
+int16_t abs(int16_t val) {
+    if (val < 0) {
+        return 0 - val;
+    }
+
+    return val;
 }
