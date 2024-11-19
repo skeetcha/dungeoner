@@ -7,17 +7,16 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
-  7 __xinit__rogue                                                  00000000 R
-  2 _rogue                                                          00000000 GR
-  0 _rogueTLE0                                                      00000000 GR
-  0 _rogueTLE1                                                      00000040 GR
-  0 _rogueTLE2                                                      00000080 GR
-  0 _rogueTLE3                                                      000000C0 GR
-  0 _rogueTLE4                                                      00000100 GR
-  0 _rogueTLE5                                                      00000140 GR
-  0 _rogueTLE6                                                      00000180 GR
-  0 _rogueTLE7                                                      000001C0 GR
-  0 _rogueTLE8                                                      00000200 GR
+  0 _fighterTLE0                                                    00000000 GR
+  0 _fighterTLE1                                                    00000040 GR
+  0 _fighterTLE2                                                    00000080 GR
+  0 _fighterTLE3                                                    000000C0 GR
+  0 _fighterTLE4                                                    00000100 GR
+  0 _fighterTLE5                                                    00000140 GR
+  0 _fighterTLE6                                                    00000180 GR
+  0 _fighterTLE7                                                    000001C0 GR
+  0 _fighterTLE8                                                    00000200 GR
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
@@ -26,11 +25,11 @@ Area Table
 
    0 _CODE                                      size      240   flags    0
    1 _DATA                                      size        0   flags    0
-   2 _INITIALIZED                               size       12   flags    0
+   2 _INITIALIZED                               size        0   flags    0
    3 _DABS                                      size        0   flags    8
    4 _HOME                                      size        0   flags    0
    5 _GSINIT                                    size        0   flags    0
    6 _GSFINAL                                   size        0   flags    0
-   7 _INITIALIZER                               size       12   flags    0
+   7 _INITIALIZER                               size        0   flags    0
    8 _CABS                                      size        0   flags    8
 
