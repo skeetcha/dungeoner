@@ -10,6 +10,9 @@
 *.ko
 *.obj
 *.elf
+*.asm
+*.lst
+*.sym
 
 # Linker output
 *.ilk
