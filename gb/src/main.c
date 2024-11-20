@@ -10,6 +10,7 @@
 #include <gb/metasprites.h>
 #include "rogue.h"
 #include "cleric.h"
+#include "wizard.h"
 
 void set_door(int direction) {
     switch (direction) {
@@ -90,6 +91,7 @@ void main(void) {
     setup_fighter();
     setup_rogue();
     setup_cleric();
+    setup_wizard();
 
     while (run) {
         joypad_current = joypad();
@@ -99,6 +101,7 @@ void main(void) {
         last_sprite += update_fighter();
         last_sprite += update_rogue(last_sprite);
         last_sprite += update_cleric(last_sprite);
+        last_sprite += update_wizard(last_sprite);
 
         hide_sprites_range(last_sprite, MAX_HARDWARE_SPRITES);
 
