@@ -9,7 +9,7 @@
 #include "fighter.h"
 #include <gb/metasprites.h>
 #include "rogue.h"
-#include <gbdk/emu_debug.h>
+#include "cleric.h"
 
 void set_door(int direction) {
     switch (direction) {
@@ -89,6 +89,7 @@ void main(void) {
 
     setup_fighter();
     setup_rogue();
+    setup_cleric();
 
     while (run) {
         joypad_current = joypad();
@@ -97,6 +98,9 @@ void main(void) {
         uint8_t last_sprite = 0;
         last_sprite += update_fighter();
         last_sprite += update_rogue(last_sprite);
+        last_sprite += update_cleric(last_sprite);
+
+        hide_sprites_range(last_sprite, MAX_HARDWARE_SPRITES);
 
         if (joypad_current & J_SELECT) {
             run = false;

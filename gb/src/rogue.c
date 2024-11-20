@@ -73,12 +73,13 @@ uint8_t update_rogue(uint8_t last_sprite) {
             }
         }
 
-         if (fighter_direction != fighter_last_direction) {
+        if (fighter_direction != fighter_last_direction) {
             switch (fighter_direction) {
                 case J_DOWN:
                     set_sprite_data(FIGHTER_PADDED_TILE_COUNT, rogue_down_TILE_COUNT, rogue_down_tiles);
                     break;
                 case J_RIGHT:
+                    flip_rogue = true;
                 case J_LEFT:
                     set_sprite_data(FIGHTER_PADDED_TILE_COUNT, rogue_left_TILE_COUNT, rogue_left_tiles);
                     break;
@@ -89,6 +90,9 @@ uint8_t update_rogue(uint8_t last_sprite) {
         }
     }
 
+
+    EMU_printf("%d\n", (rogue_metasprite >= rogue_up_metasprites[0]) && (rogue_metasprite <= rogue_up_metasprites[2]));
+    
     EMU_printf("%d\n", (rogue_metasprite >= rogue_up_metasprites[0]) && (rogue_metasprite <= rogue_up_metasprites[2]));
     // flip along the vertical access if necessary
     // Draw the character at the non-scaled position
