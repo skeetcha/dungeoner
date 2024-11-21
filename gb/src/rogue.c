@@ -85,11 +85,6 @@ uint8_t update_rogue(uint8_t last_sprite) {
             }
         }
     }
-
-
-    EMU_printf("%d\n", (rogue_metasprite >= rogue_up_metasprites[0]) && (rogue_metasprite <= rogue_up_metasprites[2]));
-    
-    EMU_printf("%d\n", (rogue_metasprite >= rogue_up_metasprites[0]) && (rogue_metasprite <= rogue_up_metasprites[2]));
     // flip along the vertical access if necessary
     // Draw the character at the non-scaled position
     // Return how many sprites were used
