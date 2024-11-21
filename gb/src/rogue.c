@@ -39,10 +39,6 @@ uint8_t update_rogue(uint8_t last_sprite) {
     int16_t dy = (uint16_t)(fighter_y >> 4) - (uint16_t)(rogue_y >> 4);
     int16_t dx_abs = abs(dx);
     int16_t dy_abs = abs(dy);
-    //uint16_t distance_to_follow = (dx * dx) + (dy * dy);
-    EMU_printf("change: %d %d; ", (int)dx, (int)dy);
-    EMU_printf("loc: %u %u; ", (unsigned int)(rogue_x >> 4), (unsigned int)(rogue_y >> 4));
-    EMU_printf("abs_change: %d %d\n", (int)dx_abs, (int)dy_abs);
 
     if ((dx_abs > 16) || (dy_abs > 16)) {
         uint8_t frame = three_frame_real_value;
