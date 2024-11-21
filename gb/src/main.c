@@ -1,7 +1,6 @@
 #include <gb/gb.h>
 #include <stdbool.h>
-#include "dungeon_tiles.h"
-#include "room.h"
+#include "../res/room.h"
 #include "dungeon.h"
 #include <stdio.h>
 #include <stdint.h>
@@ -12,9 +11,10 @@
 #include "cleric.h"
 #include "wizard.h"
 #include "utils.h"
+#include "../res/dungeon.h"
 
 void set_door(int direction) {
-    switch (direction) {
+    /*switch (direction) {
         case BIT_DOOR_NORTH:
             set_bkg_tiles(dungeon_north_door_index_x, dungeon_north_door_index_y, 1, 1, door);
             break;
@@ -27,7 +27,7 @@ void set_door(int direction) {
         case BIT_DOOR_EAST:
             set_bkg_tiles(dungeon_east_door_index_x, dungeon_east_door_index_y, 1, 1, door);
             break;
-    }
+    }*/
 }
 
 uint8_t joypad_current = 0;
@@ -35,18 +35,6 @@ uint8_t joypad_last = 0;
 bool run = true;
 uint8_t three_frame_counter = 0;
 uint8_t three_frame_real_value = 0;
-int8_t stair_up_x = -1, stair_up_y = -1, stair_down_x = -1, stair_down_y = -1;
-
-void set_stair(bool is_down) {
-    // 20 x 18 tiles
-    if (is_down) {
-        stair_down_x = (int8_t)rand_range(3, 16);
-        stair_down_y = (int8_t)rand_range(2, 15);
-    } else {
-        stair_up_x = (int8_t)rand_range(3, 16);
-        stair_up_y = (int8_t)rand_range(2, 15);
-    }
-}
 
 void update_frame_counter(void) {
     three_frame_counter += 2;
@@ -77,8 +65,8 @@ void main(void) {
     printf("%u", seed);
     initarand(seed);
 
-    set_bkg_data(0, 14, dungeon_tiles);
-    set_bkg_tiles(0, 0, dungeon_room_width, dungeon_room_height, dungeon_room);
+    set_bkg_data(0, 56, dungeon_tiles);
+    set_bkg_tiles(0, 0, ROOM_TILE_WIDTH, ROOM_TILE_HEIGHT, room_tilemap);
 
     Dungeon dungeon;
     init_dungeon(&dungeon, 6, 6);
@@ -99,14 +87,6 @@ void main(void) {
 
     if (HAS_SOUTH_DOOR(room)) {
         set_door(BIT_DOOR_SOUTH);
-    }
-
-    if (HAS_STAIR_UP(room)) {
-        set_stair(false);
-    }
-
-    if (HAS_STAIR_DOWN(room)) {
-        set_stair(true);
     }
 
     setup_fighter();
