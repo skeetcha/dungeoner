@@ -12,22 +12,29 @@
 #include "wizard.h"
 #include "utils.h"
 #include "../res/dungeon.h"
+#include <gbdk/emu_debug.h>
 
 void set_door(int direction) {
-    /*switch (direction) {
+    switch (direction) {
         case BIT_DOOR_NORTH:
-            set_bkg_tiles(dungeon_north_door_index_x, dungeon_north_door_index_y, 1, 1, door);
+            set_bkg_tiles(door_tiles_x, door_tiles_y, door_tiles_w, door_tiles_h, door_tiles);
             break;
         case BIT_DOOR_SOUTH:
-            set_bkg_tiles(dungeon_south_door_index_x, dungeon_south_door_index_y, 1, 1, door);
+            set_bkg_tiles(door_tiles_x, 17, 2, 1, other_door);
             break;
         case BIT_DOOR_WEST:
-            set_bkg_tiles(dungeon_west_door_index_x, dungeon_west_door_index_y, 1, 1, door);
+            set_bkg_tiles(0, 10, 1, 2, other_door);
             break;
         case BIT_DOOR_EAST:
-            set_bkg_tiles(dungeon_east_door_index_x, dungeon_east_door_index_y, 1, 1, door);
+            set_bkg_tiles(19, 10, 1, 2, other_door);
             break;
-    }*/
+        case BIT_STAIR_BELOW:
+            set_bkg_tiles(stair_down_x, stair_down_y, stair_down_w, stair_down_h, stair_down_tiles);
+            break;
+        case BIT_STAIR_UP:
+            set_bkg_tiles(stair_up_x, stair_up_y, stair_up_w, stair_up_h, stair_up_tiles);
+            break;
+    }
 }
 
 uint8_t joypad_current = 0;
@@ -64,13 +71,14 @@ void main(void) {
     seed |= (UWORD)DIV_REG << 8;
     initarand(seed);
 
-    set_bkg_data(0, 56, dungeon_tiles);
+    set_bkg_data(0, 57, dungeon_tiles);
     set_bkg_tiles(0, 0, ROOM_TILE_WIDTH, ROOM_TILE_HEIGHT, room_tilemap);
 
     Dungeon dungeon;
     init_dungeon(&dungeon, 6, 6);
     generate_dungeon(&dungeon);
     uint8_t room = dungeon.grid[dungeon.entrance];
+    EMU_printf("Room data: %d\n", room);
 
     if (HAS_NORTH_DOOR(room)) {
         set_door(BIT_DOOR_NORTH);
@@ -86,6 +94,14 @@ void main(void) {
 
     if (HAS_SOUTH_DOOR(room)) {
         set_door(BIT_DOOR_SOUTH);
+    }
+    
+    if (HAS_STAIR_DOWN(room)) {
+        set_door(BIT_STAIR_BELOW);
+    }
+    
+    if (HAS_STAIR_UP(room)) {
+        set_door(BIT_STAIR_UP);
     }
 
     setup_fighter();
