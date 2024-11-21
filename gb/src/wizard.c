@@ -25,7 +25,7 @@ void setup_wizard(void) {
     set_sprite_data(FRC_PADDED_TILE_COUNT, wizard_down_TILE_COUNT, wizard_down_tiles);
     set_sprite_palette(FRC_PADDED_TILE_COUNT, wizard_down_PALETTE_COUNT, wizard_down_palettes);
     wizard_x = 80 << 4;
-    wizard_y = (80 - 48) << 4;
+    wizard_y = (100 - 48) << 4;
     wizard_metasprite = wizard_down_metasprites[1];
 }
 

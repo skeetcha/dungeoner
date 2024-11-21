@@ -29,7 +29,7 @@ void setup_rogue(void) {
     // Position near the top middle
     // Scale the position, since we are using scaled integers
     rogue_x = 80 << 4;
-    rogue_y = (80 - 16) << 4;
+    rogue_y = (100 - 16) << 4;
     // Start with the down metasprite
     rogue_metasprite = rogue_down_metasprites[1];
 }

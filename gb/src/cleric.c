@@ -25,7 +25,7 @@ void setup_cleric(void) {
     set_sprite_data(FIGHTER_ROGUE_PADDED_TILE_COUNT, cleric_down_TILE_COUNT, cleric_down_tiles);
     set_sprite_palette(FIGHTER_ROGUE_PADDED_TILE_COUNT, cleric_down_PALETTE_COUNT, cleric_down_palettes);
     cleric_x = 80 << 4;
-    cleric_y = (80 - 32) << 4;
+    cleric_y = (100 - 32) << 4;
     cleric_metasprite = cleric_down_metasprites[1];
 }
 
