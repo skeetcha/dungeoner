@@ -62,7 +62,6 @@ void main(void) {
     waitpad(0xff);
     waitpadup();
     seed |= (UWORD)DIV_REG << 8;
-    printf("%u", seed);
     initarand(seed);
 
     set_bkg_data(0, 56, dungeon_tiles);
