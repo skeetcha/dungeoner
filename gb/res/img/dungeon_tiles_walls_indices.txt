@@ -1,0 +1,48 @@
+0   Stair Down 0,0  0x00
+1   Stair Down 1,0  0x01
+2   Stair Up 0,0    0x02
+3   Stair Up 1,0    0x03
+4   West Wall 0,0   0x04
+5   West Wall 1,0   0x05
+6   Middle Wall 0,0 0x06
+7   Middle Wall 1,0 0x07
+8   East Wall 0,0   0x08
+9   East Wall 1,0   0x09
+10  Door 0,0        0x0a
+11  Door 1,0        0x0b
+12  Stair Down 0,1  0x0c
+13  Stair Down 1,1  0x0d
+14  Stair Up 0,1    0x0e
+15  Stair Up 1,1    0x0f
+16  West Wall 0,1   0x10
+17  West Wall 1,1   0x11
+18  Middle Wall 0,1 0x12
+19  Middle Wall 1,1 0x13
+20  East Wall 0,1   0x14
+21  East Wall 1,1   0x15
+22  Door 0,1        0x16
+23  Door 1,1        0x17
+24  Stair Down 0,2  0x18
+25  Stair Down 1,2  0x19
+26  Stair Up 0,2    0x1a
+27  Stair Up 1,2    0x1b
+28  West Wall 0,2   0x1c
+29  West Wall 1,2   0x1d
+30  Middle Wall 0,2 0x1e
+31  Middle Wall 1,2 0x1f
+32  East Wall 0,2   0x20
+33  East Wall 1,2   0x21
+34  Door 0,2        0x22
+35  Door 1,2        0x23
+36  Stair Down 0,3  0x24
+37  Stair Down 1,3  0x25
+38  Stair Up 0,3    0x26
+39  Stair Up 1,3    0x27
+40  West Wall 0,3   0x28
+41  West Wall 1,3   0x29
+42  Middle Wall 0,3 0x2a
+43  Middle Wall 1,3 0x2b
+44  East Wall 0,3   0x2c
+45  East Wall 1,3   0x2d
+46  Door 0,3        0x2e
+47  Door 1,3        0x2f
