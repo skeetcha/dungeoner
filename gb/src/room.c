@@ -46,4 +46,20 @@ const unsigned char door[] = {
     0x4
 };
 
+const unsigned char stair_up[] = {
+
+};
+
+const unsigned char stair_left[] = {
+
+};
+
+const unsigned char stair_right[] = {
+
+};
+
+const unsigned char stair_down[] = {
+
+};
+
 /* End of ROOM.C */

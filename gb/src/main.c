@@ -11,6 +11,7 @@
 #include "rogue.h"
 #include "cleric.h"
 #include "wizard.h"
+#include "utils.h"
 
 void set_door(int direction) {
     switch (direction) {
@@ -34,6 +35,18 @@ uint8_t joypad_last = 0;
 bool run = true;
 uint8_t three_frame_counter = 0;
 uint8_t three_frame_real_value = 0;
+int8_t stair_up_x = -1, stair_up_y = -1, stair_down_x = -1, stair_down_y = -1;
+
+void set_stair(bool is_down) {
+    // 20 x 18 tiles
+    if (is_down) {
+        stair_down_x = (int8_t)rand_range(3, 16);
+        stair_down_y = (int8_t)rand_range(2, 15);
+    } else {
+        stair_up_x = (int8_t)rand_range(3, 16);
+        stair_up_y = (int8_t)rand_range(2, 15);
+    }
+}
 
 void update_frame_counter(void) {
     three_frame_counter += 2;
@@ -86,6 +99,14 @@ void main(void) {
 
     if (HAS_SOUTH_DOOR(room)) {
         set_door(BIT_DOOR_SOUTH);
+    }
+
+    if (HAS_STAIR_UP(room)) {
+        set_stair(false);
+    }
+
+    if (HAS_STAIR_DOWN(room)) {
+        set_stair(true);
     }
 
     setup_fighter();
