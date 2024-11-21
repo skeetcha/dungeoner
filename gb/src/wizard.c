@@ -5,7 +5,7 @@
 #include "../res/wizard_left.h"
 #include "../res/wizard_up.h"
 #include <stdbool.h>
-#include "utils.h"
+#include <stdlib.h>
 #include <gb/gb.h>
 
 #define WIZARD_SPEED 4

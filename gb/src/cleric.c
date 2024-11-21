@@ -5,7 +5,7 @@
 #include "../res/cleric_up.h"
 #include "../res/cleric_left.h"
 #include <stdbool.h>
-#include "utils.h"
+#include <stdlib.h>
 #include <gb/gb.h>
 
 #define CLERIC_SPEED 4

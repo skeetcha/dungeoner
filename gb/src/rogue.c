@@ -5,7 +5,7 @@
 #include "../res/rogue_up.h"
 #include "../res/rogue_left.h"
 #include <gb/gb.h>
-#include "utils.h"
+#include <stdlib.h>
 #include <gb/emu_debug.h>
 
 #define ROGUE_SPEED 4
