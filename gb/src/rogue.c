@@ -23,15 +23,15 @@ extern uint8_t three_frame_real_value;
 
 void setup_rogue(void) {
     // set the down tiles in
-    set_sprite_data(FIGHTER_PADDED_TILE_COUNT, rogue_down_TILE_COUNT, rogue_down_tiles);
+    set_sprite_data(FIGHTER_PADDED_TILE_COUNT, rogue_up_TILE_COUNT, rogue_up_tiles);
     // Set our color palettes into vram
-    set_sprite_palette(FIGHTER_PADDED_TILE_COUNT, rogue_down_PALETTE_COUNT, rogue_down_palettes);
+    set_sprite_palette(FIGHTER_PADDED_TILE_COUNT, rogue_up_PALETTE_COUNT, rogue_up_palettes);
     // Position near the top middle
     // Scale the position, since we are using scaled integers
     rogue_x = 80 << 4;
     rogue_y = 120 << 4;
     // Start with the down metasprite
-    rogue_metasprite = rogue_down_metasprites[1];
+    rogue_metasprite = rogue_up_metasprites[1];
 }
 
 uint8_t update_rogue(uint8_t last_sprite) {

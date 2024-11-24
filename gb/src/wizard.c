@@ -22,11 +22,11 @@ metasprite_t const *wizard_metasprite;
 extern uint8_t three_frame_real_value;
 
 void setup_wizard(void) {
-    set_sprite_data(FRC_PADDED_TILE_COUNT, wizard_down_TILE_COUNT, wizard_down_tiles);
-    set_sprite_palette(FRC_PADDED_TILE_COUNT, wizard_down_PALETTE_COUNT, wizard_down_palettes);
+    set_sprite_data(FRC_PADDED_TILE_COUNT, wizard_up_TILE_COUNT, wizard_up_tiles);
+    set_sprite_palette(FRC_PADDED_TILE_COUNT, wizard_up_PALETTE_COUNT, wizard_up_palettes);
     wizard_x = 112 << 4;
     wizard_y = 120 << 4;
-    wizard_metasprite = wizard_down_metasprites[1];
+    wizard_metasprite = wizard_up_metasprites[1];
 }
 
 uint8_t update_wizard(uint8_t last_sprite) {

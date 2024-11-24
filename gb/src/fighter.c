@@ -20,17 +20,17 @@ extern uint8_t joypad_current, joypad_last, three_frame_real_value;
 
 void setup_fighter(void) {
     // set the down tiles in
-    set_sprite_data(0, fighter_down_TILE_COUNT, fighter_down_tiles);
+    set_sprite_data(0, fighter_up_TILE_COUNT, fighter_up_tiles);
     // Set our color palettes into vram
-    set_sprite_palette(0, fighter_down_PALETTE_COUNT, fighter_down_palettes);
+    set_sprite_palette(0, fighter_up_PALETTE_COUNT, fighter_up_palettes);
     // Position near the top middle
     // Scale the position, since we are using scaled integers
     fighter_x = 64 << 4;
     fighter_y = 120 << 4;
     // Start by facing down
-    fighter_direction = J_DOWN;
+    fighter_direction = J_UP;
     // Start with the down metasprite
-    fighter_metasprite = fighter_down_metasprites[1];
+    fighter_metasprite = fighter_up_metasprites[1];
 }
 
 uint8_t update_fighter(void) {

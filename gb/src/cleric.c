@@ -22,11 +22,11 @@ metasprite_t const *cleric_metasprite;
 extern uint8_t three_frame_real_value;
 
 void setup_cleric(void) {
-    set_sprite_data(FIGHTER_ROGUE_PADDED_TILE_COUNT, cleric_down_TILE_COUNT, cleric_down_tiles);
-    set_sprite_palette(FIGHTER_ROGUE_PADDED_TILE_COUNT, cleric_down_PALETTE_COUNT, cleric_down_palettes);
+    set_sprite_data(FIGHTER_ROGUE_PADDED_TILE_COUNT, cleric_up_TILE_COUNT, cleric_up_tiles);
+    set_sprite_palette(FIGHTER_ROGUE_PADDED_TILE_COUNT, cleric_up_PALETTE_COUNT, cleric_up_palettes);
     cleric_x = 96 << 4;
     cleric_y = 120 << 4;
-    cleric_metasprite = cleric_down_metasprites[1];
+    cleric_metasprite = cleric_up_metasprites[1];
 }
 
 uint8_t update_cleric(uint8_t last_sprite) {
