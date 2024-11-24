@@ -1,5 +1,7 @@
 #include "monsters.h"
 #include "monster.h"
+#include <stdbool.h>
+#include <stdlib.h>
 
 const Monster goblin = {
     {                   // Begin Stats
@@ -22,5 +24,10 @@ const Monster goblin = {
         LEVEL_NEG_1     //  Level
     },                  // End Stats
     6,                  // Current HP
-    "Goblin Warrior"    // Name
+    "Goblin Warrior",   // Name
+    false,              // Flip Sprite
+    {
+        0, 0            // Location (x, y)
+    },
+    NULL
 };

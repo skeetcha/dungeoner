@@ -2,6 +2,8 @@
 #define MONSTER_H
 
 #include <stdint.h>
+#include <stdbool.h>
+#include <gb/metasprites.h>
 
 // Size
 #define SIZE_TINY       0
@@ -54,6 +56,9 @@ typedef struct _monster {
     uint8_t stats[17];
     uint8_t current_hp;
     const char* name;
+    bool flip_sprite;
+    uint8_t location[2];
+    metasprite_t const *metasprite;
 } Monster;
 
 #endif

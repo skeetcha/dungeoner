@@ -3,6 +3,7 @@
 
 #include "monster.h"
 #include <gb/gb.h>
+#include <stdint.h>
 
 // Difficulty
 #define DIFFICULTY_TRIVIAL  0
@@ -12,6 +13,6 @@
 #define DIFFICULTY_EXTREME  4
 #define DIFFICULTY_NONE     5
 
-Monster* generate_encounter(UBYTE difficulty);
+Monster* generate_encounter(UBYTE difficulty, uint8_t* monster_num_ref);
 
 #endif

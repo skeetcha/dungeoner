@@ -4,8 +4,9 @@
 #include "utils.h"
 #include <stdlib.h>
 #include "monsters.h"
+#include <stdint.h>
 
-Monster* generate_encounter(UBYTE difficulty) {
+Monster* generate_encounter(UBYTE difficulty, uint8_t* monster_num_ref) {
     unsigned int monster_num = 0;
 
     switch (difficulty) {
@@ -32,5 +33,6 @@ Monster* generate_encounter(UBYTE difficulty) {
         monsters[i] = goblin;
     }
 
+    *monster_num_ref = monster_num;
     return monsters;
 }
