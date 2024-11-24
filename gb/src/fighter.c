@@ -25,8 +25,8 @@ void setup_fighter(void) {
     set_sprite_palette(0, fighter_down_PALETTE_COUNT, fighter_down_palettes);
     // Position near the top middle
     // Scale the position, since we are using scaled integers
-    fighter_x = 80 << 4;
-    fighter_y = 100 << 4;
+    fighter_x = 64 << 4;
+    fighter_y = 120 << 4;
     // Start by facing down
     fighter_direction = J_DOWN;
     // Start with the down metasprite

@@ -24,8 +24,8 @@ extern uint8_t three_frame_real_value;
 void setup_wizard(void) {
     set_sprite_data(FRC_PADDED_TILE_COUNT, wizard_down_TILE_COUNT, wizard_down_tiles);
     set_sprite_palette(FRC_PADDED_TILE_COUNT, wizard_down_PALETTE_COUNT, wizard_down_palettes);
-    wizard_x = 80 << 4;
-    wizard_y = (100 - 48) << 4;
+    wizard_x = 112 << 4;
+    wizard_y = 120 << 4;
     wizard_metasprite = wizard_down_metasprites[1];
 }
 
