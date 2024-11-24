@@ -16,6 +16,8 @@
 #include "encounter.h"
 #include "goblin.h"
 #include "monster.h"
+#include <stdlib.h>
+#include "../res/goblin_down.h"
 
 void set_door(int direction) {
     switch (direction) {
@@ -47,6 +49,8 @@ uint8_t three_frame_counter = 0;
 uint8_t three_frame_real_value = 0;
 bool encounter_mode = true;
 uint8_t monster_num = 0;
+
+#define PLAYER_TILE_OFFSET 48
 
 void update_frame_counter(void) {
     three_frame_counter += 2;
@@ -114,9 +118,14 @@ void main(void) {
     setup_cleric();
     setup_wizard();
     Monster* current_monsters = generate_encounter(rand_range(DIFFICULTY_TRIVIAL, DIFFICULTY_NONE), &monster_num);
+    EMU_printf("Number of monsters: %d\n", monster_num);
+    set_sprite_data(PLAYER_TILE_OFFSET, goblin_down_TILE_COUNT, goblin_down_tiles);
+    set_sprite_palette(PLAYER_TILE_OFFSET, goblin_down_PALETTE_COUNT, goblin_down_palettes);
 
     for (int i = 0; i < monster_num; i++) {
-        setup_goblin(i * 12, &current_monsters[i]);
+        setup_goblin(&current_monsters[i]);
+        current_monsters[i].location[0] = (64 + (16 * i)) << 4;
+        current_monsters[i].location[1] = 64 << 4;
     }
 
     while (run) {
@@ -128,9 +137,10 @@ void main(void) {
         last_sprite += update_rogue(last_sprite);
         last_sprite += update_cleric(last_sprite);
         last_sprite += update_wizard(last_sprite);
+        EMU_printf("monster call\n");
 
         for (int i = 0; i < monster_num; i++) {
-            last_sprite += update_goblin(i * 12, last_sprite, &current_monsters[i]);
+            last_sprite += update_goblin(last_sprite, &current_monsters[i]);
         }
 
         hide_sprites_range(last_sprite, MAX_HARDWARE_SPRITES);
@@ -146,5 +156,6 @@ void main(void) {
     HIDE_BKG;
     DISPLAY_OFF;
     free_dungeon(&dungeon);
+    free(current_monsters);
     printf("Game closed.");
 }

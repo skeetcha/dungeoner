@@ -29,5 +29,5 @@ const Monster goblin = {
     {
         0, 0            // Location (x, y)
     },
-    NULL
+    NULL                // Metasprite (set during setup)
 };
