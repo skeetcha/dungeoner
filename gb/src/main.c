@@ -138,7 +138,6 @@ void main(void) {
         last_sprite += update_rogue(last_sprite);
         last_sprite += update_cleric(last_sprite);
         last_sprite += update_wizard(last_sprite);
-        //EMU_printf("monster call\n");
 
         for (int i = 0; i < monster_num; i++) {
             last_sprite += update_goblin(last_sprite, &current_monsters[i]);
