@@ -118,14 +118,15 @@ void main(void) {
     setup_cleric();
     setup_wizard();
     Monster* current_monsters = generate_encounter(rand_range(DIFFICULTY_TRIVIAL, DIFFICULTY_NONE), &monster_num);
-    EMU_printf("Number of monsters: %d\n", monster_num);
+    monster_num = monster_num;
     set_sprite_data(PLAYER_TILE_OFFSET, goblin_down_TILE_COUNT, goblin_down_tiles);
     set_sprite_palette(PLAYER_TILE_OFFSET, goblin_down_PALETTE_COUNT, goblin_down_palettes);
 
-    for (int i = 0; i < monster_num; i++) {
+    for (uint8_t i = 0; i < monster_num; i++) {
         setup_goblin(&current_monsters[i]);
         current_monsters[i].location[0] = (64 + (16 * i)) << 4;
         current_monsters[i].location[1] = 64 << 4;
+        EMU_printf("Monster %d has location of %d, %d\n", i + 1, current_monsters[i].location[0] >> 4, current_monsters[i].location[1] >> 4);
     }
 
     while (run) {
@@ -137,7 +138,7 @@ void main(void) {
         last_sprite += update_rogue(last_sprite);
         last_sprite += update_cleric(last_sprite);
         last_sprite += update_wizard(last_sprite);
-        EMU_printf("monster call\n");
+        //EMU_printf("monster call\n");
 
         for (int i = 0; i < monster_num; i++) {
             last_sprite += update_goblin(last_sprite, &current_monsters[i]);

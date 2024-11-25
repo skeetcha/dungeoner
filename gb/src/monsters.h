@@ -3,6 +3,6 @@
 
 #include "monster.h"
 
-extern const Monster goblin;
+extern const MonsterData goblin;
 
 #endif

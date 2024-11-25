@@ -35,7 +35,7 @@
 #define LEVEL_ZERO  1
 #define LEVEL_POS(val) (val + 1)
 
-typedef struct _monster {
+typedef struct _monster_data {
     // 0:  Size (unsigned)
     // 1:  Type (unsigned)
     // 2:  Subtype (unsigned)
@@ -56,8 +56,12 @@ typedef struct _monster {
     uint8_t stats[17];
     uint8_t current_hp;
     const char* name;
+} MonsterData;
+
+typedef struct _monster {
+    MonsterData const *data;
     bool flip_sprite;
-    uint8_t location[2];
+    uint16_t location[2];
     metasprite_t const *metasprite;
 } Monster;
 

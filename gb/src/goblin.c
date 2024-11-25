@@ -15,7 +15,7 @@ void setup_goblin(Monster* goblin) {
 }
 
 uint8_t update_goblin(uint8_t last_sprite, Monster* goblin) {
-    EMU_printf("Last Sprite: %d\n", last_sprite);
+    //EMU_printf("Location X: %d (%d), Y: %d (%d)\n", goblin->location[0], goblin->location[0] >> 4, goblin->location[1], goblin->location[1] >> 4);
 
     if (goblin->flip_sprite) {
         return move_metasprite_flipx(goblin->metasprite, PLAYER_TILE_OFFSET, 0, last_sprite, goblin->location[0] >> 4, goblin->location[1] >> 4);

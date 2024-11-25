@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-const Monster goblin = {
+const MonsterData goblin = {
     {                   // Begin Stats
         SIZE_SMALL,     //  Size
         MTYPE_HUMANOID, //  Type

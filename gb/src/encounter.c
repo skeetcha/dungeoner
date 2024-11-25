@@ -5,9 +5,12 @@
 #include <stdlib.h>
 #include "monsters.h"
 #include <stdint.h>
+#include <stdbool.h>
+#include "../res/goblin_down.h"
+#include <gb/emu_debug.h>
 
 Monster* generate_encounter(UBYTE difficulty, uint8_t* monster_num_ref) {
-    unsigned int monster_num = 0;
+    uint8_t monster_num = 0;
 
     switch (difficulty) {
         case DIFFICULTY_TRIVIAL:
@@ -27,10 +30,16 @@ Monster* generate_encounter(UBYTE difficulty, uint8_t* monster_num_ref) {
             break;
     }
 
+    EMU_printf("Monster num: %d\n", monster_num);
+
     Monster* monsters = (Monster*)calloc(monster_num, sizeof(Monster));
 
     for (int i = 0; i < monster_num; i++) {
-        monsters[i] = goblin;
+        monsters[i].data = &goblin;
+        monsters[i].flip_sprite = false;
+        monsters[i].location[0] = 0;
+        monsters[i].location[1] = 0;
+        monsters[i].metasprite = goblin_down_metasprites[1];
     }
 
     *monster_num_ref = monster_num;
