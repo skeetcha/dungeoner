@@ -1,8 +1,8 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include <gb/gb.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 // : Character Creation Options
 // ::: Classes
@@ -90,13 +90,44 @@
 #define VERS_CHANGELING      0x2e
 #define VERS_DRAGONBLOOD     0x2f
 #define VERS_NEPHILIM        0x30
+// Modifiers
+#define MOD_NEG_5 0
+#define MOD_NEG_4 1
+#define MOD_NEG_3 2
+#define MOD_NEG_2 3
+#define MOD_NEG_1 4
+#define MOD_ZERO  5
+#define MOD_POS_1 6
+#define MOD_POS_2 7
+#define MOD_POS_3 8
+#define MOD_POS_4 9
+#define MOD_POS_5 10
+#define MOD_POS_6 11
+#define MOD_POS_7 12
+// Size
+#define SIZE_TINY       0
+#define SIZE_SMALL      1
+#define SIZE_MEDIUM     2
+#define SIZE_LARGE      3
+#define SIZE_HUGE       4
+#define SIZE_GARGANTUAN 5
 
 typedef struct _character {
-    UBYTE class_val;
-    UBYTE ancestry;
-    UBYTE heritage;
+    uint8_t class_val;
+    uint8_t ancestry;
+    uint8_t heritage;
+    uint8_t stats[6];
+    bool skills[16];
+    uint8_t perception;
+    uint8_t saves[3];
+    uint8_t speed;
+    uint8_t size;
 } Character;
 
 bool Character_is_valid(Character ch);
+extern const Character char_fighter;
+extern const Character char_rogue;
+extern const Character char_cleric;
+extern const Character char_wizard;
 
 #endif

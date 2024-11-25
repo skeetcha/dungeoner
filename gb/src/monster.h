@@ -63,6 +63,7 @@ typedef struct _monster {
     bool flip_sprite;
     uint16_t location[2];
     metasprite_t const *metasprite;
+    uint8_t direction;
 } Monster;
 
 #endif

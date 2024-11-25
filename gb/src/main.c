@@ -18,6 +18,9 @@
 #include "monster.h"
 #include <stdlib.h>
 #include "../res/goblin_down.h"
+#include "../res/goblin_up.h"
+#include "../res/goblin_left.h"
+#include "character.h"
 
 void set_door(int direction) {
     switch (direction) {
@@ -49,6 +52,18 @@ uint8_t three_frame_counter = 0;
 uint8_t three_frame_real_value = 0;
 bool encounter_mode = true;
 uint8_t monster_num = 0;
+uint8_t encounter_order[] = {
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    // 0: null
+    // 1: fighter
+    // 2: rogue
+    // 3: cleric
+    // 4: wizard
+    // 5+: goblins in same order as `current_monsters`
+};
+uint16_t initiative[] = {
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
 
 #define PLAYER_TILE_OFFSET 48
 
@@ -61,6 +76,71 @@ void update_frame_counter(void) {
         three_frame_real_value = 0;
         three_frame_counter = 0;
     }
+}
+
+int comp_init(const void* a, const void* b) {
+    uint8_t index_a = *(const uint8_t*)a;
+    uint8_t index_b = *(const uint8_t*)b;
+
+    if (initiative[index_a] < initiative[index_b]) return 1;
+    if (initiative[index_a] > initiative[index_b]) return -1;
+    return 0;
+}
+
+void roll_initiative(void) {
+    uint8_t prof = char_fighter.perception;
+    int bonus;
+
+    if (prof == 0) {
+        bonus = (int)char_fighter.stats[4] - 5;
+    } else {
+        bonus = (int)char_fighter.stats[4] - 4 + (prof << 1);
+    }
+
+    RollResult result;
+    result = roll(1, 20, bonus);
+    initiative[0] = (uint16_t)result.result;
+    prof = char_rogue.perception;
+    
+    if (prof == 0) {
+        bonus = (int)char_rogue.stats[4] - 5;
+    } else {
+        bonus = (int)char_rogue.stats[4] - 4 + (prof << 1);
+    }
+
+    result = roll(1, 20, bonus);
+    initiative[1] = (uint16_t)result.result;
+    prof = char_cleric.perception;
+
+    if (prof == 0) {
+        bonus = (int)char_cleric.stats[4] - 5;
+    } else {
+        bonus = (int)char_cleric.stats[4] - 4 + (prof << 1);
+    }
+
+    result = roll(1, 20, bonus);
+    initiative[2] = (uint16_t)result.result;
+    prof = char_wizard.perception;
+
+    if (prof == 0) {
+        bonus = (int)char_wizard.stats[4] - 5;
+    } else {
+        bonus = (int)char_wizard.stats[4] - 4 + (prof << 1);
+    }
+
+    result = roll(1, 20, bonus);
+    initiative[3] = (uint16_t)result.result;
+
+    for (uint8_t i = 0; i < monster_num; i++) {
+        result = roll(1, 20, 2);
+        initiative[4 + i] = (uint16_t)result.result;
+    }
+
+    for (uint8_t i = 0; i < monster_num + 4; i++) {
+        encounter_order[i] = i + 1;
+    }
+
+    qsort(encounter_order, (size_t)(monster_num + 4), sizeof(uint8_t), comp_init);
 }
 
 void main(void) {
@@ -121,6 +201,10 @@ void main(void) {
     monster_num = monster_num;
     set_sprite_data(PLAYER_TILE_OFFSET, goblin_down_TILE_COUNT, goblin_down_tiles);
     set_sprite_palette(PLAYER_TILE_OFFSET, goblin_down_PALETTE_COUNT, goblin_down_palettes);
+    set_sprite_data(PLAYER_TILE_OFFSET + 12, goblin_up_TILE_COUNT, goblin_up_tiles);
+    set_sprite_palette(PLAYER_TILE_OFFSET + 12, goblin_up_PALETTE_COUNT, goblin_up_palettes);
+    set_sprite_data(PLAYER_TILE_OFFSET + 24, goblin_left_TILE_COUNT, goblin_left_tiles);
+    set_sprite_palette(PLAYER_TILE_OFFSET + 24, goblin_left_PALETTE_COUNT, goblin_left_palettes);
 
     for (uint8_t i = 0; i < monster_num; i++) {
         setup_goblin(&current_monsters[i]);
@@ -128,6 +212,9 @@ void main(void) {
         current_monsters[i].location[1] = 64 << 4;
         EMU_printf("Monster %d has location of %d, %d\n", i + 1, current_monsters[i].location[0] >> 4, current_monsters[i].location[1] >> 4);
     }
+
+    roll_initiative();
+    EMU_printf("First initiative: %d\n", encounter_order[0]);
 
     while (run) {
         joypad_current = joypad();
@@ -157,5 +244,5 @@ void main(void) {
     DISPLAY_OFF;
     free_dungeon(&dungeon);
     free(current_monsters);
-    printf("Game closed.");
+    EMU_printf("Game closed.");
 }

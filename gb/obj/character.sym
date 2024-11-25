@@ -8,14 +8,17 @@ Symbol Table
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
   0 _Character_is_valid                                             00000000 GR
-
+  0 _char_cleric                                                    000001AA GR
+  0 _char_fighter                                                   0000016C GR
+  0 _char_rogue                                                     0000018B GR
+  0 _char_wizard                                                    000001C9 GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      16C   flags    0
+   0 _CODE                                      size      1E8   flags    0
    1 _DATA                                      size        0   flags    0
    2 _INITIALIZED                               size        0   flags    0
    3 _DABS                                      size        0   flags    8
