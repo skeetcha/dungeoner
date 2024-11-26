@@ -21,6 +21,7 @@
 #include "../res/goblin_up.h"
 #include "../res/goblin_left.h"
 #include "character.h"
+#include <gbdk/font.h>
 
 void set_door(int direction) {
     switch (direction) {
@@ -144,6 +145,11 @@ void roll_initiative(void) {
 }
 
 void main(void) {
+    font_t min_font;
+    font_init();
+    min_font = font_load(font_min); // 36 tiles
+    font_set(min_font);
+
     SHOW_BKG;
     DISPLAY_ON;
     SHOW_SPRITES;
@@ -160,7 +166,7 @@ void main(void) {
     seed |= (UWORD)DIV_REG << 8;
     initarand(seed);
 
-    set_bkg_data(0, 57, dungeon_tiles);
+    set_bkg_data(37, 57, dungeon_tiles);
     set_bkg_tiles(0, 0, ROOM_TILE_WIDTH, ROOM_TILE_HEIGHT, room_tilemap);
 
     Dungeon dungeon;
