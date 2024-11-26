@@ -22,6 +22,8 @@
 #include "../res/goblin_left.h"
 #include "character.h"
 #include <gbdk/font.h>
+#include "../res/window_tiles.h"
+#include "../res/window.h"
 
 void set_door(int direction) {
     switch (direction) {
@@ -65,6 +67,7 @@ uint8_t encounter_order[] = {
 uint16_t initiative[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
+uint8_t map_offset = 32;
 
 #define PLAYER_TILE_OFFSET 48
 
@@ -144,6 +147,71 @@ void roll_initiative(void) {
     qsort(encounter_order, (size_t)(monster_num + 4), sizeof(uint8_t), comp_init);
 }
 
+void update_main(Monster* current_monsters) {
+    joypad_current = joypad();
+
+    update_frame_counter();
+    uint8_t last_sprite = 0;
+    last_sprite += update_fighter();
+    last_sprite += update_rogue(last_sprite);
+    last_sprite += update_cleric(last_sprite);
+    last_sprite += update_wizard(last_sprite);
+
+    for (uint8_t i = 0; i < monster_num; i++) {
+        last_sprite += update_goblin(last_sprite, &current_monsters[i]);
+    }
+
+    for (uint8_t sprite = 0; sprite < last_sprite; sprite++) {
+        scroll_sprite(sprite, 0, -map_offset);
+    }
+
+    hide_sprites_range(last_sprite, MAX_HARDWARE_SPRITES);
+
+    if (joypad_current & J_SELECT) {
+        run = false;
+    }
+
+    joypad_last = joypad_current;
+}
+
+void print_room_data(uint8_t room) {
+    EMU_printf("Room data:\n");
+
+    if (IS_USED(room)) {
+        EMU_printf("used, ");
+    }
+
+    if (IS_ENTRANCE(room)) {
+        EMU_printf("entrance, ");
+    }
+
+    if (HAS_NORTH_DOOR(room)) {
+        EMU_printf("north, ");
+    }
+
+    if (HAS_EAST_DOOR(room)) {
+        EMU_printf("east, ");
+    }
+
+    if (HAS_WEST_DOOR(room)) {
+        EMU_printf("west, ");
+    }
+
+    if (HAS_SOUTH_DOOR(room)) {
+        EMU_printf("south, ");
+    }
+
+    if (HAS_STAIR_DOWN(room)) {
+        EMU_printf("stair down, ");
+    }
+
+    if (HAS_STAIR_UP(room)) {
+        EMU_printf("stair up, ");
+    }
+
+    EMU_printf("\n");
+}
+
 void main(void) {
     font_t min_font;
     font_init();
@@ -169,11 +237,17 @@ void main(void) {
     set_bkg_data(37, 57, dungeon_tiles);
     set_bkg_tiles(0, 0, ROOM_TILE_WIDTH, ROOM_TILE_HEIGHT, room_tilemap);
 
+    set_win_data(0x5e, 9, window_tiles);
+    set_win_tiles(0, 0, 20, 4, window_tilemap);
+    move_win(7, 112);
+
+    SHOW_WIN;
+
     Dungeon dungeon;
     init_dungeon(&dungeon, 6, 6);
     generate_dungeon(&dungeon);
     uint8_t room = dungeon.grid[dungeon.entrance];
-    EMU_printf("Room data: %d\n", room);
+    print_room_data(room);
 
     if (HAS_NORTH_DOOR(room)) {
         set_door(BIT_DOOR_NORTH);
@@ -216,39 +290,21 @@ void main(void) {
         setup_goblin(&current_monsters[i]);
         current_monsters[i].location[0] = (64 + (16 * i)) << 4;
         current_monsters[i].location[1] = 64 << 4;
-        EMU_printf("Monster %d has location of %d, %d\n", i + 1, current_monsters[i].location[0] >> 4, current_monsters[i].location[1] >> 4);
     }
 
     roll_initiative();
-    EMU_printf("First initiative: %d\n", encounter_order[0]);
+    scroll_bkg(0, map_offset);
 
     while (run) {
-        joypad_current = joypad();
-
-        update_frame_counter();
-        uint8_t last_sprite = 0;
-        last_sprite += update_fighter();
-        last_sprite += update_rogue(last_sprite);
-        last_sprite += update_cleric(last_sprite);
-        last_sprite += update_wizard(last_sprite);
-
-        for (int i = 0; i < monster_num; i++) {
-            last_sprite += update_goblin(last_sprite, &current_monsters[i]);
-        }
-
-        hide_sprites_range(last_sprite, MAX_HARDWARE_SPRITES);
-
-        if (joypad_current & J_SELECT) {
-            run = false;
-        }
-
+        update_main(current_monsters);
         vsync();
-        joypad_last = joypad_current;
     }
     
     HIDE_BKG;
+    HIDE_WIN;
+    HIDE_SPRITES;
     DISPLAY_OFF;
     free_dungeon(&dungeon);
     free(current_monsters);
-    EMU_printf("Game closed.");
+    EMU_printf("Game closed.\n");
 }
