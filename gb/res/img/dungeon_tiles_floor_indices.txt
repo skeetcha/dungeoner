@@ -1,0 +1,9 @@
+0   Blank
+1   NW
+2   N
+3   NE
+4   E
+5   SE
+6   S
+7   SW
+8   W
