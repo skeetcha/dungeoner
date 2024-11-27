@@ -1,0 +1,11 @@
+{
+  "_resourceType": "tileset",
+  "id": "a02af226-2ff9-423d-8ddc-cdfe5eee9684",
+  "name": "dungeon_tiles_walls",
+  "symbol": "tileset_dungeon_tiles_walls",
+  "width": 12,
+  "height": 4,
+  "imageWidth": 96,
+  "imageHeight": 32,
+  "filename": "dungeon_tiles_walls.png"
+}

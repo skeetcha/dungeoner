@@ -1,0 +1,19 @@
+{
+  "_resourceType": "actorPrefab",
+  "id": "fc8d4d70-afc5-4453-b4c6-4f250c3db95c",
+  "name": "Wizard",
+  "frame": 0,
+  "animate": false,
+  "spriteSheetId": "fb8ce9f7-3b93-4faf-a788-e69c4cfe26b8",
+  "moveSpeed": 1,
+  "animSpeed": 15,
+  "paletteId": "",
+  "persistent": false,
+  "collisionGroup": "",
+  "script": [],
+  "startScript": [],
+  "updateScript": [],
+  "hit1Script": [],
+  "hit2Script": [],
+  "hit3Script": []
+}

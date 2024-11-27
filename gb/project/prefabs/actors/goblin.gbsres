@@ -1,0 +1,19 @@
+{
+  "_resourceType": "actorPrefab",
+  "id": "40b7d0de-333d-45c1-be81-1a4e6e550bfc",
+  "name": "Goblin",
+  "frame": 0,
+  "animate": false,
+  "spriteSheetId": "1a0f3de8-e9c5-4f68-af94-557a6e574266",
+  "moveSpeed": 1,
+  "animSpeed": 15,
+  "paletteId": "",
+  "persistent": false,
+  "collisionGroup": "",
+  "script": [],
+  "startScript": [],
+  "updateScript": [],
+  "hit1Script": [],
+  "hit2Script": [],
+  "hit3Script": []
+}
