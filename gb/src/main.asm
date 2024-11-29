@@ -23,11 +23,16 @@ SECTION "Header", ROM0[$100]
 SECTION "Entry point", ROM0
 
 EntryPoint:
-    ; Here is where the fun begins, happy coding :)
+    ; Seed random number generator
     ld b, 0
     ld c, 10
     call srand
-    call rand
+
+    ; Initialize Dungeon
+    ld b, 6
+    ld c, 6
+    call InitDungeon
+    
     jp Done
 
 Done:

@@ -7,6 +7,8 @@ SECTION "Math", ROM0
 ; C=state bits 23-16, HL trashed
 rand::
     ; Add 0xB3 then multiply by 0x01010101
+    push hl
+    push af
     ld hl, randstate+0
     ld a, [hl]
     add a, $B3
@@ -19,6 +21,8 @@ rand::
     adc a, [hl]
     ld [hl], a
     ld b, a
+    pop af
+    pop hl
     ret
 
 ; Sets the random seed to BC.
@@ -32,4 +36,18 @@ srand::
     ld a,b
     ld [hl-],a
     ld [hl],c
+    ret
+
+; HL = DE * A
+Mul8::
+    ld hl, 0
+    ld b, 8
+Mul8Loop:
+    rrca
+    jp nc, Mul8Skip
+    add hl, de
+Mul8Skip:
+    sla e
+    rl d
+    STOP
     ret
