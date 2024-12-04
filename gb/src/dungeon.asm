@@ -137,4 +137,10 @@ GenerateDungeon::
     ret
 
 GenerateRoom::
-    ret
+    ; REG_B = cell_index_queue
+    ; REG_C = queue_size
+    ; REG_D = potential_doors
+    ; REG_E = door
+    push de
+    
+    pop de
