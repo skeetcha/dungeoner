@@ -53,6 +53,7 @@ Mul8::
     ret
 
 ; A = HL % C
+; HL = HL / C
 Mod8::
     ld b, 16
 .Loop
@@ -65,26 +66,4 @@ Mod8::
     sub c
     jr nz, Mod8.Loop
 .Exit
-    ret
-
-; from = b
-; to = c
-; ret = b
-rand_range::
-    push de
-
-    call rand
-    push hl
-    push af
-    ld l, b
-    ld h, 0
-    add c, 1
-    add c, b
-    call Mod8
-    ld e, a
-    pop af
-    pop hl
-    add e, b
-    ld b, e
-    pop de
     ret
