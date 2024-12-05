@@ -18,6 +18,7 @@ BIT_DOOR_WEST:: db $20
 BIT_STAIR_BELOW:: db $40
 BIT_STAIR_UP:: db $80
 MAX_ROOMS:: dw 512
+NEIGHBORS:: db %00111100
 
 ; Params:
 ;   Starting Width: B
@@ -45,7 +46,7 @@ GenerateDungeon::
 .LoopCheck
     ld a, c
     cp a, d
-    jp c, .LoopEnd
+    jp nc, .LoopEnd
     jp z, .LoopEnd
     ld a, b
     cp a, 0
@@ -53,7 +54,7 @@ GenerateDungeon::
     jp z, .LoopBody
 .LoopCheck2
     cp a, c
-    jp c, .LoopEnd
+    jp nc, .LoopEnd
     jp z, .LoopEnd
 .LoopBody
     cp a, 0
@@ -73,8 +74,10 @@ GenerateDungeon::
     pop bc
     ld hl, generated_cells+$0
     ld [hl], a
-    ld a, BIT_ENTRANCE
-    or a, BIT_USED_ROOM
+    ld hl, BIT_ENTRANCE
+    ld a, [hl]
+    ld hl, BIT_USED_ROOM
+    or a, [hl]
     ld hl, dungeon_grid
     push de
     push hl
@@ -101,10 +104,16 @@ GenerateDungeon::
     add hl, de
     pop de
     ld a, [hl]
-    and a, BIT_USED_ROOM
+    push hl
+    ld hl, BIT_USED_ROOM
+    and a, [hl]
+    pop hl
     jp nz, .LoopBody3
     ld a, [hl]
-    or a, BIT_USED_ROOM
+    push hl
+    ld hl, BIT_USED_ROOM
+    or a, [hl]
+    pop hl
     ld [hl], a
 .LoopBody3
     ld a, c
@@ -128,7 +137,7 @@ GenerateDungeon::
     ld a, c
     cp a, l
     jp z, .LoopBody4
-    jp c, .LoopBody4
+    jp nc, .LoopBody4
     jp .LoopEnd
 .LoopBody4
     inc b
@@ -141,6 +150,66 @@ GenerateRoom::
     ; REG_C = queue_size
     ; REG_D = potential_doors
     ; REG_E = door
+    ; REG_H = neighbor_room
+    ; REG_L = cell_index
+    ; generated_cells = cells_queue
     push de
-    
+    push bc
+    call rand
+    ld hl, NEIGHBORS
+    ld c, [hl]
+    inc c
+    ld b, l
+    ld h, 0
+    call Mod8
+    pop bc
+    ld d, a
+    ld hl, generated_cells
+    ld a, l
+    add a, b
+    ld l, a
+    push de
+    ld e, [hl]
+    ld l, e
     pop de
+    ld e, 1
+.LoopCheck
+    ld a, e
+    push hl
+    ld hl, NEIGHBORS
+    cp a, [hl]
+    pop hl
+    jp nc, .LoopEnd
+    jp nz, .LoopEnd
+    ld a, e
+    push de
+    push hl
+    ld hl, NEIGHBORS
+    ld e, [hl]
+    and a, e
+    pop hl
+    pop de
+    cp a, e
+    jp nz, .LoopContinue
+    push de
+    ld e, l
+    ld hl, dungeon_grid
+    ld a, l
+    add a, e
+    ld l, a
+    ld a, [hl]
+    pop de
+    and a, e
+    jp nz, .LoopContinue
+    call GetNeighborRoomIndex
+    ld a, h
+    cpl
+.LoopContinue
+    rlc e
+    jp .LoopCheck
+.LoopEnd
+    pop de
+    ret
+
+GetNeighborRoomIndex::
+    ret
