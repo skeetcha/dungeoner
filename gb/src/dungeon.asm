@@ -280,6 +280,22 @@ GenerateRoom::
     ret
 
 GetNeighborRoomIndex::
+    ; REG_L = current_room => C
+    ; REG_E = direction => B
+    push de
+    push bc
+    push hl
+    ld b, e
+    ld c, l
+    ld a, b
+    ld hl, BIT_DOOR_NORTH
+    cp a, [hl]
+    jp nz, .FuncBody
+    
+.FuncBody
+    pop hl
+    pop bc
+    pop de
     ret
 
 GetOppositeDirectionBit::
