@@ -204,6 +204,74 @@ GenerateRoom::
     call GetNeighborRoomIndex
     ld a, h
     cpl
+    cp a, 0
+    jp nz, .LoopContinue
+    push hl
+    push de
+    ld e, h
+    ld hl, dungeon_grid
+    ld a, l
+    add a, e
+    ld l, a
+    pop de
+    ld a, [hl]
+    ld hl, BIT_USED_ROOM
+    and a, [hl]
+    pop hl
+    jp nz, .LoopContinue
+    push bc ; b = opposite_door, cache earlier values
+    call GetOppositeDirectionBit
+    ld a, e
+    and a, d
+    cp a, e
+    jp nz, .LoopBody2
+    push hl
+    push de
+    ld e, l
+    ld hl, dungeon_grid
+    ld a, l
+    add a, e
+    ld l, a
+    pop de
+    ld a, [hl]
+    or a, e
+    ld [hl], a
+    push de
+    ld e, h
+    ld hl, dungeon_grid
+    ld a, l
+    add a, e
+    ld l, a
+    pop de
+    ld a, [hl]
+    or a, b
+    ld [hl], a
+    pop hl
+.LoopBody2
+    push hl
+    push de
+    ld e, h
+    ld hl, dungeon_grid
+    ld a, l
+    add a, e
+    ld l, a
+    pop de
+    ld a, [hl]
+    pop hl
+    cp a, b
+    jp nz, .LoopContinue
+    pop bc
+    push hl
+    push de
+    ld e, h
+    ld hl, generated_cells
+    ld a, l
+    add a, c
+    ld l, a
+    ld [hl], e
+    pop de
+    pop hl
+    inc c
 .LoopContinue
     rlc e
     jp .LoopCheck
@@ -212,4 +280,7 @@ GenerateRoom::
     ret
 
 GetNeighborRoomIndex::
+    ret
+
+GetOppositeDirectionBit::
     ret
