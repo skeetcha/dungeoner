@@ -283,4 +283,40 @@ GetNeighborRoomIndex::
     ret
 
 GetOppositeDirectionBit::
+    push hl
+    ld a, e
+    push de
+    ld hl, BIT_DOOR_NORTH
+    ld e, [hl]
+    cp a, e
+    jp nz, .FuncBody
+    ld hl, BIT_DOOR_SOUTH
+    ld b, [hl]
+    jp .FuncEnd
+.FuncBody
+    ld hl, BIT_DOOR_WEST
+    ld e, [hl]
+    cp a, e
+    jp nz, .FuncBody2
+    ld hl, BIT_DOOR_EAST
+    ld b, [hl]
+    jp .FuncEnd
+.FuncBody2
+    ld hl, BIT_DOOR_SOUTH
+    ld e, [hl]
+    cp a, e
+    jp nz, .FuncBody3
+    ld hl, BIT_DOOR_NORTH
+    ld b, [hl]
+    jp .FuncEnd
+.FuncBody3
+    ld hl, BIT_DOOR_EAST
+    ld e, [hl]
+    cp a, e
+    jp nz, .FuncEnd
+    ld hl, BIT_DOOR_WEST
+    ld b, [hl]
+.FuncEnd
+    pop de
+    pop hl
     ret
