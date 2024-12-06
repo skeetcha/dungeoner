@@ -43,7 +43,7 @@ $(OBJDIR)/%.o: $(RESDIR)/%.s
 $(BINS): $(OBJS)
 	$(LCC) $(LCCFLAGS) -o $(BINS) $(OBJS)
 
-prepare: $(SRCDIR) $(OBJDIR) $(RESDIR) $(BINDIR)
+prepare: $(SRCDIR) $(OBJDIR) $(RESDIR)
 
 $(SRCDIR):
 	mkdir -p $@
@@ -54,17 +54,5 @@ $(OBJDIR):
 $(RESDIR):
 	mkdir -p $@
 
-$(BINDIR):
-	mkdir -p $@
-
 clean:
 	rm -f $(OBJDIR)/*.*
-
-run_bgb: $(BINS)
-	wine $(BGB) $(BINS)
-
-run_mgba: $(BINS)
-	mgba-qt -6 $(BINS)
-
-run_emulicious: $(BINS)
-	emulicious
