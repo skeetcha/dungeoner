@@ -291,9 +291,112 @@ GetNeighborRoomIndex::
     ld hl, BIT_DOOR_NORTH
     cp a, [hl]
     jp nz, .FuncBody
-    
+    ld a, c
+    ld hl, current_width
+    sub a, [hl]
+    ld e, a
+    jp .FuncBody5
 .FuncBody
+    ld hl, BIT_DOOR_EAST
+    cp a, [hl]
+    jp nz, .FuncBody2
+    ld a, c
+    inc a
+    ld e, a
+    jp .FuncBody5
+.FuncBody2
+    ld hl, BIT_DOOR_SOUTH
+    cp a, [hl]
+    jp nz, .FuncBody3
+    ld a, c
+    ld hl, current_width
+    add a, [hl]
+    ld e, a
+    jp .FuncBody5
+.FuncBody3
+    ld hl, BIT_DOOR_WEST
+    cp a, [hl]
+    jp nz, .FuncBody4
+    ld a, c
+    dec a
+    ld e, a
+    jp .FuncBody5
+.FuncBody4
+    ld e, -1
+.FuncBody5
+    ld a, b
+    ld hl, BIT_DOOR_NORTH
+    cp a, [hl]
+    jp nz, .FuncBody6
+    ld a, e
+    cp a, 0
+    jp c, .FuncBody6
+    jp .FuncBody10
+.FuncBody6
+    ld a, b
+    ld hl, BIT_DOOR_SOUTH
+    cp a, [hl]
+    jp nz, .FuncBody7
+    push de
+    push bc
+    ld c, e
+    ld hl, current_width
+    ld e, [hl]
+    ld d, 0
+    ld hl, current_height
+    ld a, [hl]
+    call Mul8
+    ld d, l
+    ld a, e
+    pop bc
+    cp a, d
+    pop de
+    jp nc, .FuncBody7
+    jp z, .FuncBody7
+    jp .FuncBody10
+.FuncBody7
+    ld a, b
+    ld hl, BIT_DOOR_EAST
+    cp a, [hl]
+    jp nz, .FuncBody8
+    push bc
+    ld hl, current_width
+    ld c, [hl]
+    ld l, e
+    ld h, 0
+    call Mod8
+    pop bc
+    cp a, 0
+    jp c, .FuncBody8
+    jp z, .FuncBody8
+    jp .FuncBody10
+.FuncBody8
+    ld a, b
+    ld hl, BIT_DOOR_WEST
+    cp a, [hl]
+    jp nz, .FuncBody9
+    push bc
+    ld hl, current_width
+    ld c, [hl]
+    ld l, e
+    ld h, 0
+    call Mod8
+    ld b, a
+    ld hl, current_width
+    ld a, [hl]
+    dec a
+    ld c, a
+    ld a, b
+    cp a, c
+    pop bc
+    jp nc, .FuncBody9
+    jp z, .FuncBody9
+    jp .FuncBody10
+.FuncBody9
+    ld e, -1
+.FuncBody10
     pop hl
+    ld h, e
     pop bc
     pop de
     ret

@@ -29,9 +29,10 @@ EntryPoint:
     call srand
 
     ; Initialize Dungeon
-    ld b, 6
-    ld c, 6
-    call InitDungeon
+    ; ld b, 6
+    ; ld c, 6
+    ; call InitDungeon
+    ; NOTE: Dungeon generation is not verified to work
     
     jp Done
 
