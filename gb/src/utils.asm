@@ -1,3 +1,7 @@
+SECTION "MathVariables", WRAM0
+
+randstate:: ds 4
+
 SECTION "Math", ROM0
 ;; From: https://github.com/pinobatch/libbet/blob/master/src/rand.z80#L34-L54
 ; Generates a pseudorandom 16-bit integer in BC

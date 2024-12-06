@@ -1,10 +1,6 @@
 INCLUDE "hardware.inc/hardware.inc"
     rev_Check_hardware_inc 4.0
 
-SECTION "GameVariables", WRAM0
-
-randstate:: ds 4
-
 SECTION "Header", ROM0[$100]
 
     ; This is your ROM's entry point
