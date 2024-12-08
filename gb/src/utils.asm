@@ -3,6 +3,7 @@ SECTION "MathVariables", WRAM0
 randstate:: ds 4
 
 SECTION "Math", ROM0
+
 ;; From: https://github.com/pinobatch/libbet/blob/master/src/rand.z80#L34-L54
 ; Generates a pseudorandom 16-bit integer in BC
 ; using the LCG formula from cc65 rand():
@@ -42,32 +43,16 @@ srand::
     ld [hl],c
     ret
 
-; HL = DE * A
-Mul8::
+; HL = D * E
+Multiply::
     ld hl, 0
-    ld b, 8
-.Loop:
-    rrca
-    jp nc, Mul8.Skip
-    add hl, de
-.Skip:
-    sla e
-    rl d
-    jp nz, Mul8.Loop
-    ret
-
-; A = HL % C
-; HL = HL / C
-Mod8::
-    ld b, 16
+    ld a, d
+    or a
+    ret z
+    ld b, d
+    ld d, h
 .Loop
-    xor a
-    add hl, hl
-    rla
-    cp c
-    jp c, Mod8.Exit
-    inc l
-    sub c
-    jr nz, Mod8.Loop
-.Exit
+    add hl, de
+    dec b
+    jp nz, .Loop
     ret

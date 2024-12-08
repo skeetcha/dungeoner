@@ -27,7 +27,10 @@ EntryPoint:
     ; Initialize Dungeon
     ld b, 6
     ld c, 6
+    ld d, 36
+    ld e, 27
     call InitDungeon
+    call GenerateDungeon
     
     jp Done
 
