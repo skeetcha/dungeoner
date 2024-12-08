@@ -1,0 +1,10 @@
+PADVALUE := 0xFF
+VERSION := 0
+GAMEID := DNGR
+TITLE := Dungeoner
+LICENSEE := HB
+OLDLIC := 0x33
+MBC := 0x00
+SRAMSIZE := 0x00
+ROMNAME := dungeoner
+ROMEXT := gb

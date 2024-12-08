@@ -1,58 +1,63 @@
-LCC = $(GBDK_HOME)bin/lcc
+.SUFFIXES: # Suppress a lot of useless default rules, which also provides a nice speedup.
 
-ifdef GBC
-	LCCFLAGS += -Wa-l -Wm-yC
-else
-	#LCCFLAGS += -Wm-yc
+# Recursive `wildcard` function.
+rwildcard = $(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
+
+# Program contsants.
+RM_RF := rm -rf
+MKDIR_P := mkdir -p
+ifeq ($(strip $(shell which rm)),)
+#	Windows *really* tries its hardest to be Special!
+	RM_RF := -rmdir /s /q
+	MKDIR_P := -mkdir
 endif
 
-ifdef GBDK_DEBUG
-	LCCFLAGS += -debug -v
-endif
+RGBDS	?=
+ASM		:= $(RGBDS)rgbasm
+LINK	:= $(RGBDS)rgblink
+FIX		:= $(RGBDS)rgbfix
+GFX		:= $(RGBDS)rgbgfx
 
-PROJECTNAME = dungeoner
+ROM = bin/$(ROMNAME).$(ROMEXT)
 
-SRCDIR = src
-OBJDIR = obj
-RESDIR = res
+# Argument constants
+INCDIRS = src/ include/
+WARNINGS = all extra
+ASMFLAGS = -p $(PADVALUE) $(addprefix -I,$(INCDIRS)) $(addprefix -W,$(WARNINGS))
+LINKFLAGS = -p $(PADVALUE)
+FIXFLAGS = -p $(PADVALUE) -i "$(GAMEID)" -k "$(LICENSEE)" -l $(OLDLIC) -m $(MBC) -n $(VERSION) -r $(SRAMSIZE) -t $(TITLE)
 
-ifdef GBC
-	BINS = $(OBJDIR)/$(PROJECTNAME).gbc
-else
-	BINS = $(OBJDIR)/$(PROJECTNAME).gb
-endif
+SRCS = $(call rwildcard,src,*.asm)
 
-CSOURCES = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.c))) $(foreach dir,$(RESDIR),$(notdir $(wildcard $(dir)/*.c)))
-ASMSOURCES = $(foreach dir,$(SRCDIR),$(notdir $(wildcard $(dir)/*.s))) $(foreach dir,$(RESDIR),$(notdir $(wildcard $(dir)/*.s)))
-OBJS = $(CSOURCES:%.c=$(OBJDIR)/%.o) $(ASMSOURCES:%.s=$(OBJDIR)/%.o)
+include project.mk
 
-all: prepare $(BINS)
-
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(LCC) $(LCCFLAGS) -c -o $@ $<
-
-$(OBJDIR)/%.o: $(RESDIR)/%.c
-	$(LCC) $(LCCFLAGS) -c -o $@ $<
-
-$(OBJDIR)/%.o: $(SRC)/%.s
-	$(LCC) $(LCCFLAGS) -c -o $@ $<
-
-$(OBJDIR)/%.o: $(RESDIR)/%.s
-	$(LCC) $(LCCFLAGS) -c -o $@ $<
-
-$(BINS): $(OBJS)
-	$(LCC) $(LCCFLAGS) -o $(BINS) $(OBJS)
-
-prepare: $(SRCDIR) $(OBJDIR) $(RESDIR)
-
-$(SRCDIR):
-	mkdir -p $@
-
-$(OBJDIR):
-	mkdir -p $@
-
-$(RESDIR):
-	mkdir -p $@
+all: $(ROM)
+.PHONY: all
 
 clean:
-	rm -f $(OBJDIR)/*.*
+	$(RM_RF) bin obj assets
+.PHONY: clean
+
+rebuild:
+	$(MAKE) clean
+	$(MAKE) all
+.PHONY: rebuild
+
+VPATH := src
+
+bin/%.$(ROMEXT): $(patsubst src/%.asm,obj/%.o,$(SRCS))
+	@$(MKDIR_P) "$(@D)"
+	$(ASM) $(ASMFLAGS) -o obj/build_date.o src/assets/build_date.asm
+	$(LINK) $(LINKFLAGS) -m bin/$*.map -n bin/$*.sym -o $@ $^ \
+	&& $(FIX) -v $(FIXFLAGS) $@
+
+obj/%.mk: src/%.asm
+	@$(MKDIR_P) "$(@D)"
+	$(ASM) $(ASMFLAGS) -M $@ -MG -MP -MQ $(@:.mk=.o) -MQ $@ -o $(@:.mk=.o) $<
+
+obj/%.o: obj/%.mk
+	@touch $@
+
+ifeq ($(filter clean,$(MAKECMDGOALS)),)
+include $(patsubst src/%.asm,obj/%.mk,$(SRCS))
+endif
