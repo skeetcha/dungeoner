@@ -246,6 +246,83 @@ GetNeighborRoomIndex::
     ; REG_B = current_room
     ; REG_C = return val
     ; REG_D = direction
+    ld a, d                 ; BEGIN SWITCH
+    cp %00000100            ; CASE BIT_DOOR_NORTH
+    jp nz, .Check1
+    ld a, b                 ;   REG_C = REG_B - wCurrentWidth
+    ld hl, wCurrentWidth
+    sub [hl]
+    ld c, a
+    jp .Body2               ;   BREAK
+.Check1
+    cp %00001000            ; CASE BIT_DOOR_EAST
+    jp nz, .Check2
+    ld a, b                 ;   REG_C = REG_B + 1
+    inc a
+    ld c, a
+    jp .Body2               ;   BREAK
+.Check2
+    cp %00010000            ; CASE BIT_DOOR_SOUTH
+    jp nz, .Check3
+    ld a, b                 ;   REG_C = REG_B + wCurrentWidth
+    ld hl, wCurrentWidth
+    add [hl]
+    ld c, a
+    jp .Body2               ;   BREAK
+.Check3
+    cp %00100000            ; CASE BIT_DOOR_WEST
+    jp nz, .Check4
+    ld a, b                 ;   REG_C = REG_B - 1
+    dec a
+    ld c, a
+    jp .Body2               ;   BREAK
+.Check4                     ; DEFAULT_CASE  
+    ld c, -1                ;   REG_C = -1
+.Body2
+    ld a, d                 ; IF REG_D == BIT_DOOR_NORTH
+    cp %00000100
+    jp nz, .Body3
+    ld a, c                 ; AND REG_C >= 0
+    cp -1
+    jp z, .Body3
+    cp 0
+    jp c, .FuncEnd          ;   RETURN
+    jp nz, .FuncEnd
+    ret
+.Body3
+    ld a, d                 ; IF REG_D == BIT_DOOR_SOUTH
+    cp %00010000
+    jp nz, .Body4
+    ld a, c                 ; AND REG_C < wDungeonArea
+    ld hl, wDungeonArea
+    cp [hl]
+    jp nc, .FuncEnd         ;   RETURN
+    jp z, .FuncEnd
+    ret
+.Body4
+    ld a, d                 ; IF REG_D == BIT_DOOR_EAST
+    cp %00001000
+    jp nz, .Body5
+    ; REG_A = REG_D % wCurrentWidth
+    cp 0
+    jp nc, .FuncEnd         ;   RETURN
+    jp z, .FuncEnd
+    ret
+.Body5
+    ld a, d                 ; IF REG_D == BIT_DOOR_WEST
+    cp %00100000
+    jp nz, .FuncEnd
+    ; REG_A = REG_D % wCurrentWidth
+    ld hl, wCurrentWidth
+    ld l, [hl]
+    dec l
+    cp l
+    jp nc, .FuncEnd         ;   RETURN
+    jp z, .FuncEnd
+    ret
+.FuncEnd
+    ld c, -1
+    ret
 
 GetOppositeDirectionBit::
     ; REG_D = door
