@@ -56,3 +56,13 @@ Multiply::
     dec b
     jp nz, .Loop
     ret
+
+; A = A % C
+Modulo::
+.Loop
+    cp c
+    jp c, .Done
+    sub b
+    jp .Loop
+.Done
+    ret

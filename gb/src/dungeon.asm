@@ -304,6 +304,12 @@ GetNeighborRoomIndex::
     cp %00001000
     jp nz, .Body5
     ; REG_A = REG_D % wCurrentWidth
+    push bc                 ; AND (REG_D % wCurrentWidth) > 0
+    ld a, d
+    ld hl, wCurrentWidth
+    ld c, [hl]
+    call Modulo
+    pop bc
     cp 0
     jp nc, .FuncEnd         ;   RETURN
     jp z, .FuncEnd
@@ -312,7 +318,12 @@ GetNeighborRoomIndex::
     ld a, d                 ; IF REG_D == BIT_DOOR_WEST
     cp %00100000
     jp nz, .FuncEnd
-    ; REG_A = REG_D % wCurrentWidth
+    push bc                 ; AND (REG_D % wCurrentWidth) < (wCurrentWidth - 1)
+    ld a, d
+    ld hl, wCurrentWidth
+    ld c, [hl]
+    call Modulo
+    pop bc
     ld hl, wCurrentWidth
     ld l, [hl]
     dec l
