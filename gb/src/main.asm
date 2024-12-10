@@ -25,10 +25,10 @@ EntryPoint:
     call srand
 
     ; Initialize Dungeon
-    ld b, 15  ; Starting Width
-    ld c, 15  ; Starting Height
-    ld d, 225 ; W * H
-    ld e, 168 ; W * H * 0.75
+    ld b, 6  ; Starting Width
+    ld c, 6  ; Starting Height
+    ld d, 36 ; W * H
+    ld e, 27 ; W * H * 0.75
     call InitDungeon
     call GenerateDungeon
     
