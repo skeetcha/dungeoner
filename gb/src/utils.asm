@@ -62,7 +62,7 @@ Modulo::
 .Loop
     cp c
     jp c, .Done
-    sub b
+    sub c
     jp .Loop
 .Done
     ret
