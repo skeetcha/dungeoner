@@ -29,7 +29,7 @@ NEIGHBORS::       db %00111100
 ;   Starting Width: B
 ;   Starting Height: C
 ;   Dungeon Area: D
-;   Two Thirds Dungeon Area: E
+;   Three Fourths Dungeon Area: E
 InitDungeon::
     ld a, b                 ; wCurrentWidth = REG_B
     ld [wCurrentWidth], a
@@ -157,6 +157,10 @@ GenerateDungeon::
     inc c                       ; REG_C += 1
     jp .LoopCheck               ; LOOP
 .LoopSkip
+    ; wCurrentRoom = wEntrance
+    ld hl, wEntrance
+    ld a, [hl]
+    ld [wCurrentRoom], a
     ret
 
 GenerateRoom::
@@ -335,7 +339,7 @@ GetNeighborRoomIndex::
     call Modulo
     pop bc
     cp 0
-    jp nc, .FuncEnd         ;   RETURN
+    jp c, .FuncEnd         ;   RETURN
     jp z, .FuncEnd
     ret
 .Body5
