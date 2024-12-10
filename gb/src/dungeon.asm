@@ -39,6 +39,27 @@ InitDungeon::
     ld [wDungeonArea], a
     ld a, e                 ; wTwoThirdsArea = REG_E
     ld [wTwoThirdsArea], a
+    ld a, $ff               ; initialize memory
+    ld b, 2
+    ld hl, wDungeonGrid
+.Loop
+    cp 0
+    jp z, .Loop2
+    ld [hl], 0
+    inc l
+    sub 1
+    jp .Loop
+.Loop2
+    ld [hl], 0
+    dec b
+    ld a, b
+    cp 0
+    jp z, .End
+    ld l, 0
+    inc h
+    ld a, $ff
+    jp .Loop
+.End
     ret
 
 GenerateDungeon::
@@ -149,10 +170,11 @@ GenerateRoom::
     call rand
     ld a, b
     ld hl, NEIGHBORS
+    ld l, [hl]
 .Loop1
-    cp [hl]
+    cp l
     jp c, .Loop1Skip
-    sub [hl]
+    sub l
     jp .Loop1
 .Loop1Skip
     ld [wPotentialDoors], a
@@ -170,7 +192,7 @@ GenerateRoom::
     ld hl, NEIGHBORS
     cp [hl]
     jp nc, .LoopSkip                ;   BREAK
-    jp nz, .LoopSkip
+    jp z, .LoopSkip
     and [hl]                        ; IF (REG_D & NEIGHBORS) != REG_D
     cp d
     jp nz, .LoopContinue            ;   CONTINUE
@@ -286,7 +308,9 @@ GetNeighborRoomIndex::
     cp -1
     jp z, .Body3
     cp 0
-    jp c, .FuncEnd          ;   RETURN
+    jp c, .Body2a          ;   RETURN
+    ret
+.Body2a
     jp nz, .FuncEnd
     ret
 .Body3
