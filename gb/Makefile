@@ -50,7 +50,7 @@ $(GENSPRITES)/%.2bpp: $(RESSPRITES)/%.png | $(GENSPRITES)
 	$(GFX) -c '#fff,#cfcfcf,#686868,#000;' --columns -o $@ $<
 
 $(GENBACKGROUNDS)/%.tilemap: $(RESBACKGROUNDS)/%.png | $(GENBACKGROUNDS)
-	$(GFX) -c '#000,#545654,#9fa29f,#fff;' \
+	$(GFX) -c '#fff,#9fa29f,#545654,#000;' \
 		--tilemap $@ \
 		--unique-tiles \
 		-o $(GENBACKGROUNDS)/$*.2bpp \

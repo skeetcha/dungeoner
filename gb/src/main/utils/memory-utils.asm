@@ -16,6 +16,7 @@ CopyDEintoMemoryAtHL_With520Offset::
     ld [hli], a
     inc de
     dec bc
+    ld a, b
     or c
     jp nz, CopyDEintoMemoryAtHL_With520Offset
     ret

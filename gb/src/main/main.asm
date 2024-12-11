@@ -60,6 +60,7 @@ NextGameState::
     ld [rSCY], a
     ld [rWX], a
     ld [rWY], a
+    ld [wCurKeys], a
     ; disable interrupts
     ; call DisableInterrupts
 
