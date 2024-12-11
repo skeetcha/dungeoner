@@ -12,8 +12,6 @@ wPotentialDoors:: db
 
 SECTION "DungeonCode", ROM0
 
-INCLUDE "macros/dungeon.inc"
-
 BIT_USED_ROOM::   db %00000001
 BIT_ENTRANCE::    db %00000010
 BIT_DOOR_NORTH::  db %00000100
