@@ -42,13 +42,14 @@ OBJS = $(patsubst %.asm,$(OBJDIR)/%.o,$(notdir $(ASMSOURCES_COLLECTED))) $(OBJDI
 
 all: $(BINS)
 
-NEEDED_GRAPHICS = 
+NEEDED_GRAPHICS = \
+	$(GENBACKGROUNDS)/title.tilemap
 
 $(GENSPRITES)/%.2bpp: $(RESSPRITES)/%.png | $(GENSPRITES)
 	$(GFX) -c "#FFFFFF,#cfcfcf,#686868,#000000;" --columns -o $@ $<
 
 $(GENBACKGROUNDS)/%.tilemap: $(RESBACKGROUNDS)/%.png | $(GENBACKGROUNDS)
-	$(GFX) -c "#FFFFFFFF,#cbcbcb,#414141,#000000;" \
+	$(GFX) -c "#FFFFFF,#cbcbcb,#414141,#000000;" \
 		--tilemap $@ \
 		--unique-tiles \
 		-o $(GENBACKGROUNDS)/$*.2bpp \
