@@ -1,6 +1,13 @@
 INCLUDE "hardware.inc/hardware.inc"
     rev_Check_hardware_inc 4.0
 
+SECTION "GameVariables", WRAM0
+
+wLastKeys:: db
+wCurKeys:: db
+wNewKeys:: db
+wGameState:: db
+
 SECTION "Header", ROM0[$100]
 
     ; This is your ROM's entry point
@@ -19,20 +26,56 @@ SECTION "Header", ROM0[$100]
 SECTION "Entry point", ROM0
 
 EntryPoint:
-    ; Seed random number generator
-    ld b, 0
-    ld c, 10
-    call srand
-
-    ; Initialize Dungeon
-    ld b, 6  ; Starting Width
-    ld c, 6  ; Starting Height
-    ld d, 36 ; W * H
-    ld e, 27 ; W * H * 0.75
-    call InitDungeon
-    call GenerateDungeon
+    ; Shut down audio circuitry
+    xor a
+    ld [rNR52], a
+    ld [wGameState], a
     
-    jp Done
+    ; Wait for VBlank phase before initiating the library
+    call WaitForOneVBlank
 
-Done:
-    jp Done
+    ; Turn the LCD off
+    xor a
+    ld [rLCDC], a
+    
+    ; Turn the LCD on
+    ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON
+    ld [rLCDC], a
+    
+    ; During the first (blank) frame, intialize display registers
+    ld a, %11100100
+    ld [rBGP], a
+    ld [rOBP0], a
+
+NextGameState::
+    ; Do not turn the LCD off outside of VBlank
+    call WaitForOneVBlank
+    call ClearBackground
+
+    ; Turn the LCD off
+    xor a
+    ld [rLCDC], a
+    
+    ld [rSCX], a
+    ld [rSCY], a
+    ld [rWX], a
+    ld [rWY], a
+    ; disable interrupts
+    ; call DisableInterrupts
+
+    ; Clear all sprites
+    ; call ClearAllSprites
+
+    ; Initiate the next state
+    ld a, [wGameState]
+    cp 1 ; 1 = Gameplay
+    ; call z, InitGameplayState
+    ld a, [wGameState]
+    and a ; 0 = Menu
+    call z, InitTitleScreenState
+
+    ; Update the next state
+    ld a, [wGameState]
+    cp 1 ; 1 = Gameplay
+    ; jp z, UpdateGameplayState
+    jp UpdateTitleScreenState

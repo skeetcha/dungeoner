@@ -3,6 +3,7 @@ include project.mk
 SRCDIR 		   = src
 OBJDIR 		   = obj
 BINDIR 		   = bin
+LIBDIR         = libs
 RESDIR 		   = $(SRCDIR)/resources
 ASMDIR 		   = $(SRCDIR)/main
 RESSPRITES     = $(RESDIR)/sprites
@@ -46,10 +47,10 @@ NEEDED_GRAPHICS = \
 	$(GENBACKGROUNDS)/title.tilemap
 
 $(GENSPRITES)/%.2bpp: $(RESSPRITES)/%.png | $(GENSPRITES)
-	$(GFX) -c "#FFFFFF,#cfcfcf,#686868,#000000;" --columns -o $@ $<
+	$(GFX) -c '#fff,#cfcfcf,#686868,#000;' --columns -o $@ $<
 
 $(GENBACKGROUNDS)/%.tilemap: $(RESBACKGROUNDS)/%.png | $(GENBACKGROUNDS)
-	$(GFX) -c "#FFFFFF,#cbcbcb,#414141,#000000;" \
+	$(GFX) -c '#000,#545654,#9fa29f,#fff;' \
 		--tilemap $@ \
 		--unique-tiles \
 		-o $(GENBACKGROUNDS)/$*.2bpp \
