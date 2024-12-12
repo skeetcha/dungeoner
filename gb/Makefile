@@ -23,7 +23,7 @@ INCLUDEDIRS = include/
 WARNINGS = all extra
 ASMFLAGS := -p $(PADVALUE) $(addprefix -I,$(INCLUDEDIRS)) $(addprefix -W,$(WARNINGS))
 LINKFLAGS := -p $(PADVALUE)
-FIXFLAGS := -p $(PADVALUE) -i "$(GAMEID)" -k "$(LICENSEE)" -l $(OLDLIC) -m $(MBC) -n $(VERSION) -r $(SRAMSIZE) -t $(TITLE) -v
+FIXFLAGS := -v -p $(PADVALUE) -i "$(GAMEID)" -k "$(LICENSEE)" -l $(OLDLIC) -m $(MBC) -n $(VERSION) -r $(SRAMSIZE) -t $(TITLE)
 
 # https://stackoverflow.com/a/18258352
 # Make does not offer a recursive wild card function, so here's one:
@@ -43,11 +43,18 @@ OBJS = $(patsubst %.asm,$(OBJDIR)/%.o,$(notdir $(ASMSOURCES_COLLECTED))) $(OBJDI
 
 all: $(BINS)
 
+test:
+	echo $(OBJS)
+
 NEEDED_GRAPHICS = \
-	$(GENBACKGROUNDS)/title.tilemap
+	$(GENBACKGROUNDS)/title.tilemap \
+	$(GENBACKGROUNDS)/text-font.2bpp
 
 $(GENSPRITES)/%.2bpp: $(RESSPRITES)/%.png | $(GENSPRITES)
 	$(GFX) -c '#fff,#cfcfcf,#686868,#000;' --columns -o $@ $<
+
+$(GENBACKGROUNDS)/%.2bpp: $(RESBACKGROUNDS)/%.png | $(GENBACKGROUNDS)
+	$(GFX) -c '#fff,#9fa29f,#545654,#000;' -o $@ $<
 
 $(GENBACKGROUNDS)/%.tilemap: $(RESBACKGROUNDS)/%.png | $(GENBACKGROUNDS)
 	$(GFX) -c '#fff,#9fa29f,#545654,#000;' \

@@ -37,6 +37,9 @@ EntryPoint:
     ; Turn the LCD off
     xor a
     ld [rLCDC], a
+
+    ; Load our common text font into VRAM
+    call LoadTextFontIntoVRAM
     
     ; Turn the LCD on
     ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON

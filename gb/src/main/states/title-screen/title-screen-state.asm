@@ -1,6 +1,9 @@
 INCLUDE "hardware.inc/hardware.inc"
+INCLUDE "src/main/utils/macros/text-macros.inc"
 
 SECTION "TitleScreenState", ROM0
+
+PressPlayText:: db "press a to play", 255
 
 titleScreenTileData: INCBIN "src/generated/backgrounds/title.2bpp"
 titleScreenTileDataEnd:
@@ -10,6 +13,9 @@ titleScreenTileMapEnd:
 
 InitTitleScreenState::
     call DrawTitleScreen
+    ld de, $99C3
+    ld hl, PressPlayText
+    call DrawTextTilesLoop
 
     ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON
     ld [rLCDC], a
