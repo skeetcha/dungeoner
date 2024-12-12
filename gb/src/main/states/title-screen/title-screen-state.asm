@@ -39,4 +39,6 @@ UpdateTitleScreenState::
     call WaitForKeyFunction
     ld a, 1
     ld [wGameState], a
+    ld hl, rDIV
+    ld c, [hl]
     jp NextGameState
