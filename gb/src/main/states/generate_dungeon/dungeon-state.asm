@@ -15,7 +15,7 @@ InitDungeonGeneration::
     ld hl, PressGenerateText2
     call DrawTextTilesLoop
 
-    ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON
+    ld a, LCDCF_ON | LCDCF_BGON
     ld [rLCDC], a
     ld a, 10
     ld [wVBlankCount], a

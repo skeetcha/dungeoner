@@ -1,27 +1,16 @@
 SECTION "DungeonVariables", WRAM0
 
-wDungeonGrid:: ds 512
+wDungeonGrid:: ds $ff
 wEntrance:: db
 wCurrentRoom:: db
 wCurrentWidth:: db
 wCurrentHeight:: db
-wGeneratedCells:: ds 512
+wGeneratedCells:: ds $ff
 wDungeonArea:: db
 wTwoThirdsArea:: db
 wPotentialDoors:: db
 
 SECTION "DungeonCode", ROM0
-
-BIT_USED_ROOM::   db %00000001
-BIT_ENTRANCE::    db %00000010
-BIT_DOOR_NORTH::  db %00000100
-BIT_DOOR_EAST::   db %00001000
-BIT_DOOR_SOUTH::  db %00010000
-BIT_DOOR_WEST::   db %00100000
-BIT_STAIR_BELOW:: db %01000000
-BIT_STAIR_UP::    db %10000000
-MAX_ROOMS:: dw 512
-NEIGHBORS::       db %00111100
 
 ; Params:
 ;   Starting Width: B
@@ -38,356 +27,392 @@ InitDungeon::
     ld a, e                 ; wTwoThirdsArea = REG_E
     ld [wTwoThirdsArea], a
     ld a, $ff               ; initialize memory
-    ld b, 2
     ld hl, wDungeonGrid
 .Loop
     cp 0
-    jp z, .Loop2
+    jp z, .End
     ld [hl], 0
     inc l
     sub 1
     jp .Loop
-.Loop2
-    ld [hl], 0
-    dec b
-    ld a, b
-    cp 0
-    jp z, .End
-    ld l, 0
-    inc h
-    ld a, $ff
-    jp .Loop
 .End
+    ld [hl], 0
     ret
 
 GenerateDungeon::
-    ; REG_B = generated_cells_number
-    ; REG_C = i
-    ld b, 0                     ; REG_B = 0
-    ld c, 0                     ; REG_C = 0
-.LoopCheck
-    ld a, [wDungeonArea]        ; IF REG_B >= wDungeonArea
-    ld e, a
-    ld a, b
-    cp e
-    jp nc, .LoopSkip            ;   break
-    jp z, .LoopSkip
-    ld a, c                     ; IF REG_C == 0
+    xor a
+    ld b, a
+    ld c, a
+    push bc
+    ; SP     = generated_cells_number
+    ; SP + 1 = i
+.Loop
+    ld hl, sp+0 ; generated_cells_number
+    ld a, [hl]
+    ld hl, wDungeonArea
+    cp [hl]
+    jp nc, .LoopEnd
+    ld hl, sp+1 ; i
+    ld a, [hl]
     cp 0
-    jp z, .LoopBody             ;   proceed to loop
-    cp b                        ; IF REG_C >= REG_B
-    jp nc, .LoopSkip            ;   break
-    jp z, .LoopSkip
+    jp z, .LoopBody
+    ld hl, sp+0
+    cp [hl]
+    jp c, .LoopBody
+    jp .LoopEnd
 .LoopBody
-    ld a, c                     ; IF REG_C == 0
+    ld hl, sp+1 ; i
+    ld a, [hl]
     cp 0
     jp nz, .LoopBody2
-    ld a, b                     ; AND REG_B == 0
+    dec hl ; generated_cells_number
+    ld a, [hl]
     cp 0
     jp nz, .LoopBody2
-    ld d, b                     ; wEntrance = rand_range(0, wDungeonArea)
-    ld e, c
     call rand
     ld a, b
     ld hl, wDungeonArea
-.LoopBodyLoop
+.SmallLoop
     cp [hl]
-    jp c, .LoopBodyLoopSkip
+    jp c, .SmallLoopEnd
     sub [hl]
-    jp .LoopBodyLoop
-.LoopBodyLoopSkip
+    jp .SmallLoop
+.SmallLoopEnd
     ld [wEntrance], a
-    ld b, d
-    ld c, e
-    ld hl, wGeneratedCells      ; wGeneratedCells[0] = wEntrance
-    ld a, l
-    add b
-    ld l, a
-    ld a, [wEntrance]
-    ld [hl], a
-    ld hl, wDungeonGrid         ; wDungeonGrid[wEntrance] = BIT_ENTRANCE | BIT_USED_ROOM
+    ld [wGeneratedCells], a
     ld e, a
+    ld hl, wDungeonGrid
     ld a, l
     add e
     ld l, a
     ld [hl], $03
-    ld b, 1                     ; REG_B = 1
-.LoopBody2
-    call GenerateRoom           ; generate_room(wDungeonGrid, REG_B, REG_C, wGeneratedCells)
-    ld hl, wGeneratedCells      ; IF wDungeonGrid[wGeneratedCells[REG_C]] IS_NOT_USED
-    ld a, l
-    add c
-    ld l, a
-    ld e, [hl]
-    ld hl, wDungeonGrid
-    ld a, l
-    add e
-    ld l, a
-    ld a, [hl]
-    ld hl, BIT_USED_ROOM
-    and [hl]
-    jp nz, .LoopBody3
-    ld hl, wGeneratedCells      ;   SET USED_BIT IN wDungeonGrid[wGeneratedCells[REG_C]]
-    ld a, l
-    add c
-    ld l, a
-    ld e, [hl]
-    ld hl, wDungeonGrid
-    ld a, l
-    add e
-    ld l, a
-    ld a, [hl]
-    set 7, a
+    ld hl, sp+0
+    ld a, 1
     ld [hl], a
-.LoopBody3
-    ld a, c                     ; IF REG_C == REG_B - 1
-    ld e, b
-    dec e
-    cp e
-    jp nz, .LoopBody4
-    ld a, b
-    ld hl, wTwoThirdsArea       ; AND REG_B < wTwoThirdsArea
-    cp [hl]
-    jp nc, .LoopBody4
-    jp z, .LoopBody4
-    ld c, -1                    ;   REG_C = -1
-.LoopBody4
-    inc c                       ; REG_C += 1
-    jp .LoopCheck               ; LOOP
-.LoopSkip
-    ; wCurrentRoom = wEntrance
-    ld hl, wEntrance
+.LoopBody2
+    call GenerateRoom
+    ; This program will assume that GenerateRoom will pop all values from the stack after use
+    ; So that...
+    ; SP     = generated_cells_number
+    ; SP + 1 = i
+    ld hl, sp+1
     ld a, [hl]
-    ld [wCurrentRoom], a
-    ret
-
-GenerateRoom::
-    ; REG_B = queue_size         => cell_index
-    ; REG_C = cell_index_queue   => neighbor_room
-    ; REG_D = door
-    ; REG_E = opposite_door
-    ; cells_queue = wGeneratedCells
-    ld d, b                         ; REG_D = rand_range(0, NEIGHBORS)
-    ld e, c
-    call rand
-    ld a, b
-    ld hl, NEIGHBORS
-    ld l, [hl]
-.Loop1
-    cp l
-    jp c, .Loop1Skip
-    sub l
-    jp .Loop1
-.Loop1Skip
-    ld [wPotentialDoors], a
-    ld b, d
-    ld c, e
-    push bc
-    ld hl, wGeneratedCells          ; REG_B = wGeneratedCells[REG_C]
+    ld e, a
+    ld hl, wGeneratedCells
     ld a, l
-    add c
+    add e
     ld l, a
-    ld b, [hl]
-    ld d, 1
-.LoopCheck
-    ld a, d                         ; IF REG_D > NEIGHBORS
-    ld hl, NEIGHBORS
-    cp [hl]
-    jp nc, .LoopSkip                ;   BREAK
-    jp z, .LoopSkip
-    and [hl]                        ; IF (REG_D & NEIGHBORS) != REG_D
-    cp d
-    jp nz, .LoopContinue            ;   CONTINUE
-    ld hl, wDungeonGrid             ; IF wDungeonGrid[REG_B] & REG_D
+    ld e, [hl]
+    ld hl, wDungeonGrid
     ld a, l
-    add b
-    ld l, a
-    ld a, [hl]
-    and d
-    cp 0
-    jp nz, .LoopContinue            ;   CONTINUE
-    call GetNeighborRoomIndex       ; REG_C = get_neighbor_room_index(wDungeonGrid, REG_B, REG_D)
-    ld a, c                         ; IF ! ~REG_C
-    cpl
-    cp 0
-    jp z, .LoopContinue             ;   CONTINUE
-    ld hl, wDungeonGrid             ; IF wDungeonGrid[REG_C] & BIT_USED_ROOM
-    ld a, l
-    add c
+    add e
     ld l, a
     ld a, [hl]
     and $01
-    jp nz, .LoopContinue            ;   CONTINUE
-    call GetOppositeDirectionBit    ; REG_E = get_opposite_direction_bit(REG_D)
-    ld a, [wPotentialDoors]         ; IF (REG_D & wPotentialDoors) == REG_D
-    and d
-    cp d
-    jp nz, .LoopBody2
-    ld hl, wDungeonGrid             ;   wDungeonGrid[REG_B] |= REG_D
+    jp nz, .LoopBody3
+    ld a, [hl]
+    or $01
+    ld [hl], a
+.LoopBody3
+    ld hl, sp+1
+    ld a, [hl]
+    ld hl, sp+0
+    ld e, [hl]
+    dec e
+    cp e
+    jp nz, .LoopContinue
+    inc e
+    ld a, e
+    ld hl, wTwoThirdsArea
+    cp [hl]
+    jp nc, .LoopContinue
+    ld hl, sp+1
+    xor a
+    ld [hl], a
+    jp .Loop
+.LoopContinue
+    ld hl, sp+1
+    ld a, [hl]
+    inc a
+    ld [hl], a
+    jp .Loop
+.LoopEnd
+    pop bc ; Get rid of manual value pushed on stack to get old PC back at SP
+    ret
+
+GenerateRoom::
+    call rand
+    rlc b
+    rlc b
+    rlc b
+    rlc b
+    ld a, b
+    and $0f
+    ld hl, wPotentialDoors
+    ld [hl], a
+    xor a
+    ld b, a
+    ld c, a
+    push bc
+    push bc
+    ; SP     = door
+    ; SP + 1 = opposite_door
+    ; SP + 2 = neighbor_room
+    ; SP + 3 = cell_index
+    ; SP + 4 = OLD_PC_LOW
+    ; SP + 5 = OLD_PC_HIGH
+    ; SP + 6 = generated_cells_number
+    ; SP + 7 = i
+    ld hl, sp+0
+    ld a, 1
+    ld [hl], a
+    ld hl, sp+7
+    ld e, [hl]
+    ld hl, wGeneratedCells
     ld a, l
-    add b
+    add e
+    ld l, a
+    ld a, [hl]
+    ld hl, sp+3
+    ld [hl], a
+.Loop
+    ld hl, sp+0
+    ld a, [hl]
+    cp 16
+    jp z, .LoopEnd
+    ld hl, sp+3
+    ld e, [hl]
+    ld hl, wDungeonGrid
+    ld a, l
+    add e
+    ld l, a
+    ld a, [hl]
+    ld hl, sp+0
+    ld d, [hl]
+    sla d
+    sla d
+    and d
+    jp nz, .LoopContinue
+    call GetNeighborRoomIndex
+    ; This program will assume that GenerateRoom will pop all values from the stack after use
+    ; So that...
+    ; SP     = door
+    ; SP + 1 = opposite_door
+    ; SP + 2 = neighbor_room
+    ; SP + 3 = cell_index
+    ; SP + 4 = OLD_PC_LOW
+    ; SP + 5 = OLD_PC_HIGH
+    ; SP + 6 = generated_cells_number
+    ; SP + 7 = i
+    ld hl, sp+2
+    ld a, [hl]
+    cpl
+    cp 0
+    jp z, .LoopContinue
+    ld e, [hl]
+    ld hl, wDungeonGrid
+    ld a, l
+    add e
+    ld l, a
+    ld a, [hl]
+    and $01
+    jp nz, .LoopContinue
+    call GetOppositeDirecitonBit ; This will simply be stored in REG_B
+    ; This program will assume that GenerateRoom will pop all values from the stack after use
+    ; So that...
+    ; SP     = door
+    ; SP + 1 = opposite_door
+    ; SP + 2 = neighbor_room
+    ; SP + 3 = cell_index
+    ; SP + 4 = OLD_PC_LOW
+    ; SP + 5 = OLD_PC_HIGH
+    ; SP + 6 = generated_cells_number
+    ; SP + 7 = i
+    ld hl, sp+0
+    ld a, [hl]
+    ld hl, wPotentialDoors
+    and [hl]
+    ld hl, sp+0
+    cp [hl]
+    jp nz, .LoopBody2
+    ld hl, sp+3
+    ld e, [hl]
+    ld hl, sp+0
+    ld d, [hl]
+    sla d
+    sla d
+    ld hl, wDungeonGrid
+    ld a, l
+    add e
     ld l, a
     ld a, [hl]
     or d
     ld [hl], a
-    ld hl, wDungeonGrid             ;   wDungeonGrid[REG_C] |= REG_E
+    ld hl, sp+2
+    ld e, [hl]
+    ld hl, wDungeonGrid
     ld a, l
-    add c
+    add e
     ld l, a
     ld a, [hl]
-    or e
+    or b
     ld [hl], a
 .LoopBody2
-    ld hl, wDungeonGrid             ; IF wDungeonGrid[REG_C] == REG_E
+    ld hl, sp+2
+    ld e, [hl]
+    ld hl, wDungeonGrid
     ld a, l
-    add c
+    add e
     ld l, a
     ld a, [hl]
-    cp e
+    cp b
     jp nz, .LoopContinue
-    pop hl                          ;   wGeneratedCells[OLD_REG_B] = REG_C
-    push de
-    ld d, h
-    ld e, l
+    ld hl, sp+6
+    ld e, [hl]
+    ld hl, sp+2
+    ld d, [hl]
     ld hl, wGeneratedCells
     ld a, l
-    add d
+    add e
     ld l, a
-    ld [hl], c
-    inc d                           ;   OLD_REG_B += 1
-    ld h, d
-    ld l, e
-    pop de
-    push hl
+    ld [hl], d
+    ld hl, sp+6
+    ld a, [hl]
+    inc a
+    ld [hl], a
 .LoopContinue
-    rlc d                           ; REG_D <= 1
-    jp .LoopCheck                   ; LOOP
-.LoopSkip
-    pop bc
+    ld hl, sp+0
+    ld a, [hl]
+    sla a
+    ld [hl], a
+    jp .Loop
+.LoopEnd
+    pop bc ; Get rid of manual value pushed on stack to get old PC back at SP
+    pop bc ; Get rid of manual value pushed on stack to get old PC back at SP
     ret
 
 GetNeighborRoomIndex::
-    ; REG_B = current_room
-    ; REG_C = return val
-    ; REG_D = direction
-    ld a, d                 ; BEGIN SWITCH
-    cp %00000100            ; CASE BIT_DOOR_NORTH
-    jp nz, .Check1
-    ld a, b                 ;   REG_C = REG_B - wCurrentWidth
+    ; SP     = OLD_PC_LOW
+    ; SP + 1 = OLD_PC_HIGH
+    ; SP + 2 = door (needs to be shifted left twice)
+    ; SP + 3 = opposite_door
+    ; SP + 4 = neighbor_room
+    ; SP + 5 = cell_index
+    ; SP + 6 = OLD_PC_LOW
+    ; SP + 7 = OLD_PC_HIGH
+    ; SP + 8 = generated_cells_number
+    ; SP + 9 = i
+    ld hl, sp+2
+    ld a, [hl]
+    sla a
+    sla a
+    cp $04
+    jp nz, .Case2
+    ld hl, sp+5
+    ld a, [hl]
     ld hl, wCurrentWidth
     sub [hl]
-    ld c, a
-    jp .Body2               ;   BREAK
-.Check1
-    cp %00001000            ; CASE BIT_DOOR_EAST
-    jp nz, .Check2
-    ld a, b                 ;   REG_C = REG_B + 1
-    inc a
-    ld c, a
-    jp .Body2               ;   BREAK
-.Check2
-    cp %00010000            ; CASE BIT_DOOR_SOUTH
-    jp nz, .Check3
-    ld a, b                 ;   REG_C = REG_B + wCurrentWidth
-    ld hl, wCurrentWidth
-    add [hl]
-    ld c, a
-    jp .Body2               ;   BREAK
-.Check3
-    cp %00100000            ; CASE BIT_DOOR_WEST
-    jp nz, .Check4
-    ld a, b                 ;   REG_C = REG_B - 1
-    dec a
-    ld c, a
-    jp .Body2               ;   BREAK
-.Check4                     ; DEFAULT_CASE  
-    ld c, -1                ;   REG_C = -1
-.Body2
-    ld a, d                 ; IF REG_D == BIT_DOOR_NORTH
-    cp %00000100
-    jp nz, .Body3
-    ld a, c                 ; AND REG_C >= 0
-    cp -1
-    jp z, .Body3
+    ld hl, sp+4
+    ld [hl], a
     cp 0
-    jp c, .Body2a          ;   RETURN
-    ret
-.Body2a
-    jp nz, .FuncEnd
-    ret
-.Body3
-    ld a, d                 ; IF REG_D == BIT_DOOR_SOUTH
-    cp %00010000
-    jp nz, .Body4
-    ld a, c                 ; AND REG_C < wDungeonArea
+    ret z
+    ret nc
+    jp .Default
+.Case2
+    cp $08
+    jp nz, .Case3
+    ld hl, sp+5
+    ld a, [hl]
+    inc a
+    ld hl, sp+4
+    ld [hl], a
     ld hl, wDungeonArea
     cp [hl]
-    jp nc, .FuncEnd         ;   RETURN
-    jp z, .FuncEnd
-    ret
-.Body4
-    ld a, d                 ; IF REG_D == BIT_DOOR_EAST
-    cp %00001000
-    jp nz, .Body5
-    ; REG_A = REG_D % wCurrentWidth
-    push bc                 ; AND (REG_D % wCurrentWidth) > 0
-    ld a, d
+    ret c
+    jp .Default
+.Case3
+    cp $10
+    jp nz, .Case4
+    ld hl, sp+5
+    ld a, [hl]
     ld hl, wCurrentWidth
+    add [hl]
+    ld hl, sp+4
+    ld [hl], a
+    ld hl, wCurrentWidth
+    ld e, [hl]
+    ld d, a
+    xor a
+    ld hl, wDungeonArea
     ld c, [hl]
-    call Modulo
-    pop bc
-    cp 0
-    jp c, .FuncEnd         ;   RETURN
-    jp z, .FuncEnd
-    ret
-.Body5
-    ld a, d                 ; IF REG_D == BIT_DOOR_WEST
-    cp %00100000
-    jp nz, .FuncEnd
-    push bc                 ; AND (REG_D % wCurrentWidth) < (wCurrentWidth - 1)
-    ld a, d
+.Case3Loop
+    cp d
+    jp z, .Default
+    cp c
+    ret z
+    add e
+    jp .Case3Loop
+.Case4
+    cp $20
+    jp nz, .Default
+    ld hl, sp+5
+    ld a, [hl]
+    dec a
+    ld hl, sp+4
+    ld [hl], a
     ld hl, wCurrentWidth
+    ld e, [hl]
+    ld d, a
+    xor a
+    dec a
+    ld hl, wDungeonArea
     ld c, [hl]
-    call Modulo
-    pop bc
-    ld hl, wCurrentWidth
-    ld l, [hl]
-    dec l
-    cp l
-    jp nc, .FuncEnd         ;   RETURN
-    jp z, .FuncEnd
-    ret
-.FuncEnd
-    ld c, -1
+.Case4Loop
+    cp c
+    ret c
+    cp d
+    jp z, .Default
+    add e
+    jp .Case4Loop
+.Default
+    ld hl, sp+4
+    ld a, -1
+    ld [hl], a
     ret
 
-GetOppositeDirectionBit::
-    ; REG_D = door
-    ; REG_E = return val
-    ld a, d
-;BIT_DOOR_NORTH::  db %00000100
-;BIT_DOOR_EAST::   db %00001000
-;BIT_DOOR_SOUTH::  db %00010000
-;BIT_DOOR_WEST::   db %00100000
-    cp %00000100
-    jp nz, .Check1
-    ld e, %00010000
-    ret
-.Check1
-    cp %00001000
-    jp nz, .Check2
-    ld e, %00100000
-    ret
-.Check2
-    cp %00010000
-    jp nz, .Check3
-    ld e, %00000100
-    ret
-.Check3
-    cp %00100000
-    jp nz, .Check4
-    ld e, %00001000
-    ret
-.Check4
-    ld e, -1
+GetOppositeDirecitonBit::
+    ; SP     = OLD_PC_LOW
+    ; SP + 1 = OLD_PC_HIGH
+    ; SP + 2 = door (needs to be shifted left twice)
+    ; SP + 3 = opposite_door
+    ; SP + 4 = neighbor_room
+    ; SP + 5 = cell_index
+    ; SP + 6 = OLD_PC_LOW
+    ; SP + 7 = OLD_PC_HIGH
+    ; SP + 8 = generated_cells_number
+    ; SP + 9 = i
+    ld b, -1
+    ld hl, sp+2
+    ld a, [hl]
+    sla a
+    sla a
+    cp $04
+    jp nz, .Case2
+    ld b, $10
+    jp .Break
+.Case2
+    cp $08
+    jp nz, .Case3
+    ld b, $20
+    jp .Break
+.Case3
+    cp $10
+    jp nz, .Case4
+    ld b, $04
+    jp .Break
+.Case4
+    cp $20
+    jp nz, .Break
+    ld b, $08
+.Break
     ret

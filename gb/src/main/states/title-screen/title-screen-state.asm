@@ -17,7 +17,7 @@ InitTitleScreenState::
     ld hl, PressPlayText
     call DrawTextTilesLoop
 
-    ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON
+    ld a, LCDCF_ON | LCDCF_BGON
     ld [rLCDC], a
     ret
 
