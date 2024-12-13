@@ -73,7 +73,7 @@ NextGameState::
     ; Initiate the next state
     ld a, [wGameState]
     cp 2 ; 2 = Gameplay
-    ; call z, InitGameplay
+    call z, InitGameplayState
     cp 1 ; 1 = Generate Dungeon
     call z, InitDungeonGeneration
     ld a, [wGameState]
@@ -83,10 +83,7 @@ NextGameState::
     ; Update the next state
     ld a, [wGameState]
     cp 2 ; 2 = Gameplay
-    jp z, Test
+    jp z, UpdateGameplayState
     cp 1 ; 1 = Generate Dungeon
     jp z, UpdateDungeonGeneration
     jp UpdateTitleScreenState
-
-Test::
-    jp Test
