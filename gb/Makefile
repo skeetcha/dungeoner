@@ -48,7 +48,8 @@ test:
 
 NEEDED_GRAPHICS = \
 	$(GENBACKGROUNDS)/title.tilemap \
-	$(GENBACKGROUNDS)/text-font.2bpp
+	$(GENBACKGROUNDS)/text-font.2bpp \
+	$(GENBACKGROUNDS)/room.tilemap
 
 $(GENSPRITES)/%.2bpp: $(RESSPRITES)/%.png | $(GENSPRITES)
 	$(GFX) -c '#fff,#cfcfcf,#686868,#000;' --columns -o $@ $<
