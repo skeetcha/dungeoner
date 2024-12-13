@@ -2,12 +2,6 @@ INCLUDE "hardware.inc/hardware.inc"
 
 SECTION "GameplayState", ROM0
 
-roomTileData: INCBIN "src/generated/backgrounds/room.2bpp"
-roomTileDataEnd:
-
-roomTileMap: INCBIN "src/generated/backgrounds/room.tilemap"
-roomTileMapEnd:
-
 InitGameplayState::
     call DrawRoom
     ld a, LCDCF_ON | LCDCF_BGON
@@ -15,14 +9,24 @@ InitGameplayState::
     ret
 
 DrawRoom::
-    ld de, roomTileData
+    ld de, dungeon_tiles
     ld hl, $9340
-    ld bc, roomTileDataEnd - roomTileData
+    ld bc, dungeon_tiles_end - dungeon_tiles
     call CopyDEIntoMemoryAtHL
-    ld de, roomTileMap
+    ld de, room_Tilemap
     ld hl, $9800
-    ld bc, roomTileMapEnd - roomTileMap
-    jp CopyDEintoMemoryAtHL_With520Offset
+    ld bc, room_Tilemap_end - room_Tilemap
+    call CopyDEIntoMemoryAtHL
+    ret
+;    ld de, roomTileData
+;    ld hl, $9340
+;    ld bc, roomTileDataEnd - roomTileData
+;    call CopyDEIntoMemoryAtHL
+;    ld de, roomTileMap
+;    ld hl, $9800
+;    ld bc, roomTileMapEnd - roomTileMap
+;    jp CopyDEintoMemoryAtHL_With520Offset
 
 UpdateGameplayState::
-    jp NextGameState
+    call WaitForOneVBlank
+    jp UpdateGameplayState

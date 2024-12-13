@@ -43,12 +43,16 @@ OBJS = $(patsubst %.asm,$(OBJDIR)/%.o,$(notdir $(ASMSOURCES_COLLECTED))) $(OBJDI
 
 all: $(BINS)
 
-test:
-	echo $(OBJS)
-
 NEEDED_GRAPHICS = \
 	$(GENBACKGROUNDS)/title.tilemap \
 	$(GENBACKGROUNDS)/text-font.2bpp
+
+GRAPHICS_DIR = $(GENDIR)/graphics
+GRAPHICS_CODE = $(call rwildcard,$(GRAPHICS_DIR),*.asm)
+GRAPHICS_OBJS = $(patsubst %.asm,$(OBJDIR)/%.o,$(notdir $(GRAPHICS_CODE)))
+
+test:
+	echo
 
 $(GENSPRITES)/%.2bpp: $(RESSPRITES)/%.png | $(GENSPRITES)
 	$(GFX) -c '#fff,#cfcfcf,#686868,#000;' --columns -o $@ $<
@@ -74,7 +78,9 @@ endef
 
 $(foreach i, $(ASMSOURCES_DIRS), $(eval $(call object-from-asm,$i)))
 
-$(BINS): $(OBJS) | $(BINDIR)
+$(eval $(call object-from-asm,$(GRAPHICS_DIR)/%.asm))
+
+$(BINS): $(OBJS) $(GRAPHICS_OBJS) | $(BINDIR)
 	$(LINK) $(LINKFLAGS) -m $(@:.gb=.map) -n $(@:.gb=.sym) -o $@ $^
 	$(FIX) $(FIXFLAGS) $@
 
