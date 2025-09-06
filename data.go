@@ -3,13 +3,29 @@ package main
 import (
 	"fmt"
 
-	"graphics.gd/classdb/Node"
+	"graphics.gd/classdb/Control"
+	"graphics.gd/classdb/Label"
+	"graphics.gd/classdb/Button"
+	"graphics.gd/classdb/SceneTree"
 )
 
-type Dungeoner struct {
-	Node.Extension[Dungeoner]
+type DungeonerStart struct {
+	Control.Extension[DungeonerStart]
+
+	Title Label.Instance
+	NewGame Button.Instance
+	Quit Button.Instance
 }
 
-func (p *Dungeoner) Ready() {
-	fmt.Println("Hello world from Go!")
+func (ds *DungeonerStart) Ready() {
+	ds.NewGame.AsBaseButton().OnPressed(ds.OnNewGamePressed)
+	ds.Quit.AsBaseButton().OnPressed(ds.OnQuitPressed)
+}
+
+func (ds *DungeonerStart) OnNewGamePressed() {
+	fmt.Println("new game")
+}
+
+func (ds *DungeonerStart) OnQuitPressed() {
+	SceneTree.Get(ds.AsNode()).Quit()
 }

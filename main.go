@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	classdb.Register[Dungeoner]()
+	classdb.Register[DungeonerStart]()
 	startup.Scene()
 }
