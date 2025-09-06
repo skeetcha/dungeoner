@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://yk65ut0rtska"]
+
+[ext_resource type="Script" uid="uid://do7carntf751h" path="res://dungeonRoom/dungeonRoom.gd" id="1_emgf8"]
+
+[node name="DungeonRoom" type="Node3D"]
+script = ExtResource("1_emgf8")
