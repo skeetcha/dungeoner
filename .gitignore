@@ -3,3 +3,5 @@
 *.gba
 *.sav
 .vscode
+
+/target
