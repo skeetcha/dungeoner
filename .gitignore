@@ -3,3 +3,7 @@
 *.gba
 *.sav
 .vscode
+
+obj/
+bin/
+src/generated/
