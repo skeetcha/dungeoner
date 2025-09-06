@@ -1,2 +1,2 @@
 # dungeoner
-A dungeon delving rogulike using Pathfinder 2nd edition combat rules
+A dungeon delving roguelike using Pathfinder 2nd edition combat rules
