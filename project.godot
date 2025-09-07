@@ -15,6 +15,11 @@ run/main_scene="uid://dk700xxolt8x6"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[editor]
+
+version_control/plugin_name="GitPlugin"
+version_control/autoload_on_startup=true
+
 [filesystem]
 
 import/blender/enabled=false
