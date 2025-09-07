@@ -7,6 +7,7 @@ extends Node
 @export var height: int = 6
 @export var entrance: int = -1
 @export var init: bool = false
+@export var currentRoom: int = -1
 
 const BitUsedRoom: int = 0x01
 const BitEntrance: int = 0x02
@@ -24,6 +25,7 @@ var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 func _ready() -> void:
 	if init:
 		generate()
+		currentRoom = entrance
 		var nextScene: Node3D = preload("res://dungeonRoom/dungeonRoom.tscn").instantiate()
 		get_node("/root/Main").call_deferred("add_child", nextScene)
 		
@@ -92,17 +94,17 @@ func generateRoom(cellIndexQueue: int, cellsQueue: Array[int], queueSize: Array[
 		
 		door <<= 1
 
-func getNeighborRoomIndex(currentRoom: int, direction: int) -> int:
+func getNeighborRoomIndex(currRoom: int, direction: int) -> int:
 	var neighborRoom: int
 	
 	if direction == BitDoorNorth:
-		neighborRoom = currentRoom - width
+		neighborRoom = currRoom - width
 	elif direction == BitDoorEast:
-		neighborRoom = currentRoom + 1
+		neighborRoom = currRoom + 1
 	elif direction == BitDoorSouth:
-		neighborRoom = currentRoom + width
+		neighborRoom = currRoom + width
 	elif direction == BitDoorWest:
-		neighborRoom = currentRoom - 1
+		neighborRoom = currRoom - 1
 	
 	if ((direction == BitDoorNorth) and (neighborRoom >= 0)) or ((direction == BitDoorSouth) and (neighborRoom < (width * height))) or ((direction == BitDoorEast) and ((neighborRoom % width) > 0)) or ((direction == BitDoorWest) and ((neighborRoom % width) < (width - 1))):
 		return neighborRoom
