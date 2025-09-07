@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://yk65ut0rtska"]
+[gd_scene load_steps=15 format=3 uid="uid://yk65ut0rtska"]
 
 [ext_resource type="Script" uid="uid://do7carntf751h" path="res://dungeonRoom/dungeonRoom.gd" id="1_emgf8"]
 [ext_resource type="PackedScene" uid="uid://cfsbu6obqjsyu" path="res://dungeonRoom/room-parts/room-base.glb" id="2_4e5fn"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://b3xtyeqjwrq71" path="res://dungeonRoom/room-parts/stair-down.glb" id="11_iida7"]
 [ext_resource type="PackedScene" uid="uid://d1i027bj7n610" path="res://dungeonRoom/room-parts/no-stair-down.glb" id="12_cr8g4"]
 [ext_resource type="PackedScene" uid="uid://dcgyxrhcgxymb" path="res://dungeonRoom/room-parts/stair-up.glb" id="13_5dj8f"]
+[ext_resource type="PackedScene" uid="uid://bby3edcc724cg" path="res://camera/camera.tscn" id="14_cr8g4"]
 
 [node name="DungeonRoom" type="Node3D"]
 script = ExtResource("1_emgf8")
@@ -48,3 +49,6 @@ visible = false
 
 [node name="stair-up" parent="." instance=ExtResource("13_5dj8f")]
 visible = false
+
+[node name="Camera" parent="." instance=ExtResource("14_cr8g4")]
+transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 1.535, 0)
