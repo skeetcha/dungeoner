@@ -1,6 +1,50 @@
-[gd_scene load_steps=2 format=3 uid="uid://yk65ut0rtska"]
+[gd_scene load_steps=14 format=3 uid="uid://yk65ut0rtska"]
 
 [ext_resource type="Script" uid="uid://do7carntf751h" path="res://dungeonRoom/dungeonRoom.gd" id="1_emgf8"]
+[ext_resource type="PackedScene" uid="uid://cfsbu6obqjsyu" path="res://dungeonRoom/room-parts/room-base.glb" id="2_4e5fn"]
+[ext_resource type="PackedScene" uid="uid://cj2a0pahv4jgk" path="res://dungeonRoom/room-parts/east-door.glb" id="3_tvxji"]
+[ext_resource type="PackedScene" uid="uid://bj80hfe8k2oib" path="res://dungeonRoom/room-parts/no-east-door.glb" id="4_lg62f"]
+[ext_resource type="PackedScene" uid="uid://by7xyaowppguq" path="res://dungeonRoom/room-parts/north-door.glb" id="5_iida7"]
+[ext_resource type="PackedScene" uid="uid://d2l4fv1n2x8uo" path="res://dungeonRoom/room-parts/no-north-door.glb" id="6_cr8g4"]
+[ext_resource type="PackedScene" uid="uid://bcgtwuljqirr3" path="res://dungeonRoom/room-parts/west-door.glb" id="7_5dj8f"]
+[ext_resource type="PackedScene" uid="uid://cxkupg7p33sc5" path="res://dungeonRoom/room-parts/no-west-door.glb" id="8_ghsnh"]
+[ext_resource type="PackedScene" uid="uid://byd8e86s0sfty" path="res://dungeonRoom/room-parts/south-door.glb" id="9_mmr2l"]
+[ext_resource type="PackedScene" uid="uid://suad20ltkh2m" path="res://dungeonRoom/room-parts/no-south-door.glb" id="10_uasmn"]
+[ext_resource type="PackedScene" uid="uid://b3xtyeqjwrq71" path="res://dungeonRoom/room-parts/stair-down.glb" id="11_iida7"]
+[ext_resource type="PackedScene" uid="uid://d1i027bj7n610" path="res://dungeonRoom/room-parts/no-stair-down.glb" id="12_cr8g4"]
+[ext_resource type="PackedScene" uid="uid://dcgyxrhcgxymb" path="res://dungeonRoom/room-parts/stair-up.glb" id="13_5dj8f"]
 
 [node name="DungeonRoom" type="Node3D"]
 script = ExtResource("1_emgf8")
+
+[node name="room-base" parent="." instance=ExtResource("2_4e5fn")]
+
+[node name="east-door" parent="." instance=ExtResource("3_tvxji")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.298939, 0, 0)
+visible = false
+
+[node name="no-east-door" parent="." instance=ExtResource("4_lg62f")]
+
+[node name="north-door" parent="." instance=ExtResource("5_iida7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.014)
+visible = false
+
+[node name="no-north-door" parent="." instance=ExtResource("6_cr8g4")]
+
+[node name="west-door" parent="." instance=ExtResource("7_5dj8f")]
+visible = false
+
+[node name="no-west-door" parent="." instance=ExtResource("8_ghsnh")]
+
+[node name="south-door" parent="." instance=ExtResource("9_mmr2l")]
+visible = false
+
+[node name="no-south-door" parent="." instance=ExtResource("10_uasmn")]
+
+[node name="stair-down" parent="." instance=ExtResource("11_iida7")]
+visible = false
+
+[node name="no-stair-down" parent="." instance=ExtResource("12_cr8g4")]
+
+[node name="stair-up" parent="." instance=ExtResource("13_5dj8f")]
+visible = false
